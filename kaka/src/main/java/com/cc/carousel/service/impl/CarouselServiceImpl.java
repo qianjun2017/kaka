@@ -49,11 +49,9 @@ public class CarouselServiceImpl implements CarouselService {
 			carouselBean = new CarouselBean();
 			carouselBean.setCreateTime(DateTools.now());
 			carouselBean.setStatus(CarouselStatusEnum.DRAFT.getCode());
-			carouselBean.setClicked(0);
 		}
 		carouselBean.setImageUrl(carousel.getImageUrl());
 		carouselBean.setName(carousel.getName());
-		carouselBean.setPath(carousel.getPath());
 		int row = carouselBean.save();
 		if (row!=1) {
 			throw new LogicException("E002", "保存轮播图失败");
@@ -129,8 +127,6 @@ public class CarouselServiceImpl implements CarouselService {
 			carousel.put("name", carouselBean.getName());
 			carousel.put("createTime", DateTools.getFormatDate(carouselBean.getCreateTime(), DateTools.DATEFORMAT));
 			carousel.put("imageUrl", carouselBean.getImageUrl());
-			carousel.put("path", carouselBean.getPath());
-			carousel.put("clicked", carouselBean.getClicked());
 			carouselList.add(carousel);
 		}
 		page.setPage(pageInfo.getPageNum());
@@ -151,19 +147,6 @@ public class CarouselServiceImpl implements CarouselService {
 		int row = carouselBean.update();
 		if (row!=1) {
 			throw new LogicException("E001", "修改轮播图状态失败");
-		}
-	}
-
-	@Override
-	@Transactional(rollbackFor = {Exception.class}, propagation = Propagation.REQUIRED)
-	public void clickCarousel(Long id) {
-		CarouselBean carouselBean = CarouselBean.get(CarouselBean.class, id);
-		if (carouselBean!=null) {
-			carouselBean.setClicked(carouselBean.getClicked() + 1);
-			int row = carouselBean.update();
-			if (row != 1) {
-				throw new LogicException("E001", "点击轮播图失败");
-			} 
 		}
 	}
 

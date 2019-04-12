@@ -36,11 +36,6 @@ public class CarouselBean extends BaseOrm<CarouselBean> implements BaseEntity {
 	private String imageUrl;
 	
 	/**
-	 * 跳转路径
-	 */
-	private String path;
-	
-	/**
 	 * 状态
 	 */
 	private String status;
@@ -49,11 +44,6 @@ public class CarouselBean extends BaseOrm<CarouselBean> implements BaseEntity {
 	 * 轮播图名称
 	 */
 	private String name;
-	
-	/**
-	 * 点击次数
-	 */
-	private Integer clicked;
 	
 	/**
 	 * 创建时间
@@ -71,13 +61,6 @@ public class CarouselBean extends BaseOrm<CarouselBean> implements BaseEntity {
 	 */
 	public String getImageUrl() {
 		return imageUrl;
-	}
-
-	/**
-	 * @return the path
-	 */
-	public String getPath() {
-		return path;
 	}
 
 	/**
@@ -116,13 +99,6 @@ public class CarouselBean extends BaseOrm<CarouselBean> implements BaseEntity {
 	}
 
 	/**
-	 * @param path the path to set
-	 */
-	public void setPath(String path) {
-		this.path = path;
-	}
-
-	/**
 	 * @param status the status to set
 	 */
 	public void setStatus(String status) {
@@ -141,20 +117,6 @@ public class CarouselBean extends BaseOrm<CarouselBean> implements BaseEntity {
 	 */
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
-	}
-
-	/**
-	 * @return the clicked
-	 */
-	public Integer getClicked() {
-		return clicked;
-	}
-
-	/**
-	 * @param clicked the clicked to set
-	 */
-	public void setClicked(Integer clicked) {
-		this.clicked = clicked;
 	}
 
 }

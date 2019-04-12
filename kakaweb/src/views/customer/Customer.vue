@@ -5,7 +5,7 @@
       <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
         <el-form :inline="true" :model="queryForm">
           <el-form-item>
-            <el-input v-model="queryForm.nickName" placeholder="客户昵称"></el-input>
+            <el-input v-model="queryForm.nickName" placeholder="会员名称"></el-input>
           </el-form-item>
           <el-form-item>
             <el-select v-model="queryForm.status" placeholder="请选择账号状态" clearable>
@@ -25,7 +25,7 @@
 
       <!--列表-->
       <el-table :data="tableData" stripe highlight-current-row v-loading="listLoading" @sort-change="sortChanged" style="width: 100%;" :default-sort = "{prop: 'createTime', order: 'descending'}" :empty-text="message">
-        <el-table-column prop="nickName" label="客户昵称" width="250" show-overflow-tooltip>
+        <el-table-column prop="nickName" label="会员名称" width="250" show-overflow-tooltip>
           <template slot-scope="scope">
             <div v-if="scope.row.avatarUrl!=null">
               <img :src = "scope.row.avatarUrl" width="40" height="40"/>

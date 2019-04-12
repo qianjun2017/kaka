@@ -41,10 +41,4 @@ public interface CarouselService {
 	 * @param status
 	 */
 	void changeCarouselStatus(Long id, CarouselStatusEnum status);
-	
-	/**
-	 * 点击轮播图
-	 * @param id
-	 */
-	void clickCarousel(Long id);
 }

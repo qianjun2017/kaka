@@ -14,11 +14,6 @@ private Long id;
 	private String imageUrl;
 	
 	/**
-	 * 跳转路径
-	 */
-	private String path;
-	
-	/**
 	 * 状态
 	 */
 	private String status;
@@ -27,12 +22,7 @@ private Long id;
 	 * 轮播图名称
 	 */
 	private String name;
-	
-	/**
-	 * 点击次数
-	 */
-	private Integer clicked;
-	
+
 	/**
 	 * 创建时间
 	 */
@@ -73,20 +63,6 @@ private Long id;
 	}
 
 	/**
-	 * @return the path
-	 */
-	public String getPath() {
-		return path;
-	}
-
-	/**
-	 * @param path the path to set
-	 */
-	public void setPath(String path) {
-		this.path = path;
-	}
-
-	/**
 	 * @return the status
 	 */
 	public String getStatus() {
@@ -112,20 +88,6 @@ private Long id;
 	 */
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	/**
-	 * @return the clicked
-	 */
-	public Integer getClicked() {
-		return clicked;
-	}
-
-	/**
-	 * @param clicked the clicked to set
-	 */
-	public void setClicked(Integer clicked) {
-		this.clicked = clicked;
 	}
 
 	/**

@@ -65,12 +65,8 @@ public class CarouselController {
 			response.setMessage("请上传轮播图");
 			return response;
 		}
-		if(StringTools.isAllNullOrNone(new String[]{carousel.getPath(), carousel.getPlot()})){
-			response.setMessage("跳转路径和详情必须输入一个");
-			return response;
-		}
-		if(!StringTools.isAnyNullOrNone(new String[]{carousel.getPath(), carousel.getPlot()})){
-			response.setMessage("跳转路径和详情不能同时输入");
+		if(StringTools.isNullOrNone(carousel.getPlot())){
+			response.setMessage("请输入轮播详情必须输入一个");
 			return response;
 		}
 		try {
@@ -105,12 +101,8 @@ public class CarouselController {
 			response.setMessage("请上传轮播图");
 			return response;
 		}
-		if(StringTools.isAllNullOrNone(new String[]{carousel.getPath(), carousel.getPlot()})){
-			response.setMessage("跳转路径和详情必须输入一个");
-			return response;
-		}
-		if(!StringTools.isAnyNullOrNone(new String[]{carousel.getPath(), carousel.getPlot()})){
-			response.setMessage("跳转路径和详情不能同时输入");
+		if(StringTools.isNullOrNone(carousel.getPlot())){
+			response.setMessage("请输入轮播详情必须输入一个");
 			return response;
 		}
 		try {
@@ -281,26 +273,5 @@ public class CarouselController {
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public Page<Map<String, Object>> queryCarouselPage(@ModelAttribute CarouselQueryForm form){
 		return carouselService.queryCarouselPage(form);
-	}
-	
-	/**
-	 * 点击轮播图
-	 * @param id
-	 * @return
-	 */
-	@ResponseBody
-	@RequestMapping(value = "/click/{id:\\d+}", method = RequestMethod.POST)
-	public Response<String> clickCarousel(@PathVariable Long id){
-		Response<String> response = new Response<String>();
-		try {
-			carouselService.clickCarousel(id);
-			response.setSuccess(Boolean.TRUE);
-		} catch (LogicException e) {
-			response.setMessage(e.getErrContent());
-		} catch (Exception e) {
-			response.setMessage("系统内部错误");
-			e.printStackTrace();
-		}
-		return response;
 	}
 }

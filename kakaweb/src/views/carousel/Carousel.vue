@@ -26,20 +26,16 @@
 
 		  <!--列表-->
 		  <el-table :data="tableData" stripe highlight-current-row v-loading="listLoading" @sort-change="sortChanged" style="width: 100%;" :default-sort = "{prop: 'createTime', order: 'descending'}" :empty-text="message">
-			<el-table-column prop="name" label="轮播图名称" width="150" show-overflow-tooltip>
+			<el-table-column prop="name" label="轮播图名称" width="300" show-overflow-tooltip>
 			</el-table-column>
-			<el-table-column prop="imageUrl" label="轮播图片" width="100">
+			<el-table-column prop="imageUrl" label="轮播图片" width="200">
 			  <template slot-scope="scope">
 				<img class="img" v-lazy = "scope.row.imageUrl" width="40" height="40" @click="handlePicture(scope.row.imageUrl)"/>
 			  </template>
 			</el-table-column>
-			<el-table-column prop="path" label="跳转地址" width="100" show-overflow-tooltip>
-			</el-table-column>
 			<el-table-column prop="statusName" label="轮播图状态" width="120" sortable='custom'>
 			</el-table-column>
-			<el-table-column prop="createTime" label="发布时间" width="150" sortable='custom' show-overflow-tooltip>
-			</el-table-column>
-			<el-table-column prop="clicked" label="点击次数" width="100">
+			<el-table-column prop="createTime" label="发布时间" width="200" sortable='custom' show-overflow-tooltip>
 			</el-table-column>
 			<el-table-column label="操作">
 			  <template slot-scope="scope">
@@ -77,9 +73,6 @@
 				</el-form-item>
 				<el-form-item label="轮播图名称" prop="name">
 				  <el-input v-model="carouselForm.name" auto-complete="off"></el-input>
-				</el-form-item>
-				<el-form-item label="跳转地址">
-				  <el-input v-model="carouselForm.path" auto-complete="off"></el-input>
 				</el-form-item>
 				<el-form-item label="轮播详情">
 				  <div id="description"></div>
@@ -135,7 +128,6 @@
 				},
 				carouselForm: {
           name: '',
-          path: '',
           imageUrl: '',
           plot: ''
         },
@@ -266,7 +258,6 @@
 			handleAdd: function () {
 				this.carouselForm = {
           name: '',
-          path: '',
           imageUrl: '',
           plot: ''
         }

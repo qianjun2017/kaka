@@ -225,8 +225,6 @@ CREATE TABLE `t_carousel` (
   `imageUrl` varchar(128) DEFAULT NULL,
   `status` varchar(16) DEFAULT NULL,
   `createTime` datetime DEFAULT NULL,
-  `path` varchar(16) DEFAULT NULL,
-  `clicked` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;

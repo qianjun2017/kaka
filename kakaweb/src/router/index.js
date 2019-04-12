@@ -180,9 +180,9 @@ export default new Router({
             redirect: '/customer/index',
             component: Admin,
             meta: {
-                title: '客户管理',
+                title: '会员管理',
                 isMenu: true,
-                isLeaf: true,
+                isLeaf: false,
                 isLogin: true,
                 permission: 'customer'
             },
@@ -191,9 +191,10 @@ export default new Router({
                 name: 'customerPage',
                 component: Customer,
                 meta: {
-                    title: '客户管理',
-                    isMenu: false,
+                    title: '会员信息',
+                    isMenu: true,
                     isLeaf: true,
+                    isLogin: true,
                     permission: 'customer'
                 }
             }]
