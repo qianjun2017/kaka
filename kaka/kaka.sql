@@ -247,7 +247,7 @@ DROP TABLE IF EXISTS `t_carousel_plot`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_carousel_plot` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `carouselId` int(11) DEFAULT NULL,
+  `carouselId` int(11) NOT NULL,
   `plot` blob,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -271,15 +271,14 @@ DROP TABLE IF EXISTS `t_customer`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_customer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nickName` varchar(32) DEFAULT NULL,
+  `name` varchar(32) DEFAULT NULL,
   `openid` varchar(32) NOT NULL,
   `avatarUrl` varchar(128) DEFAULT NULL,
   `status` varchar(16) NOT NULL,
   `createTime` datetime NOT NULL,
-  `retailer` bit(1) DEFAULT NULL,
-  `store` varchar(128) DEFAULT NULL,
+  `cardNo` varchar(16) DEFAULT NULL,
   `phone` varchar(16) DEFAULT NULL,
-  `address` varchar(256) DEFAULT NULL,
+  `points` int(11) DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -291,6 +290,57 @@ CREATE TABLE `t_customer` (
 LOCK TABLES `t_customer` WRITE;
 /*!40000 ALTER TABLE `t_customer` DISABLE KEYS */;
 /*!40000 ALTER TABLE `t_customer` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_card`
+--
+
+DROP TABLE IF EXISTS `t_card`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_card` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) DEFAULT NULL,
+  `rule` blob,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_card`
+--
+
+LOCK TABLES `t_card` WRITE;
+/*!40000 ALTER TABLE `t_card` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_card` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_card_level`
+--
+
+DROP TABLE IF EXISTS `t_card_level`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_card_level` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cardId` int(11) NOT NULL,
+  `level` varchar(16) DEFAULT NULL,
+  `name` varchar(64) DEFAULT NULL,
+  `imageUrl` varchar(128) NOT NULL,
+  `points` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_card_level`
+--
+
+LOCK TABLES `t_card_level` WRITE;
+/*!40000 ALTER TABLE `t_card_level` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_card_level` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --

@@ -1,7 +1,10 @@
 package com.cc.wx.controller;
 
+import com.cc.common.tools.JwtTools;
+import com.cc.common.tools.ListTools;
 import com.cc.common.tools.StringTools;
 import com.cc.common.web.Response;
+import com.cc.customer.bean.CustomerBean;
 import com.cc.system.config.bean.SystemConfigBean;
 import com.cc.system.config.service.SystemConfigService;
 import com.cc.wx.form.CodeForm;
@@ -18,6 +21,9 @@ import com.cc.wx.service.WeiXinService;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -62,9 +68,9 @@ public class WeiXinController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value="/openid", method = RequestMethod.GET)
-    public Response<String> queryUserOpenid(@ModelAttribute CodeForm form){
-    	Response<String> response = new Response<String>();
+    @RequestMapping(value="/login", method = RequestMethod.POST)
+    public Response<Map<String, Object>> login(@ModelAttribute CodeForm form){
+    	Response<Map<String, Object>> response = new Response<Map<String, Object>>();
     	OpenidRequest openidRequest = new OpenidRequest();
 		SystemConfigBean appidSystemConfigBean = systemConfigService.querySystemConfigBean("wx.appid");
 		if(appidSystemConfigBean!=null){
@@ -80,8 +86,14 @@ public class WeiXinController {
 			response.setMessage(openidResponse.getMessage());
 			return response;
 		}
-		response.setData(openidResponse.getOpenid());
-		response.setSuccess(Boolean.TRUE);
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		dataMap.put("openid", openidResponse.getOpenid());
+		List<CustomerBean> customerBeanList = CustomerBean.findAllByParams(CustomerBean.class, "openid", openidResponse.getOpenid());
+		if(!ListTools.isEmptyOrNull(customerBeanList)){
+			dataMap.put("token", JwtTools.createToken(customerBeanList.get(0), JwtTools.JWTTTLMILLIS));
+			response.setSuccess(Boolean.TRUE);
+		}
+		response.setData(dataMap);
 		return response;
     }
     

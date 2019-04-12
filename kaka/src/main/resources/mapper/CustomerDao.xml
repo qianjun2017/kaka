@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cc.customer.dao.CustomerDao">
+
+	<select id="queryCustomerList" resultType="com.cc.customer.result.CustomerListResult" parameterType="com.cc.customer.form.CustomerQueryForm" statementType="PREPARED">
+		select t.id, t.name,t.avatarUrl,t.cardNo,t.status,t.createTime,cl.name as cardLevel,t.phone,t.points
+		from
+		(select c.id, c.name,c.avatarUrl,c.cardNo,c.status,c.createTime,(select tcl.level from t_card_level tcl where tcl.points <![CDATA[<=]]> c.points order by tcl.points limit 1) as level,c.phone,c.points
+		from t_customer c
+		<where>
+			<if test="phone!=null and phone!=''">
+				and c.phone = #{phone}
+			</if>
+			<if test="name!=null and name!=''">
+				and c.name like concat('%',#{name},'%')
+			</if>
+			<if test="status!=null and status!=''">
+				and c.status = #{status}
+			</if>
+			<if test="createTimeStart!=null">
+				<![CDATA[ and c.createTime >= #{createTimeStart} ]]>
+			</if>
+			<if test="createTimeEnd!=null">
+				<![CDATA[ and c.createTime <= #{createTimeEnd} ]]>
+			</if>
+			<if test="cardNo!=null and cardNo!=''">
+				and c.cardNo = #{cardNo}
+			</if>
+		</where>
+		) t
+		left join t_card_level cl on cl.level = t.level
+		<where>
+			<if test="cardLevel!=null and cardLevel!=''">
+				and cl.level = #{cardLevel}
+			</if>
+		</where>
+	</select>
+	
+</mapper>

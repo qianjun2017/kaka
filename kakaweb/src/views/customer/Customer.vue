@@ -5,15 +5,21 @@
       <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
         <el-form :inline="true" :model="queryForm">
           <el-form-item>
-            <el-input v-model="queryForm.nickName" placeholder="会员名称"></el-input>
+            <el-input v-model="queryForm.name" placeholder="会员名称"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-select v-model="queryForm.status" placeholder="请选择账号状态" clearable>
+            <el-input v-model="queryForm.cardNo" placeholder="会员卡号"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input v-model="queryForm.phone" placeholder="会员电话"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-select v-model="queryForm.cardLevel" placeholder="请选择会员等级" clearable>
               <el-option
-                v-for="(value,key) in statuss"
-                :key="key"
-                :label="value"
-                :value="key">
+                v-for="level in levelData"
+                :key="level.level"
+                :label="level.name"
+                :value="level.level">
               </el-option>
             </el-select>
           </el-form-item>
@@ -25,26 +31,19 @@
 
       <!--列表-->
       <el-table :data="tableData" stripe highlight-current-row v-loading="listLoading" @sort-change="sortChanged" style="width: 100%;" :default-sort = "{prop: 'createTime', order: 'descending'}" :empty-text="message">
-        <el-table-column prop="nickName" label="会员名称" width="250" show-overflow-tooltip>
+        <el-table-column prop="name" label="会员名称" width="250" show-overflow-tooltip>
           <template slot-scope="scope">
-            <div v-if="scope.row.avatarUrl!=null">
-              <img :src = "scope.row.avatarUrl" width="40" height="40"/>
-              <span style="margin-left: 10px">{{ scope.row.nickName }}</span>
-            </div>
-            <div v-else>
-              <span style="height: 40px; line-height: 40px">{{ scope.row.openid }}</span>
-            </div>
+            <img :src = "scope.row.avatarUrl" width="40" height="40"/>
+            <span style="margin-left: 10px">{{ scope.row.name }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="retailer" label="是否商家" width="100">
-          <template slot-scope="scope">
-            <span>{{ scope.row.retailer?'是':'否' }}</span>
-          </template>
+        <el-table-column prop="phone" label="电话" width="100">
         </el-table-column>
-        <el-table-column prop="status" label="状态" width="150" sortable='custom'>
-          <template slot-scope="scope">
-            <span>{{ statuss[scope.row.status] }}</span>
-          </template>
+        <el-table-column prop="cardNo" label="会员卡号" width="100">
+        </el-table-column>
+        <el-table-column prop="carfLevel" label="会员等级" width="100">
+        </el-table-column>
+        <el-table-column prop="points" label="积分" width="100">
         </el-table-column>
         <el-table-column prop="createTime" label="注册日期" width="180" sortable='custom'>
         </el-table-column>
@@ -105,8 +104,10 @@
 		data() {
 			return {
 				queryForm: {
-          nickName: '',
-          status: ''
+          name: '',
+          phone: '',
+          cardLevel: '',
+          cardNo: ''
         },
         tableData: [],
         statuss: {'normal': '正常', 'locked': '锁定'},
@@ -121,7 +122,9 @@
         
         view: 'list',
 
-        customer: {}
+        customer: {},
+
+        levelData: []
 			}
 		},
 		methods: {
@@ -129,11 +132,13 @@
 				this.page = val;
 				this.getTableData();
 			},
-			//获取客户列表
+			//获取会员列表
 			getTableData() {
 				let para = {
-          nickName: this.queryForm.nickName,
-          status: this.queryForm.status,
+          name: this.queryForm.name,
+          phone: this.queryForm.phone,
+          cardLevel: this.queryForm.cardLevel,
+          cardNo: this.queryForm.cardNo,
           page: this.page,
           pageSize: this.pageSize,
           sort: this.sort,
@@ -159,7 +164,7 @@
 			},
 			//锁定
 			handleLock: function (index, row) {
-				this.$confirm('确认锁定客户【'+row.nickName+'】吗?', '提示', {
+				this.$confirm('确认锁定会员【'+row.nickName+'】吗?', '提示', {
 					type: 'warning'
 				}).then(() => {
 					this.listLoading = true;
@@ -179,7 +184,7 @@
 			},
 			//解锁
 			handleUnlock: function (index, row) {
-				this.$confirm('确认解锁客户【'+row.nickName+'】吗?', '提示', {
+				this.$confirm('确认解锁会员【'+row.nickName+'】吗?', '提示', {
 					type: 'warning'
 				}).then(() => {
 					this.listLoading = true;
@@ -215,7 +220,19 @@
       },
       back: function(){
         this.view = 'list'
+      },
+      getLevelData: function(){
+        this.$ajax.get('/card/levels').then((res)=>{
+          if(res.success){
+            this.levelData = res.data
+          }else{
+            this.levelData = []
+          }
+        })
       }
+    },
+    created(){
+      this.getLevelData()
     },
     computed: {
       time: function(){

@@ -1,43 +1,24 @@
 /**
  * 
  */
-package com.cc.customer.bean;
+package com.cc.customer.result;
 
 import java.util.Date;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import com.cc.common.orm.BaseOrm;
-import com.cc.common.orm.entity.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * @author Administrator
  *
  */
-@Table(name="t_customer")
-public class CustomerBean extends BaseOrm<CustomerBean> implements BaseEntity {
+public class CustomerListResult {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5758048080411280773L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	/**
 	 * 会员姓名
 	 */
 	private String name;
-	
-	/**
-	 * 会员微信opernid
-	 */
-	private String openid;
 	
 	/**
 	 * 会员微信头像
@@ -59,6 +40,11 @@ public class CustomerBean extends BaseOrm<CustomerBean> implements BaseEntity {
 	 * 会员卡号
 	 */
 	private String cardNo;
+	
+	/**
+	 * 会员卡级别
+	 */
+	private String cardLevel;
 	
 	/**
 	 * 电话
@@ -96,20 +82,6 @@ public class CustomerBean extends BaseOrm<CustomerBean> implements BaseEntity {
 	 */
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	/**
-	 * @return the openid
-	 */
-	public String getOpenid() {
-		return openid;
-	}
-
-	/**
-	 * @param openid the openid to set
-	 */
-	public void setOpenid(String openid) {
-		this.openid = openid;
 	}
 
 	/**
@@ -155,20 +127,6 @@ public class CustomerBean extends BaseOrm<CustomerBean> implements BaseEntity {
 	}
 
 	/**
-	 * @return the phone
-	 */
-	public String getPhone() {
-		return phone;
-	}
-
-	/**
-	 * @param phone the phone to set
-	 */
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	/**
 	 * @return the cardNo
 	 */
 	public String getCardNo() {
@@ -180,6 +138,34 @@ public class CustomerBean extends BaseOrm<CustomerBean> implements BaseEntity {
 	 */
 	public void setCardNo(String cardNo) {
 		this.cardNo = cardNo;
+	}
+
+	/**
+	 * @return the cardLevel
+	 */
+	public String getCardLevel() {
+		return cardLevel;
+	}
+
+	/**
+	 * @param cardLevel the cardLevel to set
+	 */
+	public void setCardLevel(String cardLevel) {
+		this.cardLevel = cardLevel;
+	}
+
+	/**
+	 * @return the phone
+	 */
+	public String getPhone() {
+		return phone;
+	}
+
+	/**
+	 * @param phone the phone to set
+	 */
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	/**
@@ -195,5 +181,4 @@ public class CustomerBean extends BaseOrm<CustomerBean> implements BaseEntity {
 	public void setPoints(Long points) {
 		this.points = points;
 	}
-
 }

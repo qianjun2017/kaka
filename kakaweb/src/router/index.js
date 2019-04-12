@@ -12,6 +12,7 @@ import SysOperLog from '@/views/system/Operation'
 import Setting from '@/views/system/Setting'
 import Carousel from '@/views/carousel/Carousel'
 import Customer from '@/views/customer/Customer'
+import Card from '@/views/customer/Card'
 import SysConfig from '@/views/system/Config'
 
 Vue.use(Router)
@@ -184,7 +185,7 @@ export default new Router({
                 isMenu: true,
                 isLeaf: false,
                 isLogin: true,
-                permission: 'customer'
+                permission: 'customer|card'
             },
             children: [{
                 path: '/customer/index',
@@ -196,6 +197,17 @@ export default new Router({
                     isLeaf: true,
                     isLogin: true,
                     permission: 'customer'
+                }
+            }, {
+                path: '/card/index',
+                name: 'cardPage',
+                component: Card,
+                meta: {
+                    title: '会员卡',
+                    isMenu: true,
+                    isLeaf: true,
+                    isLogin: true,
+                    permission: 'card'
                 }
             }]
         },

@@ -6,6 +6,7 @@ package com.cc.customer.service;
 import com.cc.common.web.Page;
 import com.cc.customer.bean.CustomerBean;
 import com.cc.customer.form.CustomerQueryForm;
+import com.cc.customer.result.CustomerListResult;
 
 /**
  * @author Administrator
@@ -36,12 +37,6 @@ public interface CustomerService {
 	 * @param form
 	 * @return
 	 */
-	Page<CustomerBean> queryCustomerPage(CustomerQueryForm form);
+	Page<CustomerListResult> queryCustomerPage(CustomerQueryForm form);
 	
-	/**
-	 * 是否已注册
-	 * @param openid
-	 * @return
-	 */
-	Boolean hasCustomerRegister(String openid);
 }

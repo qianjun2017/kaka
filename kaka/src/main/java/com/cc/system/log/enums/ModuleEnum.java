@@ -27,6 +27,8 @@ public enum ModuleEnum {
 	LOCATIONMANAGEMENT("location", "区域管理"),
 	CAROUSELMANAGEMENT("carousel", "轮播管理"),
 	CUSTOMERMANAGEMENT("customer", "会员管理"),
+	CARDMANAGEMENT("card", "会员卡"),
+	CARDLEVELMANAGEMENT("level", "会员卡级别"),
 	CONFIGMANAGEMENT("config", "系统参数");
 	
 	/**

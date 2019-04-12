@@ -3,6 +3,10 @@
  */
 package com.cc.customer.form;
 
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.cc.common.tools.StringTools;
 
 /**
@@ -12,24 +16,41 @@ import com.cc.common.tools.StringTools;
 public class CustomerQueryForm {
 	
 	/**
-	 * 客户微信opernid
+	 * 会员姓名
 	 */
-	private String openid;
+	private String name;
 	
 	/**
-	 * 客户微信昵称
+	 * 会员手机号码
 	 */
-	private String nickName;
+	private String phone;
 	
 	/**
-	 * 是否需要分享
+	 * 会员卡号
 	 */
-	private Boolean share;
+	private String cardNo;
+	
+	/**
+	 * 会员卡级别
+	 */
+	private String cardLevel;
 	
 	/**
 	 * 客户状态
 	 */
 	private String status;
+	
+	/**
+	 * 开始时间
+	 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date createTimeStart;
+	
+	/**
+	 * 结束时间
+	 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date createTimeEnd;
 
 	/**
 	 * 页码
@@ -50,47 +71,19 @@ public class CustomerQueryForm {
 	 * 排序方向
 	 */
 	private String order;
-	
+
 	/**
-	 * @return the openid
+	 * @return the name
 	 */
-	public String getOpenid() {
-		return openid;
+	public String getName() {
+		return name;
 	}
 
 	/**
-	 * @param openid the openid to set
+	 * @param name the name to set
 	 */
-	public void setOpenid(String openid) {
-		this.openid = openid;
-	}
-
-	/**
-	 * @return the nickName
-	 */
-	public String getNickName() {
-		return nickName;
-	}
-
-	/**
-	 * @param nickName the nickName to set
-	 */
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
-	}
-
-	/**
-	 * @return the share
-	 */
-	public Boolean getShare() {
-		return share;
-	}
-
-	/**
-	 * @param share the share to set
-	 */
-	public void setShare(Boolean share) {
-		this.share = share;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**
@@ -105,6 +98,76 @@ public class CustomerQueryForm {
 	 */
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	/**
+	 * @return the phone
+	 */
+	public String getPhone() {
+		return phone;
+	}
+
+	/**
+	 * @param phone the phone to set
+	 */
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	/**
+	 * @return the cardNo
+	 */
+	public String getCardNo() {
+		return cardNo;
+	}
+
+	/**
+	 * @param cardNo the cardNo to set
+	 */
+	public void setCardNo(String cardNo) {
+		this.cardNo = cardNo;
+	}
+
+	/**
+	 * @return the cardLevel
+	 */
+	public String getCardLevel() {
+		return cardLevel;
+	}
+
+	/**
+	 * @param cardLevel the cardLevel to set
+	 */
+	public void setCardLevel(String cardLevel) {
+		this.cardLevel = cardLevel;
+	}
+
+	/**
+	 * @return the createTimeStart
+	 */
+	public Date getCreateTimeStart() {
+		return createTimeStart;
+	}
+
+	/**
+	 * @param createTimeStart the createTimeStart to set
+	 */
+	public void setCreateTimeStart(Date createTimeStart) {
+		this.createTimeStart = createTimeStart;
+	}
+
+	/**
+	 * @return the createTimeEnd
+	 */
+	public Date getCreateTimeEnd() {
+		return createTimeEnd;
+	}
+
+	/**
+	 * @param createTimeEnd the createTimeEnd to set
+	 */
+	public void setCreateTimeEnd(Date createTimeEnd) {
+		this.createTimeEnd = createTimeEnd;
 	}
 
 	/**

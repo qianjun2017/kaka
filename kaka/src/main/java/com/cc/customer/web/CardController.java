@@ -1,0 +1,311 @@
+/**
+ * 
+ */
+package com.cc.customer.web;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.cc.common.exception.LogicException;
+import com.cc.common.tools.ListTools;
+import com.cc.common.tools.StringTools;
+import com.cc.common.web.Response;
+import com.cc.customer.bean.CardBean;
+import com.cc.customer.bean.CardLevelBean;
+import com.cc.customer.service.CardService;
+import com.cc.system.log.annotation.OperationLog;
+import com.cc.system.log.enums.ModuleEnum;
+import com.cc.system.log.enums.OperTypeEnum;
+
+/**
+ * @author Administrator
+ *
+ */
+@Controller
+@RequestMapping("/card")
+public class CardController {
+	
+	@Autowired
+	private CardService cardService;
+
+	/**
+	 * 查询会员卡级别
+	 * @param id
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/levels", method = RequestMethod.GET)
+	public Response<Object> queryCardLevelList(){
+		Response<Object> response = new Response<Object>();
+		List<CardLevelBean> cardLevelBeanList = CardLevelBean.findAllByParams(CardLevelBean.class);
+		if(!ListTools.isEmptyOrNull(cardLevelBeanList)){
+			response.setData(cardLevelBeanList);
+			response.setSuccess(Boolean.TRUE);
+		}
+		return response;
+	}
+	
+	/**
+	 * 查询会员卡
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/info", method = RequestMethod.GET)
+	public Response<Object> queryCardInfo(){
+		Response<Object> response = new Response<Object>();
+		List<CardBean> cardBeanList = CardBean.findAllByParams(CardBean.class);
+		if(!ListTools.isEmptyOrNull(cardBeanList)){
+			Map<String, Object> data = new HashMap<String, Object>();
+			CardBean cardBean = cardBeanList.get(0);
+			data.put("id", cardBean.getId());
+			data.put("name", cardBean.getName());
+			if(cardBean.getRule()!=null && cardBean.getRule().length>0){
+				data.put("rule", new String(cardBean.getRule()));
+			}
+			response.setData(data);
+			response.setSuccess(Boolean.TRUE);
+		}
+		return response;
+	}
+	
+	/**
+	 * 增加会员卡
+	 * @param cardMap
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@OperationLog(module = ModuleEnum.CARDMANAGEMENT, operType = OperTypeEnum.ADD, title = "新增会员卡", excludeParamNames = {"rule"})
+	public Response<Object> addCard(@RequestBody Map<String, Object> cardMap){
+		Response<Object> response = new Response<Object>();
+		Object name = cardMap.get("name");
+		if(name==null){
+			response.setMessage("请输入会员卡名称");
+			return response;
+		}
+		Object rule = cardMap.get("rule");
+		if(rule==null){
+			response.setMessage("请输入会员卡使用规则");
+			return response;
+		}
+		CardBean cardBean = new CardBean();
+		cardBean.setName(StringTools.toString(name));
+		cardBean.setRule(StringTools.toString(rule).getBytes());
+		try {
+			cardService.saveCard(cardBean);
+			response.setSuccess(Boolean.TRUE);
+		} catch (LogicException e) {
+			response.setMessage(e.getErrContent());
+		} catch (Exception e) {
+			response.setMessage("系统内部错误");
+			e.printStackTrace();
+		}
+		return response;
+	}
+	
+	
+	/**
+	 * 修改会员卡
+	 * @param cardMap
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	@OperationLog(module = ModuleEnum.CARDMANAGEMENT, operType = OperTypeEnum.UPDATE, title = "修改会员卡", excludeParamNames = {"rule"})
+	public Response<Object> updateCard(@RequestBody Map<String, Object> cardMap){
+		Response<Object> response = new Response<Object>();
+		Object id = cardMap.get("id");
+		if(id==null){
+			response.setMessage("缺少会员卡主键");
+			return response;
+		}
+		CardBean cardBean = CardBean.get(CardBean.class, Long.valueOf(StringTools.toString(id)));
+		if(cardBean==null){
+			response.setMessage("会员卡不存在");
+			return response;
+		}
+		Object name = cardMap.get("name");
+		if(name==null){
+			response.setMessage("请输入会员卡名称");
+			return response;
+		}
+		Object rule = cardMap.get("rule");
+		if(rule==null){
+			response.setMessage("请输入会员卡使用规则");
+			return response;
+		}
+		cardBean.setName(StringTools.toString(name));
+		cardBean.setRule(StringTools.toString(rule).getBytes());
+		try {
+			cardService.saveCard(cardBean);
+			response.setSuccess(Boolean.TRUE);
+		} catch (LogicException e) {
+			response.setMessage(e.getErrContent());
+		} catch (Exception e) {
+			response.setMessage("系统内部错误");
+			e.printStackTrace();
+		}
+		return response;
+	}
+	
+	/**
+	 * 增加会员卡级别
+	 * @param cardLevelMap
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/level/add", method = RequestMethod.POST)
+	@OperationLog(module = ModuleEnum.CARDLEVELMANAGEMENT, operType = OperTypeEnum.ADD, title = "新增会员卡级别")
+	public Response<Object> addCardLevel(@RequestBody Map<String, Object> cardLevelMap){
+		Response<Object> response = new Response<Object>();
+		Object level = cardLevelMap.get("level");
+		if(level==null){
+			response.setMessage("请输入会员卡级别编码");
+			return response;
+		}
+		Object name = cardLevelMap.get("name");
+		if(name==null){
+			response.setMessage("请输入会员卡级别名称");
+			return response;
+		}
+		Object points = cardLevelMap.get("points");
+		if(points==null){
+			response.setMessage("请输入会员卡级别最低积分");
+			return response;
+		}
+		if(!StringTools.matches(StringTools.toString(points), "[0-9]+")){
+			response.setMessage("会员卡级别最低积分只能输入数字，请重新输入");
+			return response;
+		}
+		Object imageUrl = cardLevelMap.get("imageUrl");
+		if(imageUrl==null){
+			response.setMessage("请上传会员卡级别图片");
+			return response;
+		}
+		Object cardId = cardLevelMap.get("cardId");
+		if(cardId==null){
+			response.setMessage("请选择会员卡");
+			return response;
+		}
+		CardBean cardBean = CardBean.get(CardBean.class, Long.valueOf(StringTools.toString(cardId)));
+		if(cardBean==null){
+			response.setMessage("会员卡不存在或已删除，请重新选择会员卡");
+			return response;
+		}
+		CardLevelBean cardLevelBean = new CardLevelBean();
+		cardLevelBean.setLevel(StringTools.toString(level));
+		cardLevelBean.setName(StringTools.toString(name));
+		cardLevelBean.setImageUrl(StringTools.toString(imageUrl));
+		cardLevelBean.setPoints(Long.valueOf(StringTools.toString(points)));
+		cardLevelBean.setCardId(cardBean.getId());
+		try {
+			cardService.saveCardLevel(cardLevelBean);
+			response.setSuccess(Boolean.TRUE);
+		} catch (LogicException e) {
+			response.setMessage(e.getErrContent());
+		} catch (Exception e) {
+			response.setMessage("系统内部错误");
+			e.printStackTrace();
+		}
+		return response;
+	}
+	
+	/**
+	 * 修改会员卡级别
+	 * @param cardLevelMap
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/level/update", method = RequestMethod.POST)
+	@OperationLog(module = ModuleEnum.CARDLEVELMANAGEMENT, operType = OperTypeEnum.UPDATE, title = "修改会员卡级别")
+	public Response<Object> updateCardLevel(@RequestBody Map<String, Object> cardLevelMap){
+		Response<Object> response = new Response<Object>();
+		Object id = cardLevelMap.get("id");
+		if(id==null){
+			response.setMessage("缺少会员卡级别主键");
+			return response;
+		}
+		CardLevelBean cardLevelBean = CardLevelBean.get(CardLevelBean.class, Long.valueOf(StringTools.toString(id)));
+		if(cardLevelBean==null){
+			response.setMessage("会员卡级别不存在");
+			return response;
+		}
+		Object level = cardLevelMap.get("level");
+		if(level==null){
+			response.setMessage("请输入会员卡级别编码");
+			return response;
+		}
+		Object name = cardLevelMap.get("name");
+		if(name==null){
+			response.setMessage("请输入会员卡级别名称");
+			return response;
+		}
+		Object points = cardLevelMap.get("points");
+		if(points==null){
+			response.setMessage("请输入会员卡级别最低积分");
+			return response;
+		}
+		if(!StringTools.matches(StringTools.toString(points), "[0-9]+")){
+			response.setMessage("会员卡级别最低积分只能输入数字，请重新输入");
+			return response;
+		}
+		Object imageUrl = cardLevelMap.get("imageUrl");
+		if(imageUrl==null){
+			response.setMessage("请上传会员卡级别图片");
+			return response;
+		}
+		Object cardId = cardLevelMap.get("cardId");
+		if(cardId==null){
+			response.setMessage("请选择会员卡");
+			return response;
+		}
+		CardBean cardBean = CardBean.get(CardBean.class, Long.valueOf(StringTools.toString(cardId)));
+		if(cardBean==null){
+			response.setMessage("会员卡不存在或已删除，请重新选择会员卡");
+			return response;
+		}
+		cardLevelBean.setLevel(StringTools.toString(level));
+		cardLevelBean.setName(StringTools.toString(name));
+		cardLevelBean.setImageUrl(StringTools.toString(imageUrl));
+		cardLevelBean.setPoints(Long.valueOf(StringTools.toString(points)));
+		cardLevelBean.setCardId(cardBean.getId());
+		try {
+			cardService.saveCardLevel(cardLevelBean);
+			response.setSuccess(Boolean.TRUE);
+		} catch (LogicException e) {
+			response.setMessage(e.getErrContent());
+		} catch (Exception e) {
+			response.setMessage("系统内部错误");
+			e.printStackTrace();
+		}
+		return response;
+	}
+	
+	
+	/**
+	 * 查询会员卡级别
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/level/get/{id:\\d+}", method = RequestMethod.GET)
+	public Response<Object> queryCardLevel(@PathVariable Long id){
+		Response<Object> response = new Response<Object>();
+		CardLevelBean cardLevelBean = CardLevelBean.get(CardLevelBean.class, id);
+		if(cardLevelBean==null){
+			response.setMessage("会员卡级别不存在");
+			return response;
+		}
+		response.setData(cardLevelBean);
+		response.setSuccess(Boolean.TRUE);
+		return response;
+	}
+}
