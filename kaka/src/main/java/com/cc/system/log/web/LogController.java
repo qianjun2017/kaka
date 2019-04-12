@@ -93,7 +93,7 @@ public class LogController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/operation/page", method = RequestMethod.GET)
+	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public Page<Map<String, Object>> queryOperationLogPage(@ModelAttribute LogQueryForm form){
 		Page<Map<String, Object>> page = logService.queryOperationLogPage(form);
 		return page;

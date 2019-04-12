@@ -161,7 +161,7 @@
           order: _this.order
 				};
         _this.listLoading = true;
-				_this.$ajax.get('/system/log/operation/page',para).then((res) => {
+				_this.$ajax.get('/system/log/page',para).then((res) => {
           _this.listLoading = false;
           if(res.success){
             _this.page = res.page;

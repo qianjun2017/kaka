@@ -5,7 +5,7 @@
         <span>{{sysName}}</span>
       </div>
       <div class="tools">
-        <i class="fa fa-align-justify" @click="collapse"></i>
+        
       </div>
       <div class="userinfo">
         <el-dropdown>
@@ -57,7 +57,7 @@
 export default {
   data(){
     return {
-      sysName:'助销小工具',
+      sysName:'卡卡',
       collapsed: false,
       asideWidth: '230px'
     }
