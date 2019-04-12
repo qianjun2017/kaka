@@ -1,0 +1,15 @@
+/kakaweb/node_modules
+/.swp
+/kaka/.classpath
+/kaka/.factorypath
+/kaka/.idea/
+/kaka/.settings/
+/kaka/.project
+/kaka/logs/
+/kaka/springboot.iml
+/kaka/target/
+/kakaweb/.vscode/
+/kaka/kaka.iml
+/kakaweb/dist/
+/kakaweb/test/
+/kaka/src/main/webapp/files/
