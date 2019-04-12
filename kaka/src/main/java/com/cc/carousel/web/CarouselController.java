@@ -53,7 +53,7 @@ public class CarouselController {
 	@ResponseBody
 	@RequiresPermissions(value = { "carousel.add" })
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	@OperationLog(module = ModuleEnum.CAROUSELMANAGEMENT, operType = OperTypeEnum.ADD, title = "新增轮播图")
+	@OperationLog(module = ModuleEnum.CAROUSELMANAGEMENT, operType = OperTypeEnum.ADD, title = "新增轮播图", excludeParamNames = {"plot"})
 	public Response<String> addCarousel(@RequestBody Map<String, Object> carouselMap){
 		Response<String> response = new Response<String>();
 		CarouselForm carousel = JsonTools.toObject(JsonTools.toJsonString(carouselMap), CarouselForm.class);
@@ -89,7 +89,7 @@ public class CarouselController {
 	@ResponseBody
 	@RequiresPermissions(value = { "carousel.update" })
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	@OperationLog(module = ModuleEnum.CAROUSELMANAGEMENT, operType = OperTypeEnum.UPDATE, title = "修改轮播图")
+	@OperationLog(module = ModuleEnum.CAROUSELMANAGEMENT, operType = OperTypeEnum.UPDATE, title = "修改轮播图", excludeParamNames = {"plot"})
 	public Response<String> updateCarousel(@RequestBody Map<String, Object> carouselMap){
 		Response<String> response = new Response<String>();
 		CarouselForm carousel = JsonTools.toObject(JsonTools.toJsonString(carouselMap), CarouselForm.class);

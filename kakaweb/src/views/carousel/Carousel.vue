@@ -26,9 +26,9 @@
 
 		  <!--列表-->
 		  <el-table :data="tableData" stripe highlight-current-row v-loading="listLoading" @sort-change="sortChanged" style="width: 100%;" :default-sort = "{prop: 'createTime', order: 'descending'}" :empty-text="message">
-			<el-table-column prop="name" label="轮播图名称" width="300" show-overflow-tooltip>
+			<el-table-column prop="name" label="轮播图名称" width="200" show-overflow-tooltip>
 			</el-table-column>
-			<el-table-column prop="imageUrl" label="轮播图片" width="200">
+			<el-table-column prop="imageUrl" label="轮播图片" width="150">
 			  <template slot-scope="scope">
 				<img class="img" v-lazy = "scope.row.imageUrl" width="40" height="40" @click="handlePicture(scope.row.imageUrl)"/>
 			  </template>
