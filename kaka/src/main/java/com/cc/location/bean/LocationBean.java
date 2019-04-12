@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  * @author Administrator
  *
  */
-@Table(name="t_system_location")
+@Table(name="t_location")
 public class LocationBean extends BaseOrm<LocationBean> implements BaseEntity {
 
 	/**

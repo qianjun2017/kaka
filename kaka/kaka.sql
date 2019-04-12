@@ -45,13 +45,13 @@ INSERT INTO `t_system_auth` VALUES (1,'system.user','人员管理','menu',NULL,0
 UNLOCK TABLES;
 
 --
--- Table structure for table `t_system_location`
+-- Table structure for table `t_location`
 --
 
-DROP TABLE IF EXISTS `t_system_location`;
+DROP TABLE IF EXISTS `t_location`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `t_system_location` (
+CREATE TABLE `t_location` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `locationCode` varchar(32) NOT NULL,
   `locationName` varchar(512) NOT NULL,
@@ -65,22 +65,22 @@ CREATE TABLE `t_system_location` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `t_system_location`
+-- Dumping data for table `t_location`
 --
 
-LOCK TABLES `t_system_location` WRITE;
-/*!40000 ALTER TABLE `t_system_location` DISABLE KEYS */;
-/*!40000 ALTER TABLE `t_system_location` ENABLE KEYS */;
+LOCK TABLES `t_location` WRITE;
+/*!40000 ALTER TABLE `t_location` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_location` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `t_system_operation_log`
+-- Table structure for table `t_system_log`
 --
 
-DROP TABLE IF EXISTS `t_system_operation_log`;
+DROP TABLE IF EXISTS `t_system_log`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `t_system_operation_log` (
+CREATE TABLE `t_system_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `clientIp` varchar(16) DEFAULT NULL,
   `userId` int(11) DEFAULT NULL,
@@ -98,12 +98,12 @@ CREATE TABLE `t_system_operation_log` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `t_system_operation_log`
+-- Dumping data for table `t_system_log`
 --
 
-LOCK TABLES `t_system_operation_log` WRITE;
-/*!40000 ALTER TABLE `t_system_operation_log` DISABLE KEYS */;
-/*!40000 ALTER TABLE `t_system_operation_log` ENABLE KEYS */;
+LOCK TABLES `t_system_log` WRITE;
+/*!40000 ALTER TABLE `t_system_log` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_system_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -118,7 +118,7 @@ CREATE TABLE `t_system_role` (
   `roleName` varchar(64) DEFAULT NULL,
   `createTime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,7 +127,6 @@ CREATE TABLE `t_system_role` (
 
 LOCK TABLES `t_system_role` WRITE;
 /*!40000 ALTER TABLE `t_system_role` DISABLE KEYS */;
-INSERT INTO `t_system_role` VALUES (1,'超级管理员','2018-04-13 13:58:21');
 /*!40000 ALTER TABLE `t_system_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -143,7 +142,7 @@ CREATE TABLE `t_system_role_auth` (
   `roleId` int(11) DEFAULT NULL,
   `authId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -152,7 +151,6 @@ CREATE TABLE `t_system_role_auth` (
 
 LOCK TABLES `t_system_role_auth` WRITE;
 /*!40000 ALTER TABLE `t_system_role_auth` DISABLE KEYS */;
-INSERT INTO `t_system_role_auth` VALUES (1,1,1),(2,1,2),(3,1,3),(4,1,4),(5,1,5),(6,1,6),(7,1,7),(8,1,8),(9,1,9),(10,1,10),(11,1,11),(12,1,12),(13,1,13),(14,1,14),(15,1,15);
 /*!40000 ALTER TABLE `t_system_role_auth` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -267,34 +265,6 @@ LOCK TABLES `t_carousel_plot` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `t_interface`
---
-
-DROP TABLE IF EXISTS `t_interface`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `t_interface` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(64) NOT NULL,
-  `code` varchar(64) NOT NULL,
-  `type` varchar(8) NOT NULL,
-  `request` blob,
-  `response` blob,
-  `createTime` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `t_interface`
---
-
-LOCK TABLES `t_interface` WRITE;
-/*!40000 ALTER TABLE `t_interface` DISABLE KEYS */;
-/*!40000 ALTER TABLE `t_interface` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `t_customer`
 --
 
@@ -323,94 +293,6 @@ CREATE TABLE `t_customer` (
 LOCK TABLES `t_customer` WRITE;
 /*!40000 ALTER TABLE `t_customer` DISABLE KEYS */;
 /*!40000 ALTER TABLE `t_customer` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `t_lottery`
---
-
-DROP TABLE IF EXISTS `t_lottery`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `t_lottery` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `customerId` int(11) NOT NULL,
-  `no` int(11) NOT NULL,
-  `status` varchar(16) NOT NULL,
-  `mCount` tinyint(4) NOT NULL,
-  `createTime` datetime NOT NULL,
-  `lastExchangeTime` datetime NOT NULL,
-  `share` bit(1) NOT NULL,
-  `same` bit(1) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `t_lottery`
---
-
-LOCK TABLES `t_lottery` WRITE;
-/*!40000 ALTER TABLE `t_lottery` DISABLE KEYS */;
-/*!40000 ALTER TABLE `t_lottery` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `t_lottery_prize`
---
-
-DROP TABLE IF EXISTS `t_lottery_prize`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `t_lottery_prize` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `lotteryId` int(11) NOT NULL,
-  `name` varchar(128) NOT NULL,
-  `total` int(11) NOT NULL,
-  `quantity` int(11) NOT NULL,
-  `weight` int(11) NOT NULL,
-  `status` varchar(16) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `t_lottery_prize`
---
-
-LOCK TABLES `t_lottery_prize` WRITE;
-/*!40000 ALTER TABLE `t_lottery_prize` DISABLE KEYS */;
-/*!40000 ALTER TABLE `t_lottery_prize` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `t_lottery_customer`
---
-
-DROP TABLE IF EXISTS `t_lottery_customer`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `t_lottery_customer` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `customerId` int(11) NOT NULL,
-  `lotteryPrizeId` int(11) DEFAULT NULL,
-  `lotteryId` int(11) NOT NULL,
-  `status` varchar(16) DEFAULT NULL,
-  `createTime` datetime NOT NULL,
-  `exchangeTime` datetime DEFAULT NULL,
-  `prize` bit(1) NOT NULL,
-  `share` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `t_lottery_customer`
---
-
-LOCK TABLES `t_lottery_customer` WRITE;
-/*!40000 ALTER TABLE `t_lottery_customer` DISABLE KEYS */;
-/*!40000 ALTER TABLE `t_lottery_customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
