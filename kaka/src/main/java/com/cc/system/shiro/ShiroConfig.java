@@ -41,7 +41,7 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/static/**", "anon");
 		filterChainDefinitionMap.put("/key", "anon");
 		filterChainDefinitionMap.put("/login", "anon");
-		filterChainDefinitionMap.put("/wx/openid", "anon");
+		filterChainDefinitionMap.put("/wx/**", "anon");
 		filterChainDefinitionMap.put("/**", "authc");
 		shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		return shiroFilterFactoryBean;

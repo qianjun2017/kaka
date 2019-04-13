@@ -48,34 +48,6 @@ public class CustomerController {
 	private CardService cardService;
 	
 	/**
-	 * 注册
-	 * @param registerMap
-	 * @return
-	 */
-	@ResponseBody
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public Response<Object> register(@RequestBody Map<String, Object> registerMap){
-		Response<Object> response = new Response<Object>();
-		CustomerBean customerBean = JsonTools.toObject(JsonTools.toJsonString(registerMap), CustomerBean.class);
-		if(StringTools.isNullOrNone(customerBean.getOpenid())){
-			response.setMessage("请输入会员微信openid");
-			return response;
-		}
-		customerBean.setStatus(CustomerStatusEnum.NORMAL.getCode());
-		customerBean.setCreateTime(DateTools.now());
-		try {
-			customerService.saveCustomer(customerBean);
-			response.setSuccess(Boolean.TRUE);
-		} catch (LogicException e) {
-			response.setMessage(e.getErrContent());
-		} catch (Exception e) {
-			response.setMessage("系统内部错误");
-			e.printStackTrace();
-		}
-		return response;
-	}
-	
-	/**
 	 * 会员信息
 	 * @param customerMap
 	 * @return

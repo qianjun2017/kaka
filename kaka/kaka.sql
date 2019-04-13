@@ -45,13 +45,13 @@ INSERT INTO `t_system_auth` VALUES (1,'system.user','人员管理','menu',NULL,0
 UNLOCK TABLES;
 
 --
--- Table structure for table `t_location`
+-- Table structure for table `t_system_location`
 --
 
-DROP TABLE IF EXISTS `t_location`;
+DROP TABLE IF EXISTS `t_system_location`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `t_location` (
+CREATE TABLE `t_system_location` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `locationCode` varchar(32) NOT NULL,
   `locationName` varchar(512) NOT NULL,
@@ -65,12 +65,12 @@ CREATE TABLE `t_location` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `t_location`
+-- Dumping data for table `t_system_location`
 --
 
-LOCK TABLES `t_location` WRITE;
-/*!40000 ALTER TABLE `t_location` DISABLE KEYS */;
-/*!40000 ALTER TABLE `t_location` ENABLE KEYS */;
+LOCK TABLES `t_system_location` WRITE;
+/*!40000 ALTER TABLE `t_system_location` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_system_location` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
