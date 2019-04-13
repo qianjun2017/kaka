@@ -11,7 +11,7 @@ import VueLazyload from 'vue-lazyload'
 
 Vue.use(ElementUI)
 
-Vue.use(VueLazyload, { attempt: 10 })
+Vue.use(VueLazyload, { attempt: 3, loading: '/static/loading.jpg', error: '/static/error.jpg' })
 
 import api from './api/index'
 

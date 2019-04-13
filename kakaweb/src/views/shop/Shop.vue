@@ -101,6 +101,35 @@
       </el-row>
     </div>
 
+    <div v-if="view =='detail'">
+      <div class="btns">
+        <el-button size="small" @click="back">返回</el-button>
+      </div>
+    </div>
+
+    <div v-if="view =='acode'">
+      <el-row>
+        <el-col :span="16">
+          <el-form :model="acodeForm" label-width="100px" :rules="acodeFormRules" ref="acodeForm">
+            <el-form-item label="积分变动值" prop="points">
+              <el-input v-model="acodeForm.points" auto-complete="off" placeholder="单次扫码变动积分数，加分码为整数，减分码为负数"></el-input>
+            </el-form-item>
+            <el-form-item label="小程序码宽度">
+              <el-input v-model="acodeForm.width" auto-complete="off" placeholder="小程序码宽度，单位px，最小 280px，最大 1280px，默认 430px"></el-input>
+            </el-form-item>
+          </el-form>
+          <div class="btns">
+            <el-button type="primary" size="small" @click="createAcode">生成积分码</el-button>
+            <el-button size="small" @click="back">返回</el-button>
+          </div>
+        </el-col>
+      </el-row>
+    </div>
+
+    <el-dialog :visible.sync="showAcode">
+		  <img width="100%" v-lazy="acodeForm.src">
+		</el-dialog>
+
 	</section>
 </template>
 
@@ -153,7 +182,17 @@
           ]
         },
         location: [],
-        lbs: 'https://lbs.qq.com/tool/getpoint/index.html'
+        lbs: 'https://lbs.qq.com/tool/getpoint/index.html',
+
+        acodeForm: {},
+        acodeFormRules: {
+          points: [
+            { required: true, message: '请输入单次扫码变动积分数', trigger: 'blur' }
+          ]
+        },
+
+        service: '',
+        showAcode: false
 			}
 		},
 		methods: {
@@ -210,7 +249,7 @@
             this.pages = 0
             this.message = res.message
           }
-				});
+				})
 			},
 			//删除
 			handleDelete: function (index, row) {
@@ -237,6 +276,11 @@
           if(res.success){
             this.shopForm = res.data
             this.shopForm.ll = this.shopForm.latitude+','+this.shopForm.longitude
+            if(res.data.locationArray!=null){
+              this.location = this.shopForm.locationArray
+            }else{
+              this.location = []
+            }
             this.view = 'update'
           }else{
             this.$message.error(res.message)
@@ -255,7 +299,17 @@
         })
       },
       handleAcode: function(index, row){
-
+        this.showAcode = false
+        this.acodeForm = {}
+        this.$ajax.get('/system/config/value', {propertyName: 'wx.acode.page'}).then((res)=>{
+          if(res.success){
+            this.acodeForm.page = res.data
+            this.acodeForm.id = row.id
+            this.view = 'acode'
+          }else{
+            this.$message.error('请先配置小程序积分码page参数')
+          }
+        })
       },
       back: function(){
         this.view = 'list'
@@ -287,11 +341,32 @@
             })
           }
         })
+      },
+      createAcode: function(){
+        this.$refs.acodeForm.validate((valid) => {
+          if (valid) {
+            this.acodeForm.scene = this.acodeForm.id + ',' + this.acodeForm.points
+            let acodeUrl = this.action+'?page='+this.acodeForm.page+'&scene='+this.acodeForm.scene
+            if(this.acodeForm.width){
+              acodeUrl = acodeUrl + '&width='+this.acodeForm.width
+            }
+            this.acodeForm.src = acodeUrl
+            this.showAcode = true
+          }
+        })
       }
+    },
+    mounted(){
+      this.service = this.$service
     },
     created(){
       this.getLocationData()
       this.getTableData()
+    },
+    computed: {
+      action: function(){
+        return this.service + "/wx/acode"
+      }
     }
 	}
 
