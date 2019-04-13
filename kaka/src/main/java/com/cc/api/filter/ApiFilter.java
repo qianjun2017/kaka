@@ -47,7 +47,7 @@ import com.cc.system.config.bean.SystemConfigBean;
  * @author Administrator
  *
  */
-@WebFilter(urlPatterns="/api/*")
+@WebFilter(urlPatterns="/api/**")
 public class ApiFilter implements Filter {
 
 	/* (non-Javadoc)
