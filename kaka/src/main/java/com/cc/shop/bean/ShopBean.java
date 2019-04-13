@@ -35,17 +35,17 @@ public class ShopBean extends BaseOrm<ShopBean> implements BaseEntity {
 	/**
 	 * 经度
 	 */
-	private Float longitude;
+	private String longitude;
 	
 	/**
 	 * 纬度
 	 */
-	private Float latitude;
+	private String latitude;
 	
 	/**
 	 * 误差半径
 	 */
-	private Float radius;
+	private Long radius;
 	
 	/**
 	 * 所在区域
@@ -93,42 +93,42 @@ public class ShopBean extends BaseOrm<ShopBean> implements BaseEntity {
 	/**
 	 * @return the longitude
 	 */
-	public Float getLongitude() {
+	public String getLongitude() {
 		return longitude;
 	}
 
 	/**
 	 * @param longitude the longitude to set
 	 */
-	public void setLongitude(Float longitude) {
+	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
 
 	/**
 	 * @return the latitude
 	 */
-	public Float getLatitude() {
+	public String getLatitude() {
 		return latitude;
 	}
 
 	/**
 	 * @param latitude the latitude to set
 	 */
-	public void setLatitude(Float latitude) {
+	public void setLatitude(String latitude) {
 		this.latitude = latitude;
 	}
 
 	/**
 	 * @return the radius
 	 */
-	public Float getRadius() {
+	public Long getRadius() {
 		return radius;
 	}
 
 	/**
 	 * @param radius the radius to set
 	 */
-	public void setRadius(Float radius) {
+	public void setRadius(Long radius) {
 		this.radius = radius;
 	}
 

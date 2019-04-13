@@ -15,6 +15,7 @@ import Carousel from '@/views/carousel/Carousel'
 import Customer from '@/views/customer/Customer'
 import Card from '@/views/customer/Card'
 import SysConfig from '@/views/system/Config'
+import Shop from '@/views/shop/Shop'
 
 Vue.use(Router)
 
@@ -164,30 +165,6 @@ export default new Router({
             ]
         },
         {
-            path: '/carousel',
-            name: 'carousel',
-            redirect: '/carousel/index',
-            component: Admin,
-            meta: {
-                title: '轮播管理',
-                isMenu: true,
-                isLeaf: true,
-                isLogin: true,
-                permission: 'carousel'
-            },
-            children: [{
-                path: '/carousel/index',
-                name: 'carouselPage',
-                component: Carousel,
-                meta: {
-                    title: '轮播管理',
-                    isMenu: false,
-                    isLeaf: true,
-                    permission: 'carousel'
-                }
-            }]
-        },
-        {
             path: '/customer',
             name: 'customer',
             redirect: '/customer/index',
@@ -220,6 +197,54 @@ export default new Router({
                     isLeaf: true,
                     isLogin: true,
                     permission: 'card'
+                }
+            }]
+        },
+        {
+            path: '/carousel',
+            name: 'carousel',
+            redirect: '/carousel/index',
+            component: Admin,
+            meta: {
+                title: '轮播管理',
+                isMenu: true,
+                isLeaf: true,
+                isLogin: true,
+                permission: 'carousel'
+            },
+            children: [{
+                path: '/carousel/index',
+                name: 'carouselPage',
+                component: Carousel,
+                meta: {
+                    title: '轮播管理',
+                    isMenu: false,
+                    isLeaf: true,
+                    permission: 'carousel'
+                }
+            }]
+        },
+        {
+            path: '/shop',
+            name: 'shop',
+            redirect: '/shop/index',
+            component: Admin,
+            meta: {
+                title: '门店管理',
+                isMenu: true,
+                isLeaf: true,
+                isLogin: true,
+                permission: 'shop'
+            },
+            children: [{
+                path: '/shop/index',
+                name: 'shopPage',
+                component: Shop,
+                meta: {
+                    title: '门店管理',
+                    isMenu: false,
+                    isLeaf: true,
+                    permission: 'shop'
                 }
             }]
         },

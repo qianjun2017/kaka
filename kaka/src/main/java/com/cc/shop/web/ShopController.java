@@ -73,6 +73,8 @@ public class ShopController {
 				shopBean.setAddress(address);
 			}
 		}
+		response.setData(shopBean);
+		response.setSuccess(Boolean.TRUE);
 		return response;
 	}
 	
@@ -127,7 +129,7 @@ public class ShopController {
 			response.setMessage("门店代码已存在，请重新输入");
 			return response;
 		}
-		if(shopBean.getLatitude()==null || shopBean.getLongitude()==null){
+		if(StringTools.isAnyNullOrNone(new String[]{shopBean.getLatitude(), shopBean.getLongitude()})){
 			response.setMessage("请输入门店经纬度");
 			return response;
 		}
@@ -196,7 +198,7 @@ public class ShopController {
 			}
 		}
 		oldShopBean.setCode(shopBean.getCode());
-		if(shopBean.getLatitude()==null || shopBean.getLongitude()==null){
+		if(StringTools.isAnyNullOrNone(new String[]{shopBean.getLatitude(), shopBean.getLongitude()})){
 			response.setMessage("请输入门店经纬度");
 			return response;
 		}

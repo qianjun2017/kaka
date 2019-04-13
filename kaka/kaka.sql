@@ -357,8 +357,8 @@ CREATE TABLE `t_shop` (
   `code` varchar(128) DEFAULT NULL,
   `name` varchar(128) DEFAULT NULL,
   `address` varchar(256) NOT NULL,
-  `longitude` float NOT NULL,
-  `latitude` float NOT NULL,
+  `longitude` varchar(16) NOT NULL,
+  `latitude` varchar(16) NOT NULL,
   `radius` float NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
