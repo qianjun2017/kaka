@@ -16,16 +16,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cc.common.exception.LogicException;
-import com.cc.common.tools.DateTools;
 import com.cc.common.tools.JsonTools;
-import com.cc.common.tools.StringTools;
 import com.cc.common.web.Page;
 import com.cc.common.web.Response;
 import com.cc.customer.service.CardService;
 import com.cc.customer.service.CustomerService;
 import com.cc.customer.bean.CardLevelBean;
 import com.cc.customer.bean.CustomerBean;
-import com.cc.customer.enums.CustomerStatusEnum;
 import com.cc.customer.form.CustomerQueryForm;
 import com.cc.customer.result.CustomerListResult;
 import com.cc.customer.result.CustomerResult;
