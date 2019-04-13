@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.cc.api.bean.RequestBean;
 import com.cc.api.enums.ApiVersionEnum;
+import com.cc.common.Constant;
 import com.cc.common.exception.LogicException;
 import com.cc.common.tools.AESTools;
 import com.cc.common.tools.DESTools;
@@ -104,7 +105,7 @@ public class ApiFilter implements Filter {
 			response.getWriter().write(JsonTools.toJsonString(result));
 			return;
 		}
-		httpServletRequest.getSession().setAttribute("customerBean", customerBean);
+		httpServletRequest.getSession().setAttribute(Constant.TOKEN, customerBean);
 		if(requestBean.getTimestamp()==null){
 			result.setMessage("请求参数时间戳为空");
 			response.getWriter().write(JsonTools.toJsonString(result));

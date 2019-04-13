@@ -8,4 +8,9 @@ public class Constant {
      * 超级用户
      */
     public static final Long SUPERUSER = 1L;
+    
+    /**
+     * TOKEN
+     */
+    public static final String TOKEN = "customerBean";
 }

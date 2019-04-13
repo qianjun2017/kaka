@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.cc.common.Constant;
 import com.cc.customer.bean.CustomerBean;
 
 /**
@@ -70,6 +71,6 @@ public class RequestContextUtil {
 	 */
 	public static CustomerBean getCustomerBean(){
 		HttpServletRequest HttpServletRequest = httpServletRequest();
-		return (CustomerBean)HttpServletRequest.getSession().getAttribute("customerBean");
+		return (CustomerBean)HttpServletRequest.getSession().getAttribute(Constant.TOKEN);
 	}
 }
