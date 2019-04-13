@@ -3,14 +3,12 @@
  */
 package com.cc.customer.web;
 
-import java.util.Map;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -43,34 +41,6 @@ public class CustomerController {
 	
 	@Autowired
 	private CardService cardService;
-	
-	/**
-	 * 会员信息
-	 * @param customerMap
-	 * @return
-	 */
-	@ResponseBody
-	@RequestMapping(value = "/info", method = RequestMethod.POST)
-	public Response<Object> updateCustomerInfo(@RequestBody Map<String, String> customerMap){
-		Response<Object> response = new Response<Object>();
-		CustomerBean customerBean = CustomerBean.get(CustomerBean.class, Long.valueOf(customerMap.get("customerId")));
-		if (customerBean == null) {
-			response.setMessage("您尚未注册");
-			return response;
-		}
-		customerBean.setName(customerMap.get("nickName"));
-		customerBean.setAvatarUrl(customerMap.get("avatarUrl"));
-		try {
-			customerService.saveCustomer(customerBean);
-			response.setSuccess(Boolean.TRUE);
-		} catch (LogicException e) {
-			response.setMessage(e.getErrContent());
-		} catch (Exception e) {
-			response.setMessage("系统内部错误");
-			e.printStackTrace();
-		}
-		return response;
-	}
 	
 	/**
 	 * 查询会员信息
