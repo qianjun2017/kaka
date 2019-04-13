@@ -209,7 +209,7 @@
             this.customer = res.data
             this.view = 'detail'
           }else{
-            this.$message.error(res.msg)
+            this.$message.error(res.message)
           }
         })
       },

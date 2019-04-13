@@ -24,6 +24,7 @@ import com.cc.common.web.Response;
 import com.cc.customer.bean.CardBean;
 import com.cc.shop.bean.ShopBean;
 import com.cc.shop.form.ShopQueryForm;
+import com.cc.shop.result.ShopResult;
 import com.cc.shop.service.ShopService;
 import com.cc.system.location.bean.LocationBean;
 import com.cc.system.log.annotation.OperationLog;
@@ -59,21 +60,29 @@ public class ShopController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/get/{id:\\d+}", method = RequestMethod.GET)
-	public Response<ShopBean> queryShop(@PathVariable Long id){
-		Response<ShopBean> response = new Response<ShopBean>();
+	public Response<ShopResult> queryShop(@PathVariable Long id){
+		Response<ShopResult> response = new Response<ShopResult>();
 		ShopBean shopBean = ShopBean.get(ShopBean.class, id);
 		if(shopBean==null){
 			response.setMessage("门店不存在或已删除");
 			return response;
 		}
+		ShopResult shopResult = JsonTools.toObject(JsonTools.toJsonString(shopBean), ShopResult.class);
 		if(shopBean.getLocationId()!=null){
 			LocationBean locationBean = LocationBean.get(LocationBean.class, shopBean.getLocationId());
 			if(locationBean!=null && !StringTools.isNullOrNone(locationBean.getLocationNamePath())){
 				String address = locationBean.getLocationNamePath().replace("/", "")+shopBean.getAddress();
-				shopBean.setAddress(address);
+				shopResult.setAddress(address);
+				Long[] locationArray = new Long[locationBean.getLevel()+1];
+				while(locationBean.getParentId()!=null){
+					locationArray[locationBean.getLevel()] = locationBean.getId();
+					locationBean = LocationBean.get(LocationBean.class, locationBean.getParentId());
+				}
+				locationArray[0] = locationBean.getId();
+				shopResult.setLocationArray(locationArray);
 			}
 		}
-		response.setData(shopBean);
+		response.setData(shopResult);
 		response.setSuccess(Boolean.TRUE);
 		return response;
 	}

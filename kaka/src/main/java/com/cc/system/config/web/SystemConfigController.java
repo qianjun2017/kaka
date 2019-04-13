@@ -147,6 +147,25 @@ public class SystemConfigController {
 	}
 	
 	/**
+	 * 查询系统参数
+	 * @param form
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/value", method = RequestMethod.GET)
+	public Response<String> querySystemConfigBean(@ModelAttribute ConfigQueryForm form){
+		Response<String> response = new Response<String>();
+		List<SystemConfigBean> systemConfigBeanList = SystemConfigBean.findAllByParams(SystemConfigBean.class, "propertyName", form.getPropertyName());
+		if(ListTools.isEmptyOrNull(systemConfigBeanList)){
+			response.setMessage("没有设置系统参数");
+			return response;
+		}
+		response.setData(systemConfigBeanList.get(0).getPropertyValue());
+		response.setSuccess(Boolean.TRUE);
+		return response;
+	}
+	
+	/**
 	 * 分页查询系统参数
 	 * @param form
 	 * @return
