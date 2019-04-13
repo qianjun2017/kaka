@@ -56,33 +56,33 @@
 
 		<div v-show="show=='add' || show=='update'">
 		  <el-row>
-			<el-col :span="16">
-			  <el-form :model="carouselForm" label-width="100px" :rules="carouselFormRules" ref="carouselForm">
-				<el-form-item label="轮播图片" required>
-					<el-upload
-					  list-type="picture-card"
-					  :action="action"
-					  :on-preview="handlePictureCardPreview"
-					  :file-list="fileList"
-					  :on-success="handleSuccess"
-					  :on-remove="handleRemove"
-					  :data="{type: 'image', size: '700x300'}"
-					  :limit="1">
-					<i class="el-icon-plus"></i>
-					</el-upload>
-				</el-form-item>
-				<el-form-item label="轮播图名称" prop="name">
-				  <el-input v-model="carouselForm.name" auto-complete="off"></el-input>
-				</el-form-item>
-				<el-form-item label="轮播详情">
-				  <div id="description"></div>
-				</el-form-item>
-				<el-form-item>
-				  <el-button type="primary" size="small" @click="handleSubmit" :loading="submitLoading">提交</el-button>
-				  <el-button size="small" @click="back">取消</el-button>
-				</el-form-item>
-			  </el-form>
-			</el-col>
+        <el-col :span="16">
+          <el-form :model="carouselForm" label-width="100px" :rules="carouselFormRules" ref="carouselForm">
+            <el-form-item label="轮播图片" required>
+              <el-upload
+                list-type="picture-card"
+                :action="action"
+                :on-preview="handlePictureCardPreview"
+                :file-list="fileList"
+                :on-success="handleSuccess"
+                :on-remove="handleRemove"
+                :data="{type: 'image', size: '700x300'}"
+                :limit="1">
+              <i class="el-icon-plus"></i>
+              </el-upload>
+            </el-form-item>
+            <el-form-item label="轮播图名称" prop="name">
+              <el-input v-model="carouselForm.name" auto-complete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="轮播详情">
+              <div id="description"></div>
+            </el-form-item>
+          </el-form>
+          <div class="btns">
+            <el-button type="primary" size="small" @click="handleSubmit" :loading="submitLoading">提交</el-button>
+            <el-button size="small" @click="back">取消</el-button>
+          </div>
+        </el-col>
 		  </el-row>
 		</div>
 
@@ -357,5 +357,10 @@
 <style scoped lang="scss">
 .img{
   cursor: pointer;
+}
+.btns{
+  clear: both;
+  width: 100%;
+  text-align: center;
 }
 </style>

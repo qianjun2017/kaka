@@ -30,4 +30,10 @@ public interface CardService {
 	 * @param cardLevelBean
 	 */
 	void saveCardLevel(CardLevelBean cardLevelBean);
+
+	/**
+	 * 删除会员卡级别
+	 * @param id
+	 */
+	void deleteCardLevel(Long id);
 }

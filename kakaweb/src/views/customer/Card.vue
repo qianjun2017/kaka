@@ -9,8 +9,23 @@
         </div>
         <div class="levels">
           <template v-for="(level, index) in levelData">
-            <div :key="index" class="level">
-
+            <div :key="index" class="level" @mouseout="hiddenOp(index)" @mouseover="showOp(index)">
+              <img :src="level.imageUrl"/>
+              <div class="name">{{level.name}}</div>
+              <div class="op">
+                <div
+                  class="edit"
+                  @click="handleCardLevelEdit(index)"
+                >
+                  <i class="el-icon-edit"></i>
+                </div>
+                <div
+                  class="delete"
+                  @click="handleCardLevelDelete(index)"
+                >
+                  <i class="el-icon-delete"></i>
+                </div>
+              </div>
             </div>
           </template>
           <div class="level add" @click="handleCardLevelAdd">
@@ -41,15 +56,6 @@
       <el-row>
         <el-col :span="16">
           <el-form :model="cardLevelForm" label-width="100px" :rules="cardLevelFormRules" ref="cardLevelForm">
-            <el-form-item label="级别编码" prop="level">
-              <el-input v-model="cardLevelForm.level" auto-complete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="级别名称" prop="name">
-              <el-input v-model="cardLevelForm.name" auto-complete="off"></el-input>
-            </el-form-item>
-            <el-form-item label="最低积分" prop="points">
-              <el-input v-model="cardLevelForm.points" auto-complete="off"></el-input>
-            </el-form-item>
             <el-form-item label="级别图片" required>
               <el-upload
                 list-type="picture-card"
@@ -62,6 +68,15 @@
                 :limit="1">
               <i class="el-icon-plus"></i>
               </el-upload>
+            </el-form-item>
+            <el-form-item label="级别编码" prop="level">
+              <el-input v-model="cardLevelForm.level" auto-complete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="级别名称" prop="name">
+              <el-input v-model="cardLevelForm.name" auto-complete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="最低积分" prop="points">
+              <el-input v-model="cardLevelForm.points" auto-complete="off"></el-input>
             </el-form-item>
           </el-form>
           <div class="btns">
@@ -204,6 +219,26 @@
         this.dialogImageUrl = file.url
         this.dialogVisible = true
       },
+      handleCardLevelEdit: function(index){
+        this.fileList = []
+        this.imageUrlList = []
+        this.view = 'level'
+        this.cardLevelForm = this.levelData[index]
+        this.fileList.push({url: this.cardLevelForm.imageUrl})
+      },
+      handleCardLevelDelete: function(index){
+        let data = this.levelData[index]
+        this.$confirm('确认删除'+data.name+'吗？', '提示', {}).then(() => {
+          this.$ajax.post('/card/level/delete/'+data.id).then((res) => {
+            if(res.success){
+              this.$message.success('删除成功')
+              this.getCardLevelData()
+            }else{
+              this.$message.error(res.message)
+            }
+          })
+        })
+      },
       handleSuccess: function(response, file, fileList){
         if(response.success){
           this.imageUrlList = []
@@ -290,16 +325,65 @@
   display: flex;
   flex-wrap: wrap;
   .level {
-    cursor: pointer;
+    text-align: center;
+    width: 48%;
+    margin: 0.5%;
+    position: relative;
+    img{
+      width: 100%;
+    }
+    .name{
+      position: absolute;
+      right: 10px;
+      top: 10px;
+    }
+    .op{
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      color: #fff;
+      opacity: 0;
+      font-size: 20px;
+      background-color: rgba(0,0,0,.5);
+      -webkit-transition: opacity .3s;
+      -o-transition: opacity .3s;
+      transition: opacity .3s;
+      i{
+        font-size: 28px;
+        color: #fff;
+        position: absolute;
+        top: 50%;
+        margin-top: -14px;
+        cursor: pointer;
+      }
+      .edit,.delete{
+        display: inline-block;
+        height: 28px;
+        width: 28px;
+      }
+      .delete{
+        margin-left: 5px;
+      }
+    }
+    .op:hover{
+      opacity: 1;
+    }
   }
   .level:hover{
     border-color: #FF5000;
   }
   .add{
     border: 1px dashed #c0ccda;
+    cursor: pointer;
+    min-height: 200px;
     i{
       font-size: 28px;
       color: #8c939d;
+      position: absolute;
+      top: 50%;
+      margin-top: -14px;
     }
   }
 }

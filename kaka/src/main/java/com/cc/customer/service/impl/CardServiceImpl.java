@@ -56,4 +56,15 @@ public class CardServiceImpl implements CardService {
 		}
 	}
 
+	@Override
+	@Transactional(rollbackFor = {Exception.class}, propagation = Propagation.REQUIRED)
+	public void deleteCardLevel(Long id) {
+		CardLevelBean cardLevelBean = new CardLevelBean();
+		cardLevelBean.setId(id);
+		int row = cardLevelBean.delete();
+		if(row!=1){
+			throw new LogicException("E001", "删除会员卡级别失败");
+		}
+	}
+
 }

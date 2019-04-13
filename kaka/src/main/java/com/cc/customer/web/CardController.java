@@ -293,6 +293,7 @@ public class CardController {
 	
 	/**
 	 * 查询会员卡级别
+	 * @param id
 	 * @return
 	 */
 	@ResponseBody
@@ -306,6 +307,33 @@ public class CardController {
 		}
 		response.setData(cardLevelBean);
 		response.setSuccess(Boolean.TRUE);
+		return response;
+	}
+	
+	/**
+	 * 删除会员卡级别
+	 * @param id
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/level/delete/{id:\\d+}", method = RequestMethod.POST)
+	@OperationLog(module = ModuleEnum.CARDLEVELMANAGEMENT, operType = OperTypeEnum.DELETE, title = "删除会员卡级别")
+	public Response<Object> deleteCardLevel(@PathVariable Long id){
+		Response<Object> response = new Response<Object>();
+		CardLevelBean cardLevelBean = CardLevelBean.get(CardLevelBean.class, id);
+		if(cardLevelBean==null){
+			response.setMessage("会员卡级别不存在");
+			return response;
+		}
+		try {
+			cardService.deleteCardLevel(id);
+			response.setSuccess(Boolean.TRUE);
+		} catch (LogicException e) {
+			response.setMessage(e.getErrContent());
+		} catch (Exception e) {
+			response.setMessage("系统内部错误");
+			e.printStackTrace();
+		}
 		return response;
 	}
 }
