@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cc.shop.dao.ShopDao">
+
+	<select id="queryShopList" resultType="com.cc.shop.bean.ShopBean" parameterType="com.cc.shop.form.ShopQueryForm" statementType="PREPARED">
+		select s.id, s.name,s.longitude,s.latitude,s.radius
+		from t_shop s
+		<if test="address!=null and address!='' or locationId!=null">
+			left join t_system_location sl on sl.id = s.locationId
+		</if>
+		<where>
+			<if test="code!=null and code!=''">
+				and s.code = #{code}
+			</if>
+			<if test="name!=null and name!=''">
+				and s.name like concat('%',#{name},'%')
+			</if>
+			<if test="address!=null and address!=''">
+				and (s.address like concat('%',#{address},'%') or sl.locationNamePath like concat('%',#{address},'%'))
+			</if>
+			<if test="locationId!=null">
+				and sl.locationNamePath like concat((select l.locationNamePath from t_system_location l where l.id = #{locationId}),'%')
+			</if>
+		</where>
+	</select>
+	
+</mapper>
