@@ -8,6 +8,7 @@ import IndexPage from '@/views/Index'
 import SysUser from '@/views/system/User'
 import SysAuth from '@/views/system/Auth'
 import SysRole from '@/views/system/Role'
+import SysLocation from '@/views/system/Location'
 import SysOperLog from '@/views/system/Operation'
 import Setting from '@/views/system/Setting'
 import Carousel from '@/views/carousel/Carousel'
@@ -125,6 +126,17 @@ export default new Router({
                         isMenu: true,
                         isLeaf: true,
                         permission: 'system.auth'
+                    }
+                },
+                {
+                    path: '/system/location',
+                    name: 'location',
+                    component: SysLocation,
+                    meta: {
+                        title: '地区管理',
+                        isMenu: true,
+                        isLeaf: true,
+                        permission: 'system.location'
                     }
                 },
                 {
