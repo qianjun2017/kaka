@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.cc.location.result;
+package com.cc.system.location.result;
 
 /**
  * @author Administrator

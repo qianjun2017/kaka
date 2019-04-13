@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.cc.location.service.impl;
+package com.cc.system.location.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,16 +10,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cc.common.exception.LogicException;
 import com.cc.common.tools.ListTools;
 import com.cc.common.tools.StringTools;
 import com.cc.common.web.Tree;
-import com.cc.location.bean.LocationBean;
-import com.cc.location.result.LocationResult;
-import com.cc.location.service.LocationService;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+import com.cc.system.location.bean.LocationBean;
+import com.cc.system.location.result.LocationResult;
+import com.cc.system.location.service.LocationService;
 
 /**
  * @author Administrator

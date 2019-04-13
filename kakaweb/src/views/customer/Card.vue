@@ -9,7 +9,7 @@
         </div>
         <div class="levels">
           <template v-for="(level, index) in levelData">
-            <div :key="index" class="level" @mouseout="hiddenOp(index)" @mouseover="showOp(index)">
+            <div :key="index" class="level">
               <img :src="level.imageUrl"/>
               <div class="name">{{level.name}}</div>
               <div class="op">
@@ -371,9 +371,6 @@
       opacity: 1;
     }
   }
-  .level:hover{
-    border-color: #FF5000;
-  }
   .add{
     border: 1px dashed #c0ccda;
     cursor: pointer;
@@ -385,6 +382,9 @@
       top: 50%;
       margin-top: -14px;
     }
+  }
+  .add:hover{
+    border-color: #FF5000;
   }
 }
 </style>

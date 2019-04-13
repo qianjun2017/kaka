@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.cc.location.web;
+package com.cc.system.location.web;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,8 +22,8 @@ import com.cc.common.tools.DateTools;
 import com.cc.common.tools.StringTools;
 import com.cc.common.web.Response;
 import com.cc.common.web.Tree;
-import com.cc.location.bean.LocationBean;
-import com.cc.location.service.LocationService;
+import com.cc.system.location.bean.LocationBean;
+import com.cc.system.location.service.LocationService;
 import com.cc.system.log.annotation.OperationLog;
 import com.cc.system.log.enums.ModuleEnum;
 import com.cc.system.log.enums.OperTypeEnum;
@@ -33,7 +33,7 @@ import com.cc.system.log.enums.OperTypeEnum;
  *
  */
 @Controller
-@RequestMapping("/location")
+@RequestMapping("/system/location")
 public class LocationController {
 	
 	private static Logger logger = LoggerFactory.getLogger(LocationController.class);

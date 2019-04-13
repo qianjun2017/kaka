@@ -92,7 +92,7 @@ export default new Router({
                 title: '系统管理',
                 isMenu: true,
                 isLeaf: false,
-                permission: 'system.user|system.role|system.auth|system.log|system.config'
+                permission: 'system.user|system.role|system.auth|system.log|system.config|system.location'
             },
             children: [{
                     path: '/system/user',

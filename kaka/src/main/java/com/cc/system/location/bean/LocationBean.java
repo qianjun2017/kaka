@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.cc.location.bean;
+package com.cc.system.location.bean;
 
 import java.util.Date;
 
@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  * @author Administrator
  *
  */
-@Table(name="t_location")
+@Table(name="t_system_location")
 public class LocationBean extends BaseOrm<LocationBean> implements BaseEntity {
 
 	/**

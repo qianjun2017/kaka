@@ -1,13 +1,13 @@
 /**
  * 
  */
-package com.cc.location.service;
+package com.cc.system.location.service;
 
 import java.util.Map;
 
 import com.cc.common.web.Tree;
-import com.cc.location.bean.LocationBean;
-import com.cc.location.result.LocationResult;
+import com.cc.system.location.bean.LocationBean;
+import com.cc.system.location.result.LocationResult;
 
 /**
  * @author Administrator

@@ -1,10 +1,10 @@
 /**
  * 
  */
-package com.cc.location.mapper;
+package com.cc.system.location.mapper;
 
 import com.cc.common.orm.mapper.CrudMapper;
-import com.cc.location.bean.LocationBean;
+import com.cc.system.location.bean.LocationBean;
 
 /**
  * @author Administrator
