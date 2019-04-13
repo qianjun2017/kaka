@@ -343,6 +343,36 @@ LOCK TABLES `t_card_level` WRITE;
 /*!40000 ALTER TABLE `t_card_level` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
+--
+-- Table structure for table `t_shop`
+--
+
+DROP TABLE IF EXISTS `t_shop`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_shop` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `locationId` int(11) NOT NULL,
+  `code` varchar(128) DEFAULT NULL,
+  `name` varchar(128) DEFAULT NULL,
+  `address` varchar(256) NOT NULL,
+  `longitude` float NOT NULL,
+  `latitude` float NOT NULL,
+  `radius` float NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_shop`
+--
+
+LOCK TABLES `t_shop` WRITE;
+/*!40000 ALTER TABLE `t_shop` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_shop` ENABLE KEYS */;
+UNLOCK TABLES;
+
 --
 -- Table structure for table `t_system_config`
 --
