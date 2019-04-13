@@ -272,6 +272,7 @@
               this.$ajax.post('/card/level/'+(this.cardLevelForm.id?'update':'add'),this.cardLevelForm).then((res) => {
                 if(res.success){
                   this.$message.success('提交成功')
+                  this.getCardLevelData()
                   this.view = 'detail'
                 }else{
                   this.$message.error(res.message)
