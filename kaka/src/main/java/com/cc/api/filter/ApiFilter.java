@@ -29,14 +29,17 @@ import com.cc.common.tools.AESTools;
 import com.cc.common.tools.DESTools;
 import com.cc.common.tools.DateTools;
 import com.cc.common.tools.JsonTools;
+import com.cc.common.tools.JwtTools;
 import com.cc.common.tools.ListTools;
 import com.cc.common.tools.MD5Tools;
 import com.cc.common.tools.RSATools;
 import com.cc.common.tools.SHA1Tools;
 import com.cc.common.tools.StringTools;
+import com.cc.common.web.RequestContextUtil;
 import com.cc.common.web.RequestWrapper;
 import com.cc.common.web.Response;
 import com.cc.common.web.ResponseWrapper;
+import com.cc.customer.bean.CustomerBean;
 import com.cc.system.config.bean.SystemConfigBean;
 
 /**
@@ -89,6 +92,19 @@ public class ApiFilter implements Filter {
 			response.getWriter().write(JsonTools.toJsonString(result));
 			return;
 		}
+		if(StringTools.isNullOrNone(requestBean.getToken())){
+			result.setMessage("请求参数访问令牌为空");
+			response.getWriter().write(JsonTools.toJsonString(result));
+			return;
+		}
+		CustomerBean customerBean = JwtTools.validToken(requestBean.getToken(), CustomerBean.class);
+		if(customerBean==null){
+			result.setMessage("无效令牌，请重新登录");
+			result.setData(400);
+			response.getWriter().write(JsonTools.toJsonString(result));
+			return;
+		}
+		httpServletRequest.getSession().setAttribute("customerBean", customerBean);
 		if(requestBean.getTimestamp()==null){
 			result.setMessage("请求参数时间戳为空");
 			response.getWriter().write(JsonTools.toJsonString(result));
@@ -112,7 +128,7 @@ public class ApiFilter implements Filter {
 			return;
 		}
 		List<SystemConfigBean> keySystemConfigBeanList = SystemConfigBean.findAllByParams(SystemConfigBean.class, "propertyName", requestBean.getAppCode()+"."+requestBean.getVersion()+".key");
-		if(ListTools.isEmptyOrNull(keySystemConfigBeanList) && !(ApiVersionEnum.V1.equals(apiVersionEnum) || ApiVersionEnum.V7.equals(apiVersionEnum))){
+		if(ListTools.isEmptyOrNull(keySystemConfigBeanList) && !ApiVersionEnum.V1.equals(apiVersionEnum)){
 			result.setMessage("应用"+requestBean.getAppCode()+"未配置"+apiVersionEnum.getName()+"密钥");
 			response.getWriter().write(JsonTools.toJsonString(result));
 			return;
@@ -206,7 +222,18 @@ public class ApiFilter implements Filter {
 				return;
 			}
 		}else if(ApiVersionEnum.V7.equals(apiVersionEnum)){
-			
+			String clientIp = RequestContextUtil.getIpAddr(httpServletRequest);
+			String ip = keySystemConfigBeanList.get(0).getPropertyValue();
+			if(StringTools.isNullOrNone(ip)){
+				result.setMessage("请先设置白名单ip");
+				response.getWriter().write(JsonTools.toJsonString(result));
+				return;
+			}
+			if(!clientIp.equals(ip)){
+				result.setMessage("非法访问IP禁止访问");
+				response.getWriter().write(JsonTools.toJsonString(result));
+				return;
+			}
 		}
 		ResponseWrapper responseWrapper = new ResponseWrapper((HttpServletResponse) response);
 		chain.doFilter(requestWrapper, responseWrapper);

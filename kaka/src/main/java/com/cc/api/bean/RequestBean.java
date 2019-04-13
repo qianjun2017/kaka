@@ -33,6 +33,11 @@ public class RequestBean {
 	 * 加密参数
 	 */
 	private String eValue;
+	
+	/**
+	 * 访问令牌
+	 */
+	private String token;
 
 	/**
 	 * @return the appCode
@@ -102,5 +107,19 @@ public class RequestBean {
 	 */
 	public void seteValue(String eValue) {
 		this.eValue = eValue;
+	}
+
+	/**
+	 * @return the token
+	 */
+	public String getToken() {
+		return token;
+	}
+
+	/**
+	 * @param token the token to set
+	 */
+	public void setToken(String token) {
+		this.token = token;
 	}
 }
