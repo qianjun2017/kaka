@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.cc.customer.bean.CustomerBean;
+
 /**
  * 请求上下文
  * 
@@ -60,5 +62,14 @@ public class RequestContextUtil {
 			}
 		}
 		return ip;
+	}
+	
+	/**
+	 * 当前访问会员
+	 * @return
+	 */
+	public static CustomerBean getCustomerBean(){
+		HttpServletRequest HttpServletRequest = httpServletRequest();
+		return (CustomerBean)HttpServletRequest.getSession().getAttribute("customerBean");
 	}
 }
