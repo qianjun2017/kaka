@@ -29,6 +29,7 @@ public enum ModuleEnum {
 	CUSTOMERMANAGEMENT("customer", "会员管理"),
 	CARDMANAGEMENT("card", "会员卡"),
 	CARDLEVELMANAGEMENT("level", "会员卡级别"),
+	SHOPMANAGEMENT("shop", "门店管理"),
 	CONFIGMANAGEMENT("config", "系统参数");
 	
 	/**
