@@ -7,7 +7,7 @@
 					<el-input v-model="queryForm.userName" placeholder="操作人姓名"></el-input>
 				</el-form-item>
         <el-form-item>
-          <el-select v-model="queryForm.module" placeholder="请选择模块">
+          <el-select v-model="queryForm.module" placeholder="请选择模块" clearable>
             <el-option
               v-for="(value,key) in queryForm.modules"
               :key="key"
@@ -17,7 +17,7 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-select v-model="queryForm.operType" placeholder="请选择操作类型">
+          <el-select v-model="queryForm.operType" placeholder="请选择操作类型" clearable>
             <el-option
               v-for="(value,key) in queryForm.operTypes"
               :key="key"

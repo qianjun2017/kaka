@@ -317,7 +317,7 @@ public class CardController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/level/delete/{id:\\d+}", method = RequestMethod.POST)
-	@OperationLog(module = ModuleEnum.CARDLEVELMANAGEMENT, operType = OperTypeEnum.DELETE, title = "删除会员卡级别")
+	@OperationLog(module = ModuleEnum.CARDLEVELMANAGEMENT, operType = OperTypeEnum.DELETE, title = "删除会员卡级别", paramNames = {"id"})
 	public Response<Object> deleteCardLevel(@PathVariable Long id){
 		Response<Object> response = new Response<Object>();
 		CardLevelBean cardLevelBean = CardLevelBean.get(CardLevelBean.class, id);

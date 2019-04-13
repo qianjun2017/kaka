@@ -94,7 +94,7 @@ public class ShopController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/delete/{id:\\d+}", method = RequestMethod.POST)
-	@OperationLog(module = ModuleEnum.SHOPMANAGEMENT, operType = OperTypeEnum.DELETE, title = "删除门店")
+	@OperationLog(module = ModuleEnum.SHOPMANAGEMENT, operType = OperTypeEnum.DELETE, title = "删除门店", paramNames = {"id"})
 	public Response<Object> deleteShop(@PathVariable Long id){
 		Response<Object> response = new Response<Object>();
 		ShopBean shopBean = ShopBean.get(ShopBean.class, id);
