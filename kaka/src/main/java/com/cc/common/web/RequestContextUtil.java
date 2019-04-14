@@ -69,8 +69,12 @@ public class RequestContextUtil {
 	 * 当前访问会员
 	 * @return
 	 */
-	public static CustomerBean getCustomerBean(){
+	public static Long getCustomerId(){
 		HttpServletRequest HttpServletRequest = httpServletRequest();
-		return (CustomerBean)HttpServletRequest.getSession().getAttribute(Constant.TOKEN);
+		CustomerBean customerBean = (CustomerBean)HttpServletRequest.getSession().getAttribute(Constant.TOKEN);
+		if(customerBean!=null){
+			return customerBean.getId();
+		}
+		return null;
 	}
 }
