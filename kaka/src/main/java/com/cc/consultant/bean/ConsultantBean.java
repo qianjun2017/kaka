@@ -37,6 +37,11 @@ public class ConsultantBean extends BaseOrm<ConsultantBean> implements BaseEntit
 	 * 汽车顾问手机号码
 	 */
 	private String phone;
+	
+	/**
+	 * 汽车顾问头像
+	 */
+	private String imageUrl;
 
 	/**
 	 * @return the id
@@ -78,5 +83,19 @@ public class ConsultantBean extends BaseOrm<ConsultantBean> implements BaseEntit
 	 */
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	/**
+	 * @return the imageUrl
+	 */
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	/**
+	 * @param imageUrl the imageUrl to set
+	 */
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 }

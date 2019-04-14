@@ -88,6 +88,10 @@ public class ConsultantController {
 			response.setMessage("请输入11位有效手机号码");
             return response;
 		}
+		if (StringTools.isNullOrNone(consultantBean.getImageUrl())) {
+			response.setMessage("请上传汽车顾问头像");
+			return response;
+		}
 		try {
 			consultantService.saveConsultant(consultantBean);
 			response.setSuccess(Boolean.TRUE);
@@ -135,6 +139,11 @@ public class ConsultantController {
             return response;
 		}
 		oldConsultantBean.setPhone(consultantBean.getPhone());
+		if (StringTools.isNullOrNone(consultantBean.getImageUrl())) {
+			response.setMessage("请上传汽车顾问头像");
+			return response;
+		}
+		oldConsultantBean.setImageUrl(consultantBean.getImageUrl());
 		try {
 			consultantService.saveConsultant(oldConsultantBean);
 			response.setSuccess(Boolean.TRUE);

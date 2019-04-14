@@ -121,6 +121,31 @@ INSERT INTO `t_carousel_plot` VALUES (1,1,'<p><img src=\"http://127.0.0.1:8082/f
 UNLOCK TABLES;
 
 --
+-- Table structure for table `t_consultant`
+--
+
+DROP TABLE IF EXISTS `t_consultant`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_consultant` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) DEFAULT NULL,
+  `imageUrl` varchar(128) DEFAULT NULL,
+  `phone` varchar(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_consultant`
+--
+
+LOCK TABLES `t_consultant` WRITE;
+/*!40000 ALTER TABLE `t_consultant` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_consultant` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `t_customer`
 --
 
