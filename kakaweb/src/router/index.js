@@ -16,6 +16,7 @@ import Customer from '@/views/customer/Customer'
 import Card from '@/views/customer/Card'
 import SysConfig from '@/views/system/Config'
 import Shop from '@/views/shop/Shop'
+import Franchiser from '@/views/franchiser/Franchiser'
 
 Vue.use(Router)
 
@@ -245,6 +246,30 @@ export default new Router({
                     isMenu: false,
                     isLeaf: true,
                     permission: 'shop'
+                }
+            }]
+        },
+        {
+            path: '/franchiser',
+            name: 'franchiser',
+            redirect: '/franchiser/index',
+            component: Admin,
+            meta: {
+                title: '经销商',
+                isMenu: true,
+                isLeaf: true,
+                isLogin: true,
+                permission: 'franchiser'
+            },
+            children: [{
+                path: '/franchiser/index',
+                name: 'franchiserPage',
+                component: Franchiser,
+                meta: {
+                    title: '经销商',
+                    isMenu: false,
+                    isLeaf: true,
+                    permission: 'franchiser'
                 }
             }]
         },

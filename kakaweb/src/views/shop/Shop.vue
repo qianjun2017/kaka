@@ -228,6 +228,7 @@
 				let para = {
           name: this.queryForm.name,
           address: this.queryForm.address,
+          locationId: this.queryForm.locationId,
           page: this.page,
           pageSize: this.pageSize,
           sort: this.sort,

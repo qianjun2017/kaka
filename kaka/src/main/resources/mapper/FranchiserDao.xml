@@ -9,9 +9,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from t_franchiser f
 		left join t_system_location sl on sl.id = f.locationId
 		<where>
-			<if test="code!=null and code!=''">
-				and f.code = #{code}
-			</if>
 			<if test="name!=null and name!=''">
 				and f.name like concat('%',#{name},'%')
 			</if>
