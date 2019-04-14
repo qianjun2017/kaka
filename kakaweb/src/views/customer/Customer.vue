@@ -4,28 +4,33 @@
       <!--工具条-->
       <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
         <el-form :inline="true" :model="queryForm">
-          <el-form-item>
-            <el-input v-model="queryForm.name" placeholder="会员名称"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-input v-model="queryForm.cardNo" placeholder="会员卡号"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-input v-model="queryForm.phone" placeholder="会员电话"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-select v-model="queryForm.cardLevel" placeholder="请选择会员等级" clearable>
-              <el-option
-                v-for="level in levelData"
-                :key="level.level"
-                :label="level.name"
-                :value="level.level">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" v-on:click="getTableData">查询</el-button>
-          </el-form-item>
+          <el-row>
+            <el-form-item>
+              <el-input v-model="queryForm.name" placeholder="会员名称"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-input v-model="queryForm.phone" placeholder="会员电话"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-select v-model="queryForm.cardLevel" placeholder="请选择会员等级" clearable>
+                <el-option
+                  v-for="level in levelData"
+                  :key="level.level"
+                  :label="level.name"
+                  :value="level.level">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" v-on:click="getTableData">查询</el-button>
+              <el-button type="text" v-on:click="searchMore">高级搜索<i :class="icon"></i></el-button>
+            </el-form-item>
+          </el-row>
+          <el-row v-if="more">
+            <el-form-item>
+              <el-input v-model="queryForm.cardNo" placeholder="会员卡号"></el-input>
+            </el-form-item>
+          </el-row>
         </el-form>
       </el-col>
 
@@ -50,6 +55,8 @@
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button size="small" @click="handleDetail(scope.$index, scope.row)" v-hasPermission="'customer.detail'">详情</el-button>
+            <el-button size="small" @click="handlePointsHistory(scope.$index, scope.row)" v-hasPermission="'customer.points'">变更历史</el-button>
+            <el-button type="warning" size="small" @click="handlePoints(scope.$index, scope.row)" v-hasPermission="'customer.points'">调减积分</el-button>
             <el-button type="warning" size="small" @click="handleLock(scope.$index, scope.row)" v-if="scope.row.status === 'normal'" v-hasPermission="'customer.lock'">锁定</el-button>
             <el-button type="warning" size="small" @click="handleUnlock(scope.$index, scope.row)" v-if="scope.row.status === 'locked'" v-hasPermission="'customer.unlock'">解锁</el-button>
           </template>
@@ -58,7 +65,7 @@
 
       <!--工具条-->
       <el-col :span="24" class="toolbar">
-        <el-pagination layout="total, prev, pager, next" @current-change="handleCurrentChange" :page-size="pageSize" :total="total" prev-text="上一页" next-text="下一页" background style="float:right;">
+        <el-pagination layout="total, prev, pager, next" @current-change="handleCurrentChange" :current-page="page" :page-size="pageSize" :total="total" prev-text="上一页" next-text="下一页" background style="float:right;">
         </el-pagination>
       </el-col>
     </div>
@@ -83,7 +90,16 @@
                     <span class="text_gray">粉龄：<span :title="createTime" class="tips">{{time}}</span></span>
                   </li>
                   <li>
-                    <span class="text_gray">商家：{{customer.retailer?'是':'否'}}</span>
+                    <span class="text_gray">手机号码：{{customer.phone}}</span>
+                  </li>
+                  <li>
+                    <span class="text_gray">会员卡：{{customer.cardNo}}</span>
+                  </li>
+                  <li>
+                    <span class="text_gray">积分：{{customer.points}}</span>
+                  </li>
+                  <li>
+                    <span class="text_gray">级别：{{customer.cardLevel}}</span>
                   </li>
                 </ul>
               </div>
@@ -91,10 +107,46 @@
           </tr>
         </table>
       </div>
-      <div class="button-area">
-        <el-button size="small" @click="back()">返回</el-button>
+      <div class="btns">
+        <el-button size="small" @click="back">返回</el-button>
       </div>
     </div>
+
+    <div v-if="view =='history'">
+      <el-table :data="pointsTableData" stripe highlight-current-row style="width: 100%;" :empty-text="pointsMessage">
+        <el-table-column prop="points" label="变更积分数">
+        </el-table-column>
+        <el-table-column prop="createTime" label="变更时间">
+        </el-table-column>
+        <el-table-column prop="remark" label="变更原因">
+        </el-table-column>
+      </el-table>
+
+      <!--工具条-->
+      <el-col :span="24" class="toolbar">
+        <el-pagination layout="total, prev, pager, next" @current-change="handleCurrentPointsChange" :page-size="pointsPageSize" :total="pointsTotal" prev-text="上一页" next-text="下一页" background style="float:right;">
+        </el-pagination>
+      </el-col>
+      <div class="btns">
+        <el-button size="small" @click="back">返回</el-button>
+      </div>
+    </div>
+
+    <!--调减积分界面-->
+		<el-dialog title="调减积分" :visible.sync="pointsFormVisible" :close-on-click-modal="false">
+			<el-form :model="pointsForm" label-width="80px" :rules="pointsFormRules" ref="pointsForm">
+				<el-form-item label="积分数" prop="points">
+					<el-input v-model="pointsForm.points" auto-complete="off" placeholder="请输入调整积分数"></el-input>
+				</el-form-item>
+        <el-form-item label="原因" prop="remark">
+					<el-input type="textarea" :rows="4" v-model="pointsForm.remark" auto-complete="off" placeholder="请输入调整积分原因"></el-input>
+				</el-form-item>
+			</el-form>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click.native="pointsFormVisible = false">取消</el-button>
+				<el-button type="primary" @click.native="submitPoints" :loading="pointsLoading">提交</el-button>
+			</div>
+		</el-dialog>
 
 	</section>
 </template>
@@ -122,9 +174,33 @@
         
         view: 'list',
 
+        more: false,
+        icon: 'el-icon-arrow-down',
+
         customer: {},
 
-        levelData: []
+        levelData: [],
+
+        pointsTableData: [],
+        pointsTotal: 0,
+        pointsPages: 0,
+        pointsPage: 1,
+        pointsPageSize: 8,
+        pointsMessage: '',
+
+        pointsFormVisible: false,
+        pointsLoading: false,
+        pointsForm: {
+					points: ''
+        },
+				pointsFormRules: {
+					points: [
+						{ required: true, message: '请输入调整积分数', trigger: 'blur' }
+          ],
+          remark: [
+						{ required: true, message: '请输入调整积分原因', trigger: 'blur' }
+          ]
+				}
 			}
 		},
 		methods: {
@@ -132,6 +208,14 @@
 				this.page = val;
 				this.getTableData();
 			},
+      searchMore: function(){
+        this.more = !this.more
+        if(this.more){
+          this.icon = 'el-icon-arrow-up'
+        }else{
+          this.icon = 'el-icon-arrow-down'
+        }
+      },
 			//获取会员列表
 			getTableData() {
 				let para = {
@@ -229,6 +313,46 @@
             this.levelData = []
           }
         })
+      },
+      getPointsTableData: function(){
+        let para = {
+            customerId: this.customer.id,
+            page: this.pointsPage,
+            pageSize: this.pointsPageSize,
+            sort: 'startTime',
+            order: 'desc'
+        }
+        this.$ajax.get('/customer/points/page',para).then((res) => {
+            if(res.success){
+                this.pointsPage = res.page;
+                this.pointsPageSize = res.pageSize;
+                this.pointsTotal = res.total;
+                this.pointsPages = res.pages;
+                this.pointsTableData = res.data;
+            }else{
+                this.pointsTableData = [];
+                this.pointsPage = 0;
+                this.pointsTotal = 0;
+                this.pointsPages = 0;
+                this.pointsMessage = res.message;
+            }
+        })
+      },
+      handlePointsHistory: function(index, row){
+          this.pointsPage = 1
+          this.customer.id = row.id
+          this.getPointsTableData()
+          this.view = 'history'
+      },
+      handlePoints: function(index, row){
+          this.pointsForm.customerId = row.id
+      },
+      submitPoints: function(){
+
+      },
+      handleCurrentPointsChange(val) {
+          this.pointsPage = val
+          this.getPointsTableData()
       }
     },
     created(){
@@ -300,8 +424,9 @@ td{
     color: Gray;
   }
 }
-.button-area{
+.btns{
   clear: both;
   width: 100%;
+  text-align: center;
 }
 </style>
