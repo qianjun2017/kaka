@@ -276,13 +276,4 @@
   width: 100%;
   text-align: center;
 }
-.lbs{
-  display: block;
-  color: #606266;
-  line-height: 1;
-  text-decoration: none;
-  font-size: 12px;
-  font-family: Arial;
-  white-space: nowrap;
-}
 </style>

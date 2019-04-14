@@ -13,7 +13,7 @@ function toType(obj) {
 
 function filterNull(o) {
     for (var key in o) {
-        if (o[key] === null) {
+        if (o[key] === null || o[key] === '') {
             delete o[key]
         }
         if (toType(o[key]) === 'string') {

@@ -17,6 +17,7 @@ import Card from '@/views/customer/Card'
 import SysConfig from '@/views/system/Config'
 import Shop from '@/views/shop/Shop'
 import Franchiser from '@/views/franchiser/Franchiser'
+import Consultant from '@/views/consultant/Consultant'
 
 Vue.use(Router)
 
@@ -246,6 +247,30 @@ export default new Router({
                     isMenu: false,
                     isLeaf: true,
                     permission: 'shop'
+                }
+            }]
+        },
+        {
+            path: '/consultant',
+            name: 'consultant',
+            redirect: '/consultant/index',
+            component: Admin,
+            meta: {
+                title: '汽车顾问',
+                isMenu: true,
+                isLeaf: true,
+                isLogin: true,
+                permission: 'consultant'
+            },
+            children: [{
+                path: '/consultant/index',
+                name: 'consultantPage',
+                component: Consultant,
+                meta: {
+                    title: '汽车顾问',
+                    isMenu: false,
+                    isLeaf: true,
+                    permission: 'consultant'
                 }
             }]
         },
