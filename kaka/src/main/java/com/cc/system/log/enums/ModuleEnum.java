@@ -31,6 +31,7 @@ public enum ModuleEnum {
 	CARDLEVELMANAGEMENT("level", "会员卡级别"),
 	SHOPMANAGEMENT("shop", "门店管理"),
 	FRANCHISERMANAGEMENT("franchiser", "经销商"),
+	CONSULTANTMANAGEMENT("consultant", "汽车顾问"),
 	CONFIGMANAGEMENT("config", "系统参数");
 	
 	/**

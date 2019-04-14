@@ -194,7 +194,7 @@ public class FranchiserController {
 	}
 	
 	/**
-	 * 分页查询门店信息
+	 * 分页查询经销商信息
 	 * @param form
 	 * @return
 	 */
