@@ -45,7 +45,7 @@ public class ShopBean extends BaseOrm<ShopBean> implements BaseEntity {
 	/**
 	 * 误差半径
 	 */
-	private Long radius;
+	private String radius;
 	
 	/**
 	 * 所在区域
@@ -121,14 +121,14 @@ public class ShopBean extends BaseOrm<ShopBean> implements BaseEntity {
 	/**
 	 * @return the radius
 	 */
-	public Long getRadius() {
+	public String getRadius() {
 		return radius;
 	}
 
 	/**
 	 * @param radius the radius to set
 	 */
-	public void setRadius(Long radius) {
+	public void setRadius(String radius) {
 		this.radius = radius;
 	}
 
