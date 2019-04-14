@@ -203,6 +203,34 @@ LOCK TABLES `t_customer` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `t_points`
+--
+
+DROP TABLE IF EXISTS `t_points`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_points` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customerId` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
+  `shopId` int(11) NOT NULL,
+  `points` int(11) NOT NULL,
+  `createTime` datetime DEFAULT NULL,
+  `remark` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_points`
+--
+
+LOCK TABLES `t_points` WRITE;
+/*!40000 ALTER TABLE `t_points` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_points` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `t_franchiser`
 --
 

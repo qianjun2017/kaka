@@ -4,8 +4,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cc.customer.dao.PointsDao">
 
-	<update id="updateCustomerPoints" parameterType="com.cc.customer.bean.PointsBean">
+	<update id="updateCustomerPoints" parameterType="com.cc.customer.bean.PointsBean" statementType="PREPARED">
 		update t_customer set points = points + #{points} where id = #{customerId}
 	</update>
+	
+	<select id="queryPointsList" parameterType="com.cc.customer.bean.PointsQueryForm" resultType="com.cc.customer.result.PointsListResult" statementType="PREPARED">
+		select p.id, c.name as customerName, p.points, p.createTime, p.remark
+		from t_points p
+		left join t_customer c on c.id = p.customerId
+		where p.customerId = #{customerId}
+	</select>
 	
 </mapper>

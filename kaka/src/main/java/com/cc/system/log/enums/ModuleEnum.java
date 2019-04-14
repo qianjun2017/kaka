@@ -32,6 +32,7 @@ public enum ModuleEnum {
 	SHOPMANAGEMENT("shop", "门店管理"),
 	FRANCHISERMANAGEMENT("franchiser", "经销商"),
 	CONSULTANTMANAGEMENT("consultant", "汽车顾问"),
+	POINTSMANAGEMENT("points", "积分管理"),
 	CONFIGMANAGEMENT("config", "系统参数");
 	
 	/**
