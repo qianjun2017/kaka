@@ -8,7 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update t_customer set points = points + #{points} where id = #{customerId}
 	</update>
 	
-	<select id="queryPointsList" parameterType="com.cc.customer.bean.PointsQueryForm" resultType="com.cc.customer.result.PointsListResult" statementType="PREPARED">
+	<select id="queryPointsList" parameterType="com.cc.customer.form.PointsQueryForm" resultType="com.cc.customer.result.PointsListResult" statementType="PREPARED">
 		select p.id, c.name as customerName, p.points, p.createTime, p.remark
 		from t_points p
 		left join t_customer c on c.id = p.customerId
