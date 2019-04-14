@@ -33,10 +33,8 @@
       <el-table :data="tableData" stripe highlight-current-row v-loading="listLoading" style="width: 100%;" :empty-text="message">
         <el-table-column prop="name" label="经销商名称" width="250" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column prop="longitude" label="经纬度" width="200">
-          <template slot-scope="scope">{{scope.row.latitude}},{{scope.row.longitude}}</template>
-        </el-table-column>
-        <el-table-column prop="radius" label="误差半径(米)" width="150">
+        <el-table-column prop="longitude" label="经销商地址">
+          <template slot-scope="scope">{{scope.row.locationName.replace(new RegExp("/","gm"),"")}}{{scope.row.address}}</template>
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
@@ -108,7 +106,7 @@
         pages: 0,
         page: 1,
         pageSize: 8,
-        sort: 's.id',
+        sort: 'id',
         order: 'desc',
         message: '',
         listLoading: false,
