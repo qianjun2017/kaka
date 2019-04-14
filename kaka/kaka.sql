@@ -230,6 +230,33 @@ LOCK TABLES `t_franchiser` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `t_bespeak`
+--
+
+DROP TABLE IF EXISTS `t_bespeak`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_bespeak` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customerId` int(11) NOT NULL,
+  `franchiserId` int(11) NOT NULL,
+  `consultantId` int(11) NOT NULL,
+  `createTime` datetime DEFAULT NULL,
+  `bespeakTime` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_bespeak`
+--
+
+LOCK TABLES `t_bespeak` WRITE;
+/*!40000 ALTER TABLE `t_bespeak` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_bespeak` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `t_system_auth`
 --
 

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cc.bespeak.dao.BespeakDao">
+
+	<select id="queryBespeakList" resultType="com.cc.bespeak.result.BespeakListResult" parameterType="com.cc.bespeak.form.BespeakQueryForm" statementType="PREPARED">
+		select b.id, b.bespeakTime, f.name as franchiserName, cs.name as consultantName, c.name as customerName, c.phone as customerPhone, sl.locationNamePath as locationName
+		from t_bespeak b
+		left join t_franchiser f on f.id = b.franchiserId
+		left join t_consultant cs on cs.id = b.consultantId
+		left join t_customer c on c.id = b.customerId
+		left join t_system_location sl on sl.id = f.locationId
+		<where>
+			<if test="consultantName!=null and consultantName!=''">
+				and cs.name like concat('%',#{consultantName},'%')
+			</if>
+			<if test="franchiserName!=null and franchiserName!=''">
+				and f.name like concat('%',#{franchiserName},'%')
+			</if>
+			<if test="bespeakTimeStart!=null">
+				<![CDATA[ and b.bespeakTime >= #{bespeakTimeStart} ]]>
+			</if>
+			<if test="bespeakTimeEnd!=null">
+				<![CDATA[ and b.bespeakTime <= #{bespeakTimeEnd} ]]>
+			</if>
+			<if test="locationId!=null">
+				and sl.locationNamePath like concat((select l.locationNamePath from t_system_location l where l.id = #{locationId}),'%')
+			</if>
+		</where>
+	</select>
+	
+</mapper>
