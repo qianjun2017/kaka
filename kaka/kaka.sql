@@ -173,6 +173,31 @@ LOCK TABLES `t_consultant` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `t_form`
+--
+
+DROP TABLE IF EXISTS `t_form`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_form` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) DEFAULT NULL,
+  `formId` varchar(64) DEFAULT NULL,
+  `createTime` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_form`
+--
+
+LOCK TABLES `t_form` WRITE;
+/*!40000 ALTER TABLE `t_form` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_form` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `t_customer`
 --
 

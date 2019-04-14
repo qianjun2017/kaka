@@ -38,6 +38,11 @@ public class RequestBean {
 	 * 访问令牌
 	 */
 	private String token;
+	
+	/**
+	 * 小程序提交的formId
+	 */
+	private String formId;
 
 	/**
 	 * @return the appCode
@@ -121,5 +126,19 @@ public class RequestBean {
 	 */
 	public void setToken(String token) {
 		this.token = token;
+	}
+
+	/**
+	 * @return the formId
+	 */
+	public String getFormId() {
+		return formId;
+	}
+
+	/**
+	 * @param formId the formId to set
+	 */
+	public void setFormId(String formId) {
+		this.formId = formId;
 	}
 }

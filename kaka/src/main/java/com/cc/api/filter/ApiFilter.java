@@ -22,6 +22,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.cc.push.bean.FormBean;
 import com.cc.api.bean.RequestBean;
 import com.cc.api.enums.ApiVersionEnum;
 import com.cc.common.Constant;
@@ -235,6 +236,13 @@ public class ApiFilter implements Filter {
 				response.getWriter().write(JsonTools.toJsonString(result));
 				return;
 			}
+		}
+		if(!StringTools.isNullOrNone(requestBean.getFormId())){
+			FormBean formBean = new FormBean();
+			formBean.setFormId(requestBean.getFormId());
+			formBean.setUserId(customerBean.getId());
+			formBean.setCreateTime(DateTools.now());
+			formBean.save();
 		}
 		ResponseWrapper responseWrapper = new ResponseWrapper((HttpServletResponse) response);
 		chain.doFilter(requestWrapper, responseWrapper);
