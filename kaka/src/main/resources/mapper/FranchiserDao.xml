@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cc.franchiser.dao.FranchiserDao">
+
+	<select id="queryFranchiserList" resultType="com.cc.franchiser.result.FranchiserResult" parameterType="com.cc.franchiser.form.FranchiserQueryForm" statementType="PREPARED">
+		select f.id, f.name,f.address,sl.locationNamePath as locationName
+		from t_franchiser f
+		left join t_system_location sl on sl.id = f.locationId
+		<where>
+			<if test="code!=null and code!=''">
+				and f.code = #{code}
+			</if>
+			<if test="name!=null and name!=''">
+				and f.name like concat('%',#{name},'%')
+			</if>
+			<if test="address!=null and address!=''">
+				and (f.address like concat('%',#{address},'%') or sl.locationNamePath like concat('%',#{address},'%'))
+			</if>
+			<if test="locationId!=null">
+				and sl.locationNamePath like concat((select l.locationNamePath from t_system_location l where l.id = #{locationId}),'%')
+			</if>
+		</where>
+	</select>
+	
+</mapper>

@@ -29,7 +29,7 @@ import com.cc.common.web.Response;
  */
 @Controller
 @RequestMapping("/api/carousel")
-public class ApCarouselController {
+public class ApiCarouselController {
 
 	@Autowired
 	private CarouselService carouselService;

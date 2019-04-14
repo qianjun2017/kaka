@@ -71,8 +71,7 @@ public class ShopController {
 		if(shopBean.getLocationId()!=null){
 			LocationBean locationBean = LocationBean.get(LocationBean.class, shopBean.getLocationId());
 			if(locationBean!=null && !StringTools.isNullOrNone(locationBean.getLocationNamePath())){
-				String address = locationBean.getLocationNamePath().replace("/", "")+shopBean.getAddress();
-				shopResult.setAddress(address);
+				shopResult.setLocationName(locationBean.getLocationNamePath().replace("/", ""));
 				Long[] locationArray = new Long[locationBean.getLevel()+1];
 				while(locationBean.getParentId()!=null){
 					locationArray[locationBean.getLevel()] = locationBean.getId();
@@ -228,6 +227,7 @@ public class ShopController {
 			return response;
 		}
 		oldShopBean.setLocationId(shopBean.getLocationId());
+		oldShopBean.setAddress(shopBean.getAddress());
 		try {
 			shopService.saveShop(oldShopBean);
 			response.setSuccess(Boolean.TRUE);

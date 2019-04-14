@@ -180,6 +180,31 @@ LOCK TABLES `t_shop` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `t_franchiser`
+--
+
+DROP TABLE IF EXISTS `t_franchiser`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_franchiser` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `locationId` int(11) NOT NULL,
+  `name` varchar(128) DEFAULT NULL,
+  `address` varchar(256) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_franchiser`
+--
+
+LOCK TABLES `t_franchiser` WRITE;
+/*!40000 ALTER TABLE `t_franchiser` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_franchiser` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `t_system_auth`
 --
 

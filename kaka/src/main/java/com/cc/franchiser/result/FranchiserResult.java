@@ -1,55 +1,28 @@
-/**
- * 
- */
-package com.cc.shop.result;
+package com.cc.franchiser.result;
 
-/**
- * @author Administrator
- *
- */
-public class ShopResult {
-	
-private Long id;
+public class FranchiserResult {
+
+	private Long id;
 	
 	/**
-	 * 门店名称
+	 * 经销商名称
 	 */
 	private String name;
 	
 	/**
-	 * 经度
-	 */
-	private String longitude;
-	
-	/**
-	 * 纬度
-	 */
-	private String latitude;
-	
-	/**
-	 * 误差半径
-	 */
-	private Long radius;
-	
-	/**
-	 * 所在区域
+	 * 经销商所在地区
 	 */
 	private Long locationId;
 	
 	/**
-	 * 所在区域
+	 * 经销商所在地区
 	 */
 	private String locationName;
 	
 	/**
-	 * 门店详细地址
+	 * 经销商详细地址
 	 */
 	private String address;
-	
-	/**
-	 * 门店代码
-	 */
-	private String code;
 	
 	/**
 	 * 门店所在区域
@@ -82,48 +55,6 @@ private Long id;
 	 */
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	/**
-	 * @return the longitude
-	 */
-	public String getLongitude() {
-		return longitude;
-	}
-
-	/**
-	 * @param longitude the longitude to set
-	 */
-	public void setLongitude(String longitude) {
-		this.longitude = longitude;
-	}
-
-	/**
-	 * @return the latitude
-	 */
-	public String getLatitude() {
-		return latitude;
-	}
-
-	/**
-	 * @param latitude the latitude to set
-	 */
-	public void setLatitude(String latitude) {
-		this.latitude = latitude;
-	}
-
-	/**
-	 * @return the radius
-	 */
-	public Long getRadius() {
-		return radius;
-	}
-
-	/**
-	 * @param radius the radius to set
-	 */
-	public void setRadius(Long radius) {
-		this.radius = radius;
 	}
 
 	/**
@@ -166,20 +97,6 @@ private Long id;
 	 */
 	public void setAddress(String address) {
 		this.address = address;
-	}
-
-	/**
-	 * @return the code
-	 */
-	public String getCode() {
-		return code;
-	}
-
-	/**
-	 * @param code the code to set
-	 */
-	public void setCode(String code) {
-		this.code = code;
 	}
 
 	/**

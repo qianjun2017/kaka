@@ -25,6 +25,7 @@ public class CustomerBean extends BaseOrm<CustomerBean> implements BaseEntity {
 	 * 
 	 */
 	private static final long serialVersionUID = 5758048080411280773L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
