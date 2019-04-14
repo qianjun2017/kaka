@@ -37,6 +37,12 @@ html{
   .el-form-item{
     margin-bottom: 10px;
   }
+  .el-form--inline .el-form-item__content{
+    display: block;
+    .el-input__inner{
+      width: 220px;
+    }
+  }
 }
 .fade-enter-active,
 .fade-leave-active {

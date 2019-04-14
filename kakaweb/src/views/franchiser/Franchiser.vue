@@ -33,7 +33,7 @@
       <el-table :data="tableData" stripe highlight-current-row v-loading="listLoading" style="width: 100%;" :empty-text="message">
         <el-table-column prop="name" label="经销商名称" width="250" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column prop="longitude" label="经销商地址">
+        <el-table-column prop="locationName" label="经销商地址">
           <template slot-scope="scope">{{scope.row.locationName.replace(new RegExp("/","gm"),"")}}{{scope.row.address}}</template>
         </el-table-column>
         <el-table-column label="操作">
@@ -76,7 +76,7 @@
             </el-form-item>
           </el-form>
           <div class="btns">
-            <el-button type="primary" size="small" @click="submitfranchiser">提交</el-button>
+            <el-button type="primary" size="small" @click="submitFranchiser">提交</el-button>
             <el-button size="small" @click="back">取消</el-button>
           </div>
         </el-col>
@@ -244,7 +244,7 @@
         this.franchiserForm = {}
         this.view = 'add'
       },
-      submitfranchiser: function(){
+      submitFranchiser: function(){
         this.$refs.franchiserForm.validate((valid) => {
           if (valid) {
             this.$confirm('确认提交吗？', '提示', {}).then(() => {

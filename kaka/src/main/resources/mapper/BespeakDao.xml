@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cc.bespeak.dao.BespeakDao">
+<mapper namespace="com.cc.customer.dao.BespeakDao">
 
-	<select id="queryBespeakList" resultType="com.cc.bespeak.result.BespeakListResult" parameterType="com.cc.bespeak.form.BespeakQueryForm" statementType="PREPARED">
+	<select id="queryBespeakList" resultType="com.cc.customer.result.BespeakListResult" parameterType="com.cc.customer.form.BespeakQueryForm" statementType="PREPARED">
 		select b.id, b.bespeakTime, f.name as franchiserName, cs.name as consultantName, c.name as customerName, c.phone as customerPhone, sl.locationNamePath as locationName
 		from t_bespeak b
 		left join t_franchiser f on f.id = b.franchiserId

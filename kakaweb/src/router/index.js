@@ -13,6 +13,7 @@ import SysOperLog from '@/views/system/Operation'
 import Setting from '@/views/system/Setting'
 import Carousel from '@/views/carousel/Carousel'
 import Customer from '@/views/customer/Customer'
+import Bespeak from '@/views/customer/Bespeak'
 import Card from '@/views/customer/Card'
 import SysConfig from '@/views/system/Config'
 import Shop from '@/views/shop/Shop'
@@ -176,9 +177,20 @@ export default new Router({
                 isMenu: true,
                 isLeaf: false,
                 isLogin: true,
-                permission: 'customer|card'
+                permission: 'customer|card|bespeak'
             },
             children: [{
+                path: '/card/index',
+                name: 'cardPage',
+                component: Card,
+                meta: {
+                    title: '会员卡',
+                    isMenu: true,
+                    isLeaf: true,
+                    isLogin: true,
+                    permission: 'card'
+                }
+            }, {
                 path: '/customer/index',
                 name: 'customerPage',
                 component: Customer,
@@ -190,15 +202,15 @@ export default new Router({
                     permission: 'customer'
                 }
             }, {
-                path: '/card/index',
-                name: 'cardPage',
-                component: Card,
+                path: '/bespeak/index',
+                name: 'bespeakPage',
+                component: Bespeak,
                 meta: {
-                    title: '会员卡',
+                    title: '预约看车',
                     isMenu: true,
                     isLeaf: true,
                     isLogin: true,
-                    permission: 'card'
+                    permission: 'bespeak'
                 }
             }]
         },
