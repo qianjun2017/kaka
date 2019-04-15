@@ -311,6 +311,58 @@ LOCK TABLES `t_shop` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `t_template`
+--
+
+DROP TABLE IF EXISTS `t_template`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_template` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `templateId` varchar(128) NOT NULL,
+  `title` varchar(128) NOT NULL,
+  `createTime` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_template`
+--
+
+LOCK TABLES `t_template` WRITE;
+/*!40000 ALTER TABLE `t_template` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_template` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_template_keyword`
+--
+
+DROP TABLE IF EXISTS `t_template_keyword`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_template_keyword` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `templateId` int(11) NOT NULL,
+  `key` varchar(64) NOT NULL,
+  `keyword` varchar(64) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  `example` varchar(64) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_template_keyword`
+--
+
+LOCK TABLES `t_template_keyword` WRITE;
+/*!40000 ALTER TABLE `t_template_keyword` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_template_keyword` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `t_system_auth`
 --
 

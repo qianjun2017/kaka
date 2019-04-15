@@ -10,6 +10,16 @@ import com.cc.common.tools.StringTools;
  *
  */
 public class TemplateQueryFrom {
+	
+	/**
+	 * 模板Id
+	 */
+	private String templateId;
+	
+	/**
+	 * 模板标题
+	 */
+	private String title;
 
 	/**
 	 * 页码
@@ -20,7 +30,45 @@ public class TemplateQueryFrom {
 	 * 每页数量
 	 */
 	private String pageSize = "10";
+
+	/**
+	 * 排序字段
+	 */
+	private String sort;
 	
+	/**
+	 * 排序方向
+	 */
+	private String order;
+	
+	/**
+	 * @return the templateId
+	 */
+	public String getTemplateId() {
+		return templateId;
+	}
+
+	/**
+	 * @param templateId the templateId to set
+	 */
+	public void setTemplateId(String templateId) {
+		this.templateId = templateId;
+	}
+
+	/**
+	 * @return the title
+	 */
+	public String getTitle() {
+		return title;
+	}
+
+	/**
+	 * @param title the title to set
+	 */
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 	/**
 	 * @return the page
 	 */
@@ -53,5 +101,39 @@ public class TemplateQueryFrom {
 	 */
 	public void setPageSize(String pageSize) {
 		this.pageSize = pageSize;
+	}
+	
+	/**
+	 * @return the sort
+	 */
+	public String getSort() {
+		if(StringTools.isNullOrNone(this.sort)){
+			return "createTime";
+		}
+		return sort;
+	}
+
+	/**
+	 * @param sort the sort to set
+	 */
+	public void setSort(String sort) {
+		this.sort = sort;
+	}
+
+	/**
+	 * @return the order
+	 */
+	public String getOrder() {
+		if (StringTools.isNullOrNone(this.order)) {
+			return "desc";
+		}
+		return order;
+	}
+
+	/**
+	 * @param order the order to set
+	 */
+	public void setOrder(String order) {
+		this.order = order;
 	}
 }

@@ -4,10 +4,10 @@
 package com.cc.push.service;
 
 import com.cc.common.web.Page;
+import com.cc.push.bean.TemplateBean;
 import com.cc.push.form.TemplateLibraryQueryFrom;
 import com.cc.push.form.TemplateQueryFrom;
 import com.cc.push.result.TemplateLibraryListResult;
-import com.cc.push.result.TemplateListResult;
 
 /**
  * @author ws_yu
@@ -20,7 +20,7 @@ public interface TemplateService {
 	 * @param form
 	 * @return
 	 */
-	Page<TemplateListResult> queryTemplatePage(TemplateQueryFrom form);
+	Page<TemplateBean> queryTemplatePage(TemplateQueryFrom form);
 
 	/**
 	 * 分页查询小程序模板库标题列表

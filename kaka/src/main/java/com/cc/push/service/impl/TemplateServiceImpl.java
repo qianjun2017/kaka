@@ -10,20 +10,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cc.common.tools.ListTools;
+import com.cc.common.tools.StringTools;
 import com.cc.common.web.Page;
+import com.cc.push.bean.TemplateBean;
 import com.cc.push.form.TemplateLibraryQueryFrom;
 import com.cc.push.form.TemplateQueryFrom;
 import com.cc.push.result.TemplateLibraryListResult;
-import com.cc.push.result.TemplateListResult;
 import com.cc.push.service.TemplateService;
 import com.cc.wx.http.request.TemplateLibraryListRequest;
-import com.cc.wx.http.request.TemplateListRequest;
 import com.cc.wx.http.response.TemplateLibraryListResponse;
-import com.cc.wx.http.response.TemplateListResponse;
-import com.cc.wx.http.response.model.Template;
 import com.cc.wx.http.response.model.TemplateLibrary;
 import com.cc.wx.service.AccessTokenService;
 import com.cc.wx.service.WeiXinService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
+import tk.mybatis.mapper.entity.Example;
 
 /**
  * @author ws_yu
@@ -39,35 +41,29 @@ public class TemplateServiceImpl implements TemplateService {
     private AccessTokenService accessTokenService;
 
 	@Override
-	public Page<TemplateListResult> queryTemplatePage(TemplateQueryFrom form) {
-		Page<TemplateListResult> page = new Page<TemplateListResult>();
-		TemplateListRequest request = new TemplateListRequest();
-		request.setOffset((form.getPage()-1)*form.getPageSize());
-		request.setCount(form.getPageSize());
-		request.setAccessToken(accessTokenService.queryAccessToken());
-		TemplateListResponse response = WeiXinService.queryTemplateList(request);
-		if(!response.isSuccess()){
-			page.setMessage(response.getMessage());
+	public Page<TemplateBean> queryTemplatePage(TemplateQueryFrom form) {
+		Page<TemplateBean> page = new Page<TemplateBean>();
+		Example example = new Example(TemplateBean.class);
+		Example.Criteria criteria = example.createCriteria();
+		if(!StringTools.isNullOrNone(form.getTitle())){
+			criteria.andLike("title", "%"+form.getTitle()+"%");
+		}
+		if(StringTools.isNullOrNone(form.getTemplateId())){
+			criteria.andEqualTo("templateId", form.getTemplateId());
+		}
+		PageHelper.orderBy(String.format("%s %s", form.getSort(), form.getOrder()));
+		PageHelper.startPage(form.getPage(), form.getPageSize());
+		List<TemplateBean> templateBeanList = TemplateBean.findByExample(TemplateBean.class, example);
+		PageInfo<TemplateBean> pageInfo = new PageInfo<TemplateBean>(templateBeanList);
+		if (ListTools.isEmptyOrNull(templateBeanList)) {
+			page.setMessage("没有查询到相关模板数据");
 			return page;
 		}
-		List<Template> list = response.getList();
-		if(ListTools.isEmptyOrNull(list)){
-			page.setMessage("没有查询到相关个人模板库数据");
-			return page;
-		}
-		List<TemplateListResult> templateList = new ArrayList<TemplateListResult>();
-		for(Template template: list){
-			TemplateListResult templateListResult = new TemplateListResult();
-			templateListResult.setId(template.getId());
-			templateListResult.setTitle(template.getTitle());
-			templateListResult.setContent(template.getContent());
-			templateListResult.setExample(template.getExample());
-			templateList.add(templateListResult);
-		}
-		page.setPage(form.getPage());
-		page.setPageSize(form.getPageSize());
-		page.setData(templateList);
-		page.setSuccess(Boolean.TRUE);
+		page.setPage(pageInfo.getPageNum());
+		page.setPages(pageInfo.getPages());
+		page.setPageSize(pageInfo.getPageSize());
+		page.setTotal(pageInfo.getTotal());
+		page.setData(templateBeanList);
 		return page;
 	}
 

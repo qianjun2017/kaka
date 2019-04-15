@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cc.common.web.Page;
+import com.cc.push.bean.TemplateBean;
 import com.cc.push.form.TemplateLibraryQueryFrom;
 import com.cc.push.form.TemplateQueryFrom;
 import com.cc.push.result.TemplateLibraryListResult;
-import com.cc.push.result.TemplateListResult;
 import com.cc.push.service.TemplateService;
 
 /**
@@ -35,8 +35,8 @@ public class TemplateController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
-	public Page<TemplateListResult> queryTemplatePage(@ModelAttribute TemplateQueryFrom form){
-		Page<TemplateListResult> page = templateService.queryTemplatePage(form);
+	public Page<TemplateBean> queryTemplatePage(@ModelAttribute TemplateQueryFrom form){
+		Page<TemplateBean> page = templateService.queryTemplatePage(form);
 		return page;
 	}
 	
