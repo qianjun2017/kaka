@@ -16,12 +16,16 @@ import com.cc.common.tools.StringTools;
 import com.cc.wx.http.request.AccessTokenRequest;
 import com.cc.wx.http.request.DeleteTemplateRequest;
 import com.cc.wx.http.request.OpenidRequest;
+import com.cc.wx.http.request.TemplateLibraryListRequest;
+import com.cc.wx.http.request.TemplateLibraryRequest;
 import com.cc.wx.http.request.TemplateListRequest;
 import com.cc.wx.http.request.TemplateMessageRequest;
 import com.cc.wx.http.request.WXACodeRequest;
 import com.cc.wx.http.response.AccessTokenResponse;
 import com.cc.wx.http.response.DeleteTemplateResponse;
 import com.cc.wx.http.response.OpenidResponse;
+import com.cc.wx.http.response.TemplateLibraryListResponse;
+import com.cc.wx.http.response.TemplateLibraryResponse;
 import com.cc.wx.http.response.TemplateListResponse;
 import com.cc.wx.http.response.TemplateMessageResponse;
 import com.cc.wx.http.response.WXACodeResponse;
@@ -231,6 +235,66 @@ public class WeiXinServiceImpl implements WeiXinService {
 			return response;
 		}
 		response = JsonTools.toObject(httpResponse, DeleteTemplateResponse.class);
+		if(response.getErrcode()==null || response.getErrcode()==0){
+			response.setSuccess(Boolean.TRUE);
+		}else{
+			response.setMessage(response.getErrmsg());
+		}
+		return response;
+	}
+
+	@Override
+	public TemplateLibraryListResponse queryTemplateLibraryList(TemplateLibraryListRequest request) {
+		TemplateLibraryListResponse response = new TemplateLibraryListResponse();
+		if (StringTools.isNullOrNone(request.getAccessToken())) {
+			response.setMessage("请输入小程序调用凭证");
+			return response;
+		}
+		if (request.getOffset()==null) {
+			response.setMessage("请输入查询偏移量");
+			return response;
+		}
+		if (request.getCount()==null) {
+			response.setMessage("请输入查询数量");
+			return response;
+		}
+		if(request.getCount()>20){
+			response.setMessage("每次获取数量不能超过20条");
+			return response;
+		}
+		Map<String, Object> paramMap = JsonTools.toObject(JsonTools.toJsonString(request), HashMap.class);
+		String httpResponse = httpService.post(request.getUrl()+"?access_token="+request.getAccessToken(), paramMap, "UTF-8");
+		if (StringTools.isNullOrNone(httpResponse)) {
+			response.setMessage("http返回值为空");
+			return response;
+		}
+		response = JsonTools.toObject(httpResponse, TemplateLibraryListResponse.class);
+		if(response.getErrcode()==null || response.getErrcode()==0){
+			response.setSuccess(Boolean.TRUE);
+		}else{
+			response.setMessage(response.getErrmsg());
+		}
+		return response;
+	}
+
+	@Override
+	public TemplateLibraryResponse queryTemplateLibrary(TemplateLibraryRequest request) {
+		TemplateLibraryResponse response = new TemplateLibraryResponse();
+		if (StringTools.isNullOrNone(request.getAccessToken())) {
+			response.setMessage("请输入小程序调用凭证");
+			return response;
+		}
+		if (StringTools.isNullOrNone(request.getId())) {
+			response.setMessage("请输入模板标题id");
+			return response;
+		}
+		Map<String, Object> paramMap = JsonTools.toObject(JsonTools.toJsonString(request), HashMap.class);
+		String httpResponse = httpService.post(request.getUrl()+"?access_token="+request.getAccessToken(), paramMap, "UTF-8");
+		if (StringTools.isNullOrNone(httpResponse)) {
+			response.setMessage("http返回值为空");
+			return response;
+		}
+		response = JsonTools.toObject(httpResponse, TemplateLibraryResponse.class);
 		if(response.getErrcode()==null || response.getErrcode()==0){
 			response.setSuccess(Boolean.TRUE);
 		}else{

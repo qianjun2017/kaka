@@ -5,13 +5,13 @@ package com.cc.wx.http.response;
 
 import java.util.List;
 
-import com.cc.wx.http.response.model.Template;
+import com.cc.wx.http.response.model.TemplateLibrary;
 
 /**
  * @author ws_yu
  *
  */
-public class TemplateListResponse {
+public class TemplateLibraryListResponse {
 	
 	/**
 	 * 返回状态
@@ -35,9 +35,9 @@ public class TemplateListResponse {
 	/**
 	 * 帐号下已存在的模板列表
 	 */
-	private List<Template> list;
+	private List<TemplateLibrary> list;
 
-	public TemplateListResponse() {
+	public TemplateLibraryListResponse() {
 		this.success = Boolean.FALSE;
 	}
 

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.cc.wx.http.request.model;
+package com.cc.wx.http.response.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

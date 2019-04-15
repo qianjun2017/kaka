@@ -5,14 +5,15 @@ package com.cc.wx.http.response;
 
 import java.util.List;
 
-import com.cc.wx.http.response.model.Template;
+import com.cc.wx.http.response.model.TemplateKeyword;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author ws_yu
  *
  */
-public class TemplateListResponse {
-	
+public class TemplateLibraryResponse {
+
 	/**
 	 * 返回状态
 	 */
@@ -33,11 +34,22 @@ public class TemplateListResponse {
 	private String errmsg;
 	
 	/**
-	 * 帐号下已存在的模板列表
+	 * 模板标题 id
 	 */
-	private List<Template> list;
+	private String id;
+	
+	/**
+	 * 模板标题
+	 */
+	private String title;
+	
+	/**
+	 * 关键词列表
+	 */
+	@JsonProperty(value="keyword_list")
+	private List<TemplateKeyword> keywordList;
 
-	public TemplateListResponse() {
+	public TemplateLibraryResponse() {
 		this.success = Boolean.FALSE;
 	}
 
@@ -98,17 +110,44 @@ public class TemplateListResponse {
 	}
 
 	/**
-	 * @return the list
+	 * @return the id
 	 */
-	public List<Template> getList() {
-		return list;
+	public String getId() {
+		return id;
 	}
 
 	/**
-	 * @param list the list to set
+	 * @param id the id to set
 	 */
-	public void setList(List<Template> list) {
-		this.list = list;
+	public void setId(String id) {
+		this.id = id;
 	}
 
+	/**
+	 * @return the title
+	 */
+	public String getTitle() {
+		return title;
+	}
+
+	/**
+	 * @param title the title to set
+	 */
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	/**
+	 * @return the keywordList
+	 */
+	public List<TemplateKeyword> getKeywordList() {
+		return keywordList;
+	}
+
+	/**
+	 * @param keywordList the keywordList to set
+	 */
+	public void setKeywordList(List<TemplateKeyword> keywordList) {
+		this.keywordList = keywordList;
+	}
 }
