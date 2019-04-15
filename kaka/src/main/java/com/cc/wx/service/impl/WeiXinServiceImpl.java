@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.cc.common.http.service.HttpService;
 import com.cc.common.tools.StringTools;
 import com.cc.wx.http.request.AccessTokenRequest;
+import com.cc.wx.http.request.AddTemplateRequest;
 import com.cc.wx.http.request.DeleteTemplateRequest;
 import com.cc.wx.http.request.OpenidRequest;
 import com.cc.wx.http.request.TemplateLibraryListRequest;
@@ -22,6 +23,7 @@ import com.cc.wx.http.request.TemplateListRequest;
 import com.cc.wx.http.request.TemplateMessageRequest;
 import com.cc.wx.http.request.WXACodeRequest;
 import com.cc.wx.http.response.AccessTokenResponse;
+import com.cc.wx.http.response.AddTemplateResponse;
 import com.cc.wx.http.response.DeleteTemplateResponse;
 import com.cc.wx.http.response.OpenidResponse;
 import com.cc.wx.http.response.TemplateLibraryListResponse;
@@ -295,6 +297,40 @@ public class WeiXinServiceImpl implements WeiXinService {
 			return response;
 		}
 		response = JsonTools.toObject(httpResponse, TemplateLibraryResponse.class);
+		if(response.getErrcode()==null || response.getErrcode()==0){
+			response.setSuccess(Boolean.TRUE);
+		}else{
+			response.setMessage(response.getErrmsg());
+		}
+		return response;
+	}
+
+	@Override
+	public AddTemplateResponse addTemplate(AddTemplateRequest request) {
+		AddTemplateResponse response = new AddTemplateResponse();
+		if (StringTools.isNullOrNone(request.getAccessToken())) {
+			response.setMessage("请输入小程序调用凭证");
+			return response;
+		}
+		if (StringTools.isNullOrNone(request.getId())) {
+			response.setMessage("请选择模板");
+			return response;
+		}
+		if(request.getKeywordIdList()==null || request.getKeywordIdList().length==0){
+			response.setMessage("请选择模板关键词");
+			return response;
+		}
+		if(request.getKeywordIdList().length>10){
+			response.setMessage("模板关键词不能多于10个");
+			return response;
+		}
+		Map<String, Object> paramMap = JsonTools.toObject(JsonTools.toJsonString(request), HashMap.class);
+		String httpResponse = httpService.post(request.getUrl()+"?access_token="+request.getAccessToken(), paramMap, "UTF-8");
+		if (StringTools.isNullOrNone(httpResponse)) {
+			response.setMessage("http返回值为空");
+			return response;
+		}
+		response = JsonTools.toObject(httpResponse, AddTemplateResponse.class);
 		if(response.getErrcode()==null || response.getErrcode()==0){
 			response.setSuccess(Boolean.TRUE);
 		}else{

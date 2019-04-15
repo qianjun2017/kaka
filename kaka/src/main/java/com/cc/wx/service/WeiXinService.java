@@ -4,6 +4,7 @@
 package com.cc.wx.service;
 
 import com.cc.wx.http.request.AccessTokenRequest;
+import com.cc.wx.http.request.AddTemplateRequest;
 import com.cc.wx.http.request.DeleteTemplateRequest;
 import com.cc.wx.http.request.OpenidRequest;
 import com.cc.wx.http.request.TemplateLibraryListRequest;
@@ -12,6 +13,7 @@ import com.cc.wx.http.request.TemplateListRequest;
 import com.cc.wx.http.request.TemplateMessageRequest;
 import com.cc.wx.http.request.WXACodeRequest;
 import com.cc.wx.http.response.AccessTokenResponse;
+import com.cc.wx.http.response.AddTemplateResponse;
 import com.cc.wx.http.response.DeleteTemplateResponse;
 import com.cc.wx.http.response.OpenidResponse;
 import com.cc.wx.http.response.TemplateLibraryListResponse;
@@ -81,5 +83,12 @@ public interface WeiXinService {
 	 * @return
 	 */
 	TemplateLibraryResponse queryTemplateLibrary(TemplateLibraryRequest request);
+	
+	/**
+	 * 组合模板并添加至帐号下的个人模板库
+	 * @param request
+	 * @return
+	 */
+	AddTemplateResponse addTemplate(AddTemplateRequest request);
 	
 }
