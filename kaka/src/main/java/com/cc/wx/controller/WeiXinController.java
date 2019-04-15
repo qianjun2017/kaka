@@ -95,20 +95,19 @@ public class WeiXinController {
 			response.setMessage(openidResponse.getMessage());
 			return response;
 		}
-		Map<String, Object> dataMap = new HashMap<String, Object>();
-		dataMap.put("openid", openidResponse.getOpenid());
 		List<CustomerBean> customerBeanList = CustomerBean.findAllByParams(CustomerBean.class, "openid", openidResponse.getOpenid());
 		if(!ListTools.isEmptyOrNull(customerBeanList)){
 			CustomerBean customerBean = customerBeanList.get(0);
 			CustomerStatusEnum customerStatusEnum = CustomerStatusEnum.getCustomerStatusEnumByCode(customerBean.getStatus());
 			if(CustomerStatusEnum.NORMAL.equals(customerStatusEnum)){
+				Map<String, Object> dataMap = new HashMap<String, Object>();
 				dataMap.put("token", JwtTools.createToken(customerBean, JwtTools.JWTTTLMILLIS));
+				response.setData(dataMap);
 				response.setSuccess(Boolean.TRUE);
 			}else{
 				response.setMessage("当前状态为"+customerStatusEnum.getName()+"，登录失败，请联系系统管理人员");
 			}
 		}
-		response.setData(dataMap);
 		return response;
     }
     
@@ -121,18 +120,34 @@ public class WeiXinController {
     @RequestMapping(value="/register", method = RequestMethod.POST)
     public Response<Map<String, Object>> register(@RequestBody Map<String, Object> registerMap){
     	Response<Map<String, Object>> response = new Response<Map<String, Object>>();
-    	CustomerBean customerBean = JsonTools.toObject(JsonTools.toJsonString(registerMap), CustomerBean.class);
-		if(StringTools.isNullOrNone(customerBean.getOpenid())){
-			response.setMessage("请输入会员微信openid");
+    	Object code = registerMap.get("code");
+    	if(code==null){
+    		response.setMessage("请先登录微信获取CODE值");
+			return response;
+    	}
+    	OpenidRequest openidRequest = new OpenidRequest();
+		SystemConfigBean appidSystemConfigBean = systemConfigService.querySystemConfigBean("wx.appid");
+		if(appidSystemConfigBean!=null){
+			openidRequest.setAppid(appidSystemConfigBean.getPropertyValue());
+		}
+		SystemConfigBean secretSystemConfigBean = systemConfigService.querySystemConfigBean("wx.secret");
+		if(secretSystemConfigBean!=null){
+			openidRequest.setSecret(secretSystemConfigBean.getPropertyValue());
+		}
+		openidRequest.setCode(StringTools.toString(code));
+		OpenidResponse openidResponse = weiXinService.queryOpenid(openidRequest);
+		if(!openidResponse.isSuccess()){
+			response.setMessage(openidResponse.getMessage());
 			return response;
 		}
+    	CustomerBean customerBean = JsonTools.toObject(JsonTools.toJsonString(registerMap), CustomerBean.class);
+    	customerBean.setOpenid(openidResponse.getOpenid());
 		customerBean.setStatus(CustomerStatusEnum.NORMAL.getCode());
 		customerBean.setCreateTime(DateTools.now());
 		customerBean.setCardNo(StringTools.getSeqNo());
 		try {
 			customerService.saveCustomer(customerBean);
 			Map<String, Object> dataMap = new HashMap<String, Object>();
-			dataMap.put("openid", customerBean.getOpenid());
 			dataMap.put("token", JwtTools.createToken(customerBean, JwtTools.JWTTTLMILLIS));
 			response.setData(dataMap);
 			response.setSuccess(Boolean.TRUE);
