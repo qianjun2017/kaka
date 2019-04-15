@@ -14,11 +14,13 @@ import org.springframework.stereotype.Service;
 import com.cc.common.http.service.HttpService;
 import com.cc.common.tools.StringTools;
 import com.cc.wx.http.request.AccessTokenRequest;
+import com.cc.wx.http.request.DeleteTemplateRequest;
 import com.cc.wx.http.request.OpenidRequest;
 import com.cc.wx.http.request.TemplateListRequest;
 import com.cc.wx.http.request.TemplateMessageRequest;
 import com.cc.wx.http.request.WXACodeRequest;
 import com.cc.wx.http.response.AccessTokenResponse;
+import com.cc.wx.http.response.DeleteTemplateResponse;
 import com.cc.wx.http.response.OpenidResponse;
 import com.cc.wx.http.response.TemplateListResponse;
 import com.cc.wx.http.response.TemplateMessageResponse;
@@ -203,6 +205,32 @@ public class WeiXinServiceImpl implements WeiXinService {
 			return response;
 		}
 		response = JsonTools.toObject(httpResponse, TemplateListResponse.class);
+		if(response.getErrcode()==null || response.getErrcode()==0){
+			response.setSuccess(Boolean.TRUE);
+		}else{
+			response.setMessage(response.getErrmsg());
+		}
+		return response;
+	}
+
+	@Override
+	public DeleteTemplateResponse deleteTemplate(DeleteTemplateRequest request) {
+		DeleteTemplateResponse response = new DeleteTemplateResponse();
+		if (StringTools.isNullOrNone(request.getAccessToken())) {
+			response.setMessage("请输入小程序调用凭证");
+			return response;
+		}
+		if (StringTools.isNullOrNone(request.getTemplateId())) {
+			response.setMessage("请输入要删除的模板id");
+			return response;
+		}
+		Map<String, Object> paramMap = JsonTools.toObject(JsonTools.toJsonString(request), HashMap.class);
+		String httpResponse = httpService.post(request.getUrl()+"?access_token="+request.getAccessToken(), paramMap, "UTF-8");
+		if (StringTools.isNullOrNone(httpResponse)) {
+			response.setMessage("http返回值为空");
+			return response;
+		}
+		response = JsonTools.toObject(httpResponse, DeleteTemplateResponse.class);
 		if(response.getErrcode()==null || response.getErrcode()==0){
 			response.setSuccess(Boolean.TRUE);
 		}else{

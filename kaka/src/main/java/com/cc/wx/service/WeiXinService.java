@@ -4,11 +4,13 @@
 package com.cc.wx.service;
 
 import com.cc.wx.http.request.AccessTokenRequest;
+import com.cc.wx.http.request.DeleteTemplateRequest;
 import com.cc.wx.http.request.OpenidRequest;
 import com.cc.wx.http.request.TemplateListRequest;
 import com.cc.wx.http.request.TemplateMessageRequest;
 import com.cc.wx.http.request.WXACodeRequest;
 import com.cc.wx.http.response.AccessTokenResponse;
+import com.cc.wx.http.response.DeleteTemplateResponse;
 import com.cc.wx.http.response.OpenidResponse;
 import com.cc.wx.http.response.TemplateListResponse;
 import com.cc.wx.http.response.TemplateMessageResponse;
@@ -54,5 +56,12 @@ public interface WeiXinService {
 	 * @return
 	 */
 	TemplateListResponse queryTemplateList(TemplateListRequest request);
+	
+	/**
+	 * 删除帐号下的某个模板
+	 * @param request
+	 * @return
+	 */
+	DeleteTemplateResponse deleteTemplate(DeleteTemplateRequest request);
 	
 }
