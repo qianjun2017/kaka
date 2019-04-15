@@ -140,6 +140,11 @@ public class WeiXinController {
 			response.setMessage(openidResponse.getMessage());
 			return response;
 		}
+		List<CustomerBean> customerBeanList = CustomerBean.findAllByParams(CustomerBean.class, "openid", openidResponse.getOpenid());
+		if(!ListTools.isEmptyOrNull(customerBeanList)){
+			response.setMessage("您已注册，请直接登录");
+			return response;
+		}
     	CustomerBean customerBean = JsonTools.toObject(JsonTools.toJsonString(registerMap), CustomerBean.class);
     	customerBean.setOpenid(openidResponse.getOpenid());
 		customerBean.setStatus(CustomerStatusEnum.NORMAL.getCode());
