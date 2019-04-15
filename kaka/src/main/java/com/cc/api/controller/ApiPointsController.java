@@ -4,7 +4,9 @@
 package com.cc.api.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +23,10 @@ import com.cc.common.tools.ListTools;
 import com.cc.common.tools.StringTools;
 import com.cc.common.web.RequestContextUtil;
 import com.cc.common.web.Response;
+import com.cc.customer.bean.CardLevelBean;
+import com.cc.customer.bean.CustomerBean;
 import com.cc.customer.bean.PointsBean;
+import com.cc.customer.service.CardService;
 import com.cc.customer.service.PointsService;
 import com.cc.shop.bean.ShopBean;
 
@@ -38,6 +43,9 @@ public class ApiPointsController {
 
 	@Autowired
 	private PointsService pointsService;
+	
+	@Autowired
+	private CardService cardService;
 	
 	/**
 	 * 扫描积分二维码
@@ -99,6 +107,17 @@ public class ApiPointsController {
 		pointsBean.setRemark("扫"+shopBean.getName()+(form.getPoints()>0?"加":"减")+"分码");
 		try {
 			pointsService.savePoints(pointsBean);
+			CustomerBean customerBean = CustomerBean.get(CustomerBean.class, customerId);
+			Map<String, Object> dataMap = new HashMap<String, Object>();
+			if(customerBean!=null){
+				dataMap.put("points", customerBean.getPoints());
+				CardLevelBean cardLevelBean = cardService.queryCardLevelByPoints(customerBean.getPoints());
+				if(cardLevelBean!=null){
+					dataMap.put("cardLevel", cardLevelBean.getName());
+					dataMap.put("cardImage", cardLevelBean.getImageUrl());
+				}
+			}
+			response.setData(dataMap);
 			response.setSuccess(Boolean.TRUE);
 		} catch (LogicException e) {
 			response.setMessage(e.getErrContent());

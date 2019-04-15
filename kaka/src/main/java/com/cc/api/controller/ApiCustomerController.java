@@ -90,6 +90,13 @@ public class ApiCustomerController {
 		customerBean.setPhone(form.getPhone());
 		try {
 			customerService.saveCustomer(customerBean);
+			CustomerResult customerResult = JsonTools.toObject(JsonTools.toJsonString(customerBean), CustomerResult.class);
+			CardLevelBean cardLevelBean = cardService.queryCardLevelByPoints(customerBean.getPoints());
+			if(cardLevelBean!=null){
+				customerResult.setCardLevel(cardLevelBean.getName());
+				customerResult.setCardImage(cardLevelBean.getImageUrl());
+			}
+			response.setData(customerResult);
 			response.setSuccess(Boolean.TRUE);
 		} catch (LogicException e) {
 			response.setMessage(e.getErrContent());
