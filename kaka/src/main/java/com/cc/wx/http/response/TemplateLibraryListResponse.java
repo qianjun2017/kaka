@@ -100,14 +100,14 @@ public class TemplateLibraryListResponse {
 	/**
 	 * @return the list
 	 */
-	public List<Template> getList() {
+	public List<TemplateLibrary> getList() {
 		return list;
 	}
 
 	/**
 	 * @param list the list to set
 	 */
-	public void setList(List<Template> list) {
+	public void setList(List<TemplateLibrary> list) {
 		this.list = list;
 	}
 

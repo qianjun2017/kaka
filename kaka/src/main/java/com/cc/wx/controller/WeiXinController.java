@@ -14,18 +14,15 @@ import com.cc.system.config.bean.SystemConfigBean;
 import com.cc.system.config.service.SystemConfigService;
 import com.cc.wx.form.CodeForm;
 import com.cc.wx.form.WXACodeForm;
-import com.cc.wx.http.request.AccessTokenRequest;
 import com.cc.wx.http.request.OpenidRequest;
 import com.cc.wx.http.request.WXACodeRequest;
 import com.cc.wx.http.request.model.Color;
-import com.cc.wx.http.response.AccessTokenResponse;
 import com.cc.wx.http.response.OpenidResponse;
 import com.cc.wx.http.response.WXACodeResponse;
+import com.cc.wx.service.AccessTokenService;
 import com.cc.wx.service.WeiXinService;
 
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,15 +58,8 @@ public class WeiXinController {
     @Autowired
 	private CustomerService customerService;
     
-    /**
-	 * 小程序调用凭证
-	 */
-	private String accessToken;
-	
-	/**
-	 * 小程序调用凭证过期时间
-	 */
-	private Date accessTokenExpired;
+    @Autowired
+    private AccessTokenService accessTokenService;
     
     /**
      * 微信用户登录
@@ -164,37 +154,6 @@ public class WeiXinController {
 		}
 		return response;
     }
-    
-    /**
-	 * 获取access_token
-	 * @return
-	 */
-	private String fetchAccessToken(){
-		if(!StringTools.isNullOrNone(accessToken) && accessTokenExpired!=null && accessTokenExpired.after(new Date())){
-			return accessToken;
-		}else{
-			Calendar calendar = Calendar.getInstance();
-			AccessTokenRequest accessTokenRequest = new AccessTokenRequest();
-			SystemConfigBean appidSystemConfigBean = systemConfigService.querySystemConfigBean("wx.appid");
-			if(appidSystemConfigBean!=null){
-				accessTokenRequest.setAppid(appidSystemConfigBean.getPropertyValue());
-			}
-			SystemConfigBean secretSystemConfigBean = systemConfigService.querySystemConfigBean("wx.secret");
-			if(secretSystemConfigBean!=null){
-				accessTokenRequest.setSecret(secretSystemConfigBean.getPropertyValue());
-			}
-			AccessTokenResponse accessTokenResponse = weiXinService.queryAccessToken(accessTokenRequest);
-			if(accessTokenResponse.isSuccess()){
-				accessToken = accessTokenResponse.getAccessToken();
-				calendar.add(Calendar.SECOND, accessTokenResponse.getExpiresIn());
-				accessTokenExpired = calendar.getTime();
-			}else{
-				logger.info("获取access_token错误---"+accessTokenResponse.getMessage());
-				accessToken = null;
-			}
-			return accessToken;
-		}
-	}
 	
 	/**
 	 * 生成小程序码
@@ -206,7 +165,7 @@ public class WeiXinController {
 	@RequestMapping(value="/acode", method = RequestMethod.GET)
 	public void createWXACode(@ModelAttribute WXACodeForm form, HttpServletResponse response) throws IOException{
 		WXACodeRequest wxaCodeRequest = new WXACodeRequest();
-		wxaCodeRequest.setAccessToken(fetchAccessToken());
+		wxaCodeRequest.setAccessToken(accessTokenService.queryAccessToken());
 		wxaCodeRequest.setScene(form.getScene());
 		wxaCodeRequest.setPage(form.getPage());
 		wxaCodeRequest.setAutoColor(form.getAutoColor());

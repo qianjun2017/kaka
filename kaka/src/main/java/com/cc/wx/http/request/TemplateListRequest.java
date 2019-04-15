@@ -20,12 +20,12 @@ public class TemplateListRequest {
 	/**
 	 * 用于分页，表示从offset开始。从 0 开始计数
 	 */
-	private Long offset;
+	private Integer offset;
 	
 	/**
 	 * 用于分页，表示拉取count条记录。最大为 20。最后一页的list长度可能小于请求的count
 	 */
-	private Long count;
+	private Integer count;
 	
 	@JsonIgnore
 	private String url = "https://api.weixin.qq.com/cgi-bin/wxopen/template/list";
@@ -47,28 +47,28 @@ public class TemplateListRequest {
 	/**
 	 * @return the offset
 	 */
-	public Long getOffset() {
+	public Integer getOffset() {
 		return offset;
 	}
 
 	/**
 	 * @param offset the offset to set
 	 */
-	public void setOffset(Long offset) {
+	public void setOffset(Integer offset) {
 		this.offset = offset;
 	}
 
 	/**
 	 * @return the count
 	 */
-	public Long getCount() {
+	public Integer getCount() {
 		return count;
 	}
 
 	/**
 	 * @param count the count to set
 	 */
-	public void setCount(Long count) {
+	public void setCount(Integer count) {
 		this.count = count;
 	}
 
