@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.cc.common.exception.LogicException;
 import com.cc.common.tools.DateTools;
 import com.cc.common.tools.ListTools;
 import com.cc.common.tools.StringTools;
