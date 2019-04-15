@@ -32,6 +32,6 @@ public interface TemplateService {
 	/**
 	 * 同步帐号下已存在的模板列表
 	 */
-	void synTemplate();
+	void syncTemplate();
 
 }

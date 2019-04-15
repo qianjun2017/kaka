@@ -58,9 +58,11 @@ public class TemplateController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/syn", method = RequestMethod.POST)
-	public Response<String> synTemplate(){
+	@RequestMapping(value = "/sync", method = RequestMethod.POST)
+	public Response<String> syncTemplate(){
 		Response<String> response = new Response<String>();
+		templateService.syncTemplate();
+		response.setSuccess(Boolean.TRUE);
 		return response;
 	}
 }

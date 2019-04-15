@@ -113,7 +113,7 @@ public class TemplateServiceImpl implements TemplateService {
 
 	@Override
 	@Transactional(rollbackFor = {Exception.class}, propagation = Propagation.REQUIRED)
-	public void synTemplate() {
+	public void syncTemplate() {
 		while(true){
 			int offset = 0;
 			TemplateListRequest request = new TemplateListRequest();
