@@ -11,12 +11,17 @@ import org.springframework.stereotype.Service;
 
 import com.cc.common.tools.ListTools;
 import com.cc.common.web.Page;
+import com.cc.push.form.TemplateLibraryQueryFrom;
 import com.cc.push.form.TemplateQueryFrom;
+import com.cc.push.result.TemplateLibraryListResult;
 import com.cc.push.result.TemplateListResult;
 import com.cc.push.service.TemplateService;
+import com.cc.wx.http.request.TemplateLibraryListRequest;
 import com.cc.wx.http.request.TemplateListRequest;
+import com.cc.wx.http.response.TemplateLibraryListResponse;
 import com.cc.wx.http.response.TemplateListResponse;
 import com.cc.wx.http.response.model.Template;
+import com.cc.wx.http.response.model.TemplateLibrary;
 import com.cc.wx.service.AccessTokenService;
 import com.cc.wx.service.WeiXinService;
 
@@ -61,6 +66,38 @@ public class TemplateServiceImpl implements TemplateService {
 		}
 		page.setPage(form.getPage());
 		page.setPageSize(form.getPageSize());
+		page.setData(templateList);
+		return page;
+	}
+
+	@Override
+	public Page<TemplateLibraryListResult> queryTemplateLibraryPage(TemplateLibraryQueryFrom form) {
+		Page<TemplateLibraryListResult> page = new Page<TemplateLibraryListResult>();
+		TemplateLibraryListRequest request = new TemplateLibraryListRequest();
+		request.setOffset((form.getPage()-1)*form.getPageSize());
+		request.setCount(form.getPageSize());
+		request.setAccessToken(accessTokenService.queryAccessToken());
+		TemplateLibraryListResponse response = WeiXinService.queryTemplateLibraryList(request);
+		if(!response.isSuccess()){
+			page.setMessage(response.getMessage());
+			return page;
+		}
+		List<TemplateLibrary> list = response.getList();
+		if(ListTools.isEmptyOrNull(list)){
+			page.setMessage("没有查询到相关模板库数据");
+			return page;
+		}
+		List<TemplateLibraryListResult> templateLibraryList = new ArrayList<TemplateLibraryListResult>();
+		for(TemplateLibrary templateLibrary: list){
+			TemplateLibraryListResult templateLibraryListResult = new TemplateLibraryListResult();
+			templateLibraryListResult.setId(templateLibrary.getId());
+			templateLibraryListResult.setTitle(templateLibrary.getTitle());
+			templateLibraryList.add(templateLibraryListResult);
+		}
+		page.setPage(form.getPage());
+		page.setPageSize(form.getPageSize());
+		page.setTotal(response.getTotal());
+		page.setData(templateLibraryList);
 		return page;
 	}
 
