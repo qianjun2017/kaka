@@ -5,10 +5,12 @@ package com.cc.wx.service;
 
 import com.cc.wx.http.request.AccessTokenRequest;
 import com.cc.wx.http.request.OpenidRequest;
+import com.cc.wx.http.request.TemplateListRequest;
 import com.cc.wx.http.request.TemplateMessageRequest;
 import com.cc.wx.http.request.WXACodeRequest;
 import com.cc.wx.http.response.AccessTokenResponse;
 import com.cc.wx.http.response.OpenidResponse;
+import com.cc.wx.http.response.TemplateListResponse;
 import com.cc.wx.http.response.TemplateMessageResponse;
 import com.cc.wx.http.response.WXACodeResponse;
 
@@ -45,5 +47,12 @@ public interface WeiXinService {
 	 * @return
 	 */
 	TemplateMessageResponse sendTemplateMessage(TemplateMessageRequest request);
+	
+	/**
+	 * 获取帐号下已存在的模板列表
+	 * @param request
+	 * @return
+	 */
+	TemplateListResponse queryTemplateList(TemplateListRequest request);
 	
 }

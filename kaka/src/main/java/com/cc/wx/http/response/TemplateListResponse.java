@@ -3,12 +3,16 @@
  */
 package com.cc.wx.http.response;
 
+import java.util.List;
+
+import com.cc.wx.http.request.model.Template;
+
 /**
  * @author ws_yu
  *
  */
-public class TemplateMessageResponse {
-
+public class TemplateListResponse {
+	
 	/**
 	 * 返回状态
 	 */
@@ -27,8 +31,13 @@ public class TemplateMessageResponse {
 	 * 错误信息
 	 */
 	private String errmsg;
+	
+	/**
+	 * 帐号下已存在的模板列表
+	 */
+	private List<Template> list;
 
-	public TemplateMessageResponse() {
+	public TemplateListResponse() {
 		this.success = Boolean.FALSE;
 	}
 
@@ -87,4 +96,19 @@ public class TemplateMessageResponse {
 	public void setErrmsg(String errmsg) {
 		this.errmsg = errmsg;
 	}
+
+	/**
+	 * @return the list
+	 */
+	public List<Template> getList() {
+		return list;
+	}
+
+	/**
+	 * @param list the list to set
+	 */
+	public void setList(List<Template> list) {
+		this.list = list;
+	}
+
 }

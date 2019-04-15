@@ -15,10 +15,12 @@ import com.cc.common.http.service.HttpService;
 import com.cc.common.tools.StringTools;
 import com.cc.wx.http.request.AccessTokenRequest;
 import com.cc.wx.http.request.OpenidRequest;
+import com.cc.wx.http.request.TemplateListRequest;
 import com.cc.wx.http.request.TemplateMessageRequest;
 import com.cc.wx.http.request.WXACodeRequest;
 import com.cc.wx.http.response.AccessTokenResponse;
 import com.cc.wx.http.response.OpenidResponse;
+import com.cc.wx.http.response.TemplateListResponse;
 import com.cc.wx.http.response.TemplateMessageResponse;
 import com.cc.wx.http.response.WXACodeResponse;
 import com.cc.wx.service.WeiXinService;
@@ -167,6 +169,40 @@ public class WeiXinServiceImpl implements WeiXinService {
 			return response;
 		}
 		response = JsonTools.toObject(httpResponse, TemplateMessageResponse.class);
+		if(response.getErrcode()==null || response.getErrcode()==0){
+			response.setSuccess(Boolean.TRUE);
+		}else{
+			response.setMessage(response.getErrmsg());
+		}
+		return response;
+	}
+
+	@Override
+	public TemplateListResponse queryTemplateList(TemplateListRequest request) {
+		TemplateListResponse response = new TemplateListResponse();
+		if (StringTools.isNullOrNone(request.getAccessToken())) {
+			response.setMessage("请输入小程序调用凭证");
+			return response;
+		}
+		if (request.getOffset()==null) {
+			response.setMessage("请输入查询偏移量");
+			return response;
+		}
+		if (request.getCount()==null) {
+			response.setMessage("请输入查询数量");
+			return response;
+		}
+		if(request.getCount()>20){
+			response.setMessage("每次获取数量不能超过20条");
+			return response;
+		}
+		Map<String, Object> paramMap = JsonTools.toObject(JsonTools.toJsonString(request), HashMap.class);
+		String httpResponse = httpService.post(request.getUrl()+"?access_token="+request.getAccessToken(), paramMap, "UTF-8");
+		if (StringTools.isNullOrNone(httpResponse)) {
+			response.setMessage("http返回值为空");
+			return response;
+		}
+		response = JsonTools.toObject(httpResponse, TemplateListResponse.class);
 		if(response.getErrcode()==null || response.getErrcode()==0){
 			response.setSuccess(Boolean.TRUE);
 		}else{
