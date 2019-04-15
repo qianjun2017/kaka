@@ -1,6 +1,7 @@
 package com.cc.wx.controller;
 
 import com.cc.common.exception.LogicException;
+import com.cc.common.tools.AESTools;
 import com.cc.common.tools.DateTools;
 import com.cc.common.tools.JsonTools;
 import com.cc.common.tools.JwtTools;
@@ -17,6 +18,7 @@ import com.cc.wx.form.WXACodeForm;
 import com.cc.wx.http.request.OpenidRequest;
 import com.cc.wx.http.request.WXACodeRequest;
 import com.cc.wx.http.request.model.Color;
+import com.cc.wx.http.request.model.Phone;
 import com.cc.wx.http.response.OpenidResponse;
 import com.cc.wx.http.response.WXACodeResponse;
 import com.cc.wx.service.AccessTokenService;
@@ -137,6 +139,17 @@ public class WeiXinController {
 		}
     	CustomerBean customerBean = JsonTools.toObject(JsonTools.toJsonString(registerMap), CustomerBean.class);
     	customerBean.setOpenid(openidResponse.getOpenid());
+    	Object encryptedData = registerMap.get("encryptedData");
+		Object iv = registerMap.get("iv");
+		if(encryptedData!=null && iv!=null){
+			String decryptedData = AESTools.decrypt(StringTools.toString(encryptedData), openidResponse.getSessionKey(), StringTools.toString(iv));
+			if(!StringTools.isNullOrNone(decryptedData)){
+				Phone phone = JsonTools.toObject(decryptedData, Phone.class);
+				if(phone!=null){
+					customerBean.setPhone(phone.getPurePhoneNumber());
+				}
+			}
+		}
 		customerBean.setStatus(CustomerStatusEnum.NORMAL.getCode());
 		customerBean.setCreateTime(DateTools.now());
 		customerBean.setCardNo(StringTools.getSeqNo());

@@ -3,6 +3,8 @@
  */
 package com.cc.wx.http.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * @author Administrator
  *
@@ -19,9 +21,20 @@ public class OpenidResponse {
 	private String message;
 
 	/**
-	 * openid
+	 * 用户唯一标识
 	 */
 	private String openid;
+	
+	/**
+	 * 会话密钥
+	 */
+	@JsonProperty(value="session_key")
+	private String sessionKey;
+	
+	/**
+	 * 用户在开放平台的唯一标识符，在满足 UnionID 下发条件的情况下会返回，详见 UnionID 机制说明。
+	 */
+	private String unionid;
 
 	/**
 	 * 
@@ -70,6 +83,34 @@ public class OpenidResponse {
 	 */
 	public void setOpenid(String openid) {
 		this.openid = openid;
+	}
+
+	/**
+	 * @return the sessionKey
+	 */
+	public String getSessionKey() {
+		return sessionKey;
+	}
+
+	/**
+	 * @param sessionKey the sessionKey to set
+	 */
+	public void setSessionKey(String sessionKey) {
+		this.sessionKey = sessionKey;
+	}
+
+	/**
+	 * @return the unionid
+	 */
+	public String getUnionid() {
+		return unionid;
+	}
+
+	/**
+	 * @param unionid the unionid to set
+	 */
+	public void setUnionid(String unionid) {
+		this.unionid = unionid;
 	}
 	
 }
