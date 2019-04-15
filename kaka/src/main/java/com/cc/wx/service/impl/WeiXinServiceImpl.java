@@ -15,9 +15,11 @@ import com.cc.common.http.service.HttpService;
 import com.cc.common.tools.StringTools;
 import com.cc.wx.http.request.AccessTokenRequest;
 import com.cc.wx.http.request.OpenidRequest;
+import com.cc.wx.http.request.TemplateMessageRequest;
 import com.cc.wx.http.request.WXACodeRequest;
 import com.cc.wx.http.response.AccessTokenResponse;
 import com.cc.wx.http.response.OpenidResponse;
+import com.cc.wx.http.response.TemplateMessageResponse;
 import com.cc.wx.http.response.WXACodeResponse;
 import com.cc.wx.service.WeiXinService;
 
@@ -135,6 +137,40 @@ public class WeiXinServiceImpl implements WeiXinService {
 		} catch (Exception e) {
 			response.setAcode(httpResponse);
 			response.setSuccess(Boolean.TRUE);
+		}
+		return response;
+	}
+
+	@Override
+	public TemplateMessageResponse sendTemplateMessage(TemplateMessageRequest request) {
+		TemplateMessageResponse response = new TemplateMessageResponse();
+		if (StringTools.isNullOrNone(request.getAccessToken())) {
+			response.setMessage("请输入小程序调用凭证");
+			return response;
+		}
+		if (StringTools.isNullOrNone(request.getToUser())) {
+			response.setMessage("请选择接收用户");
+			return response;
+		}
+		if (StringTools.isNullOrNone(request.getTemplateId())) {
+			response.setMessage("请选择下发消息模板");
+			return response;
+		}
+		if (StringTools.isNullOrNone(request.getFormId())) {
+			response.setMessage("请输入表单formId或者支付prepayId");
+			return response;
+		}
+		Map<String, Object> paramMap = JsonTools.toObject(JsonTools.toJsonString(request), HashMap.class);
+		String httpResponse = httpService.post(request.getUrl()+"?access_token="+request.getAccessToken(), paramMap, "UTF-8");
+		if (StringTools.isNullOrNone(httpResponse)) {
+			response.setMessage("http返回值为空");
+			return response;
+		}
+		response = JsonTools.toObject(httpResponse, TemplateMessageResponse.class);
+		if(response.getErrcode()==null || response.getErrcode()==0){
+			response.setSuccess(Boolean.TRUE);
+		}else{
+			response.setMessage(response.getErrmsg());
 		}
 		return response;
 	}
