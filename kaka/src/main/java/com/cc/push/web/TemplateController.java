@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cc.common.web.Page;
+import com.cc.common.web.Response;
 import com.cc.push.bean.TemplateBean;
 import com.cc.push.form.TemplateLibraryQueryFrom;
 import com.cc.push.form.TemplateQueryFrom;
@@ -50,5 +51,16 @@ public class TemplateController {
 	public Page<TemplateLibraryListResult> queryTemplateLibraryPage(@ModelAttribute TemplateLibraryQueryFrom form){
 		Page<TemplateLibraryListResult> page = templateService.queryTemplateLibraryPage(form);
 		return page;
+	}
+	
+	/**
+	 * 同步帐号下已存在的模板列表
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/syn", method = RequestMethod.POST)
+	public Response<String> synTemplate(){
+		Response<String> response = new Response<String>();
+		return response;
 	}
 }

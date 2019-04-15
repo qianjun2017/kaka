@@ -28,5 +28,10 @@ public interface TemplateService {
 	 * @return
 	 */
 	Page<TemplateLibraryListResult> queryTemplateLibraryPage(TemplateLibraryQueryFrom form);
+	
+	/**
+	 * 同步帐号下已存在的模板列表
+	 */
+	void synTemplate();
 
 }
