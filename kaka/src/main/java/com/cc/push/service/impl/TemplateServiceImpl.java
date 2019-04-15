@@ -67,6 +67,7 @@ public class TemplateServiceImpl implements TemplateService {
 		page.setPage(form.getPage());
 		page.setPageSize(form.getPageSize());
 		page.setData(templateList);
+		page.setSuccess(Boolean.TRUE);
 		return page;
 	}
 
@@ -98,6 +99,7 @@ public class TemplateServiceImpl implements TemplateService {
 		page.setPageSize(form.getPageSize());
 		page.setTotal(response.getTotal());
 		page.setData(templateLibraryList);
+		page.setSuccess(Boolean.TRUE);
 		return page;
 	}
 
