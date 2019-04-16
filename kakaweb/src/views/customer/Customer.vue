@@ -114,7 +114,7 @@
       </div>
     </div>
 
-    <div v-if="view =='history'">
+    <div v-show="view =='history'">
       <el-table :data="pointsTableData" stripe highlight-current-row style="width: 100%;" :empty-text="pointsMessage">
         <el-table-column prop="points" label="变更积分数">
         </el-table-column>
@@ -230,23 +230,23 @@
           sort: this.sort,
           order: this.order
 				};
-        this.listLoading = true;
+        this.listLoading = true
 				this.$ajax.get('/customer/page',para).then((res) => {
-          this.listLoading = false;
+          this.listLoading = false
           if(res.success){
-            this.page = res.page;
-            this.pageSize = res.pageSize;
-            this.total = res.total;
-            this.pages = res.pages;
-            this.tableData = res.data;
+            this.page = res.page
+            this.pageSize = res.pageSize
+            this.total = res.total
+            this.pages = res.pages
+            this.tableData = res.data
           }else{
-            this.tableData = [];
-            this.page = 0;
-            this.total = 0;
-            this.pages = 0;
-            this.message = res.message;
+            this.tableData = []
+            this.page = 0
+            this.total = 0
+            this.pages = 0
+            this.message = res.message
           }
-				});
+				})
 			},
 			//锁定
 			handleLock: function (index, row) {
@@ -260,33 +260,33 @@
               this.$message({
                 message: '已锁定',
                 type: 'success'
-              });
-              this.getTableData();
+              })
+              this.getTableData()
             }
-					});
+					})
 				}).catch(() => {
 
-				});
+				})
 			},
 			//解锁
 			handleUnlock: function (index, row) {
 				this.$confirm('确认解锁会员【'+row.nickName+'】吗?', '提示', {
 					type: 'warning'
 				}).then(() => {
-					this.listLoading = true;
+					this.listLoading = true
 					this.$ajax.post('/customer/unlock/'+row.id).then((res) => {
-            this.listLoading = false;
+            this.listLoading = false
             if(res.success){
               this.$message({
                 message: '解锁成功',
                 type: 'success'
-              });
-              this.getTableData();
+              })
+              this.getTableData()
             }
-					});
+					})
 				}).catch(() => {
 
-				});
+				})
 			},
       //详情
       handleDetail: function(index, row){
@@ -321,7 +321,7 @@
             customerId: this.customer.id,
             page: this.pointsPage,
             pageSize: this.pointsPageSize,
-            sort: 'startTime',
+            sort: 'createTime',
             order: 'desc'
         }
         this.$ajax.get('/customer/points/page',para).then((res) => {
@@ -348,9 +348,26 @@
       },
       handlePoints: function(index, row){
           this.pointsForm.customerId = row.id
+          this.pointsFormVisible = true
       },
       submitPoints: function(){
-
+        this.$refs.pointsForm.validate((valid) => {
+          if (valid) {
+            this.$confirm('确认提交吗？', '提示', {}).then(() => {
+              this.pointsLoading = true
+              this.$ajax.post('/customer/points', this.pointsForm).then((res) => {
+                this.pointsLoading = false
+                if(res.success){
+                  this.$message.success('提交成功')
+                  this.pointsFormVisible = false
+                  this.getTableData()
+                }else{
+                  this.$message.error(res.message)
+                }
+              })
+            })
+          }
+        })
       },
       handleCurrentPointsChange(val) {
           this.pointsPage = val
