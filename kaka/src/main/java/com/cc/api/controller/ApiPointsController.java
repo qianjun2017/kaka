@@ -21,7 +21,6 @@ import com.cc.common.tools.DateTools;
 import com.cc.common.tools.DistanceTools;
 import com.cc.common.tools.ListTools;
 import com.cc.common.tools.StringTools;
-import com.cc.common.web.RequestContextUtil;
 import com.cc.common.web.Response;
 import com.cc.customer.bean.CardLevelBean;
 import com.cc.customer.bean.CustomerBean;
@@ -77,7 +76,7 @@ public class ApiPointsController {
 			response.setMessage("积分码参数缺失");
 			return response;
 		}
-		Long customerId = RequestContextUtil.getCustomerId();
+		Long customerId = form.getCustomerId();
 		Date now = DateTools.now();
 		if(form.getPoints()>0){
 			Example example = new Example(PointsBean.class);

@@ -8,6 +8,11 @@ package com.cc.api.form;
  *
  */
 public class CustomerForm {
+	
+	/**
+	 * 会员
+	 */
+	private Long customerId;
 
 	/**
 	 * 会员姓名
@@ -18,6 +23,20 @@ public class CustomerForm {
 	 * 会员手机号
 	 */
 	private String phone;
+
+	/**
+	 * @return the customerId
+	 */
+	public Long getCustomerId() {
+		return customerId;
+	}
+
+	/**
+	 * @param customerId the customerId to set
+	 */
+	public void setCustomerId(Long customerId) {
+		this.customerId = customerId;
+	}
 
 	/**
 	 * @return the name

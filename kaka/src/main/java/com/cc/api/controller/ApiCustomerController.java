@@ -14,7 +14,6 @@ import com.cc.api.form.CustomerForm;
 import com.cc.common.exception.LogicException;
 import com.cc.common.tools.JsonTools;
 import com.cc.common.tools.StringTools;
-import com.cc.common.web.RequestContextUtil;
 import com.cc.common.web.Response;
 import com.cc.customer.bean.CardLevelBean;
 import com.cc.customer.bean.CustomerBean;
@@ -42,9 +41,9 @@ public class ApiCustomerController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/info", method = RequestMethod.POST)
-	public Response<Object> queryCustomerInfo(){
+	public Response<Object> queryCustomerInfo(@RequestBody CustomerForm form){
 		Response<Object> response = new Response<Object>();
-		CustomerBean customerBean = CustomerBean.get(CustomerBean.class, RequestContextUtil.getCustomerId());
+		CustomerBean customerBean = CustomerBean.get(CustomerBean.class, form.getCustomerId());
 		if (customerBean == null) {
 			response.setMessage("会员不存在");
 			return response;
@@ -69,7 +68,7 @@ public class ApiCustomerController {
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public Response<Object> updateCustomerInfo(@RequestBody CustomerForm form){
 		Response<Object> response = new Response<Object>();
-		CustomerBean customerBean = CustomerBean.get(CustomerBean.class, RequestContextUtil.getCustomerId());
+		CustomerBean customerBean = CustomerBean.get(CustomerBean.class, form.getCustomerId());
 		if (customerBean == null) {
 			response.setMessage("会员不存在");
 			return response;

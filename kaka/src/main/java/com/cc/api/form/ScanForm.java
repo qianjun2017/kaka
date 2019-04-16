@@ -1,6 +1,11 @@
 package com.cc.api.form;
 
 public class ScanForm {
+	
+	/**
+	 * 会员
+	 */
+	private Long customerId;
 
 	/**
 	 * 变更积分数
@@ -21,6 +26,20 @@ public class ScanForm {
 	 * 门店
 	 */
 	private Long shopId;
+
+	/**
+	 * @return the customerId
+	 */
+	public Long getCustomerId() {
+		return customerId;
+	}
+
+	/**
+	 * @param customerId the customerId to set
+	 */
+	public void setCustomerId(Long customerId) {
+		this.customerId = customerId;
+	}
 
 	/**
 	 * @return the points

@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cc.api.form.BespeakForm;
 import com.cc.common.exception.LogicException;
-import com.cc.common.web.RequestContextUtil;
 import com.cc.common.web.Response;
 import com.cc.consultant.bean.ConsultantBean;
 import com.cc.customer.bean.BespeakBean;
@@ -40,7 +39,7 @@ public class ApiBespeakController {
 	public Response<String> addBespeak(@RequestBody BespeakForm form){
 		Response<String> response = new Response<String>();
 		BespeakBean bespeakBean = new BespeakBean();
-		bespeakBean.setCustomerId(RequestContextUtil.getCustomerId());
+		bespeakBean.setCustomerId(form.getCustomerId());
 		if(form.getConsultantId()==null){
 			response.setMessage("请选择汽车顾问");
 			return response;

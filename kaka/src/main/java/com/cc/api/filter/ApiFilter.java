@@ -25,7 +25,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.cc.push.bean.FormBean;
 import com.cc.api.bean.RequestBean;
 import com.cc.api.enums.ApiVersionEnum;
-import com.cc.common.Constant;
 import com.cc.common.exception.LogicException;
 import com.cc.common.tools.AESTools;
 import com.cc.common.tools.DESTools;
@@ -106,7 +105,6 @@ public class ApiFilter implements Filter {
 			response.getWriter().write(JsonTools.toJsonString(result));
 			return;
 		}
-		httpServletRequest.getSession().setAttribute(Constant.TOKEN, customerBean);
 		if(requestBean.getTimestamp()==null){
 			result.setMessage("请求参数时间戳为空");
 			response.getWriter().write(JsonTools.toJsonString(result));
@@ -189,7 +187,7 @@ public class ApiFilter implements Filter {
 				return;
 			}
 			try {
-				requestWrapper.setBody(RSATools.privateDecrypt(requestBean.geteValue(), privateKey));
+				body = RSATools.privateDecrypt(requestBean.geteValue(), privateKey);
 			} catch (LogicException e) {
 				result.setMessage(e.getErrContent());
 				response.getWriter().write(JsonTools.toJsonString(result));
@@ -203,7 +201,7 @@ public class ApiFilter implements Filter {
 				return;
 			}
 			try {
-				requestWrapper.setBody(DESTools.decrypt(requestBean.geteValue(), key));
+				body = DESTools.decrypt(requestBean.geteValue(), key);
 			} catch (LogicException e) {
 				result.setMessage(e.getErrContent());
 				response.getWriter().write(JsonTools.toJsonString(result));
@@ -217,7 +215,7 @@ public class ApiFilter implements Filter {
 				return;
 			}
 			try {
-				requestWrapper.setBody(AESTools.decrypt(requestBean.geteValue(), key));
+				body = AESTools.decrypt(requestBean.geteValue(), key);
 			} catch (LogicException e) {
 				result.setMessage(e.getErrContent());
 				response.getWriter().write(JsonTools.toJsonString(result));
@@ -244,6 +242,9 @@ public class ApiFilter implements Filter {
 			formBean.setCreateTime(DateTools.now());
 			formBean.save();
 		}
+		Map<String, Object> bodyMap = JsonTools.toObject(body, HashMap.class);
+		bodyMap.put("customerId", customerBean.getId());
+		requestWrapper.setBody(JsonTools.toJsonString(bodyMap));
 		ResponseWrapper responseWrapper = new ResponseWrapper((HttpServletResponse) response);
 		chain.doFilter(requestWrapper, responseWrapper);
 		String responseData = responseWrapper.getResponseData();

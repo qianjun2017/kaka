@@ -3,6 +3,11 @@ package com.cc.api.form;
 import java.util.Date;
 
 public class BespeakForm {
+	
+	/**
+	 * 会员
+	 */
+	private Long customerId;
 
 	/**
 	 * 看车时间
@@ -18,6 +23,20 @@ public class BespeakForm {
 	 * 汽车顾问
 	 */
 	private Long consultantId;
+
+	/**
+	 * @return the customerId
+	 */
+	public Long getCustomerId() {
+		return customerId;
+	}
+
+	/**
+	 * @param customerId the customerId to set
+	 */
+	public void setCustomerId(Long customerId) {
+		this.customerId = customerId;
+	}
 
 	/**
 	 * @return the bespeakTime
