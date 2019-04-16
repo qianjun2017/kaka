@@ -42,7 +42,7 @@ public class ApiCarouselController {
 	@ResponseBody
 	@RequestMapping(value = "/page", method = RequestMethod.POST)
 	public Page<Map<String, Object>> queryCarouselPage(@ModelAttribute CarouselQueryForm form){
-		form.setStatus(CarouselStatusEnum.ON.getName());
+		form.setStatus(CarouselStatusEnum.ON.getCode());
 		return carouselService.queryCarouselPage(form);
 	}
 	
