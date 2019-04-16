@@ -128,8 +128,8 @@ public class ApiFilter implements Filter {
 			return;
 		}
 		List<SystemConfigBean> keySystemConfigBeanList = SystemConfigBean.findAllByParams(SystemConfigBean.class, "propertyName", requestBean.getAppCode()+"."+requestBean.getVersion()+".key");
-		if(ListTools.isEmptyOrNull(keySystemConfigBeanList) && !ApiVersionEnum.V1.equals(apiVersionEnum)){
-			result.setMessage("应用"+requestBean.getAppCode()+"未配置"+apiVersionEnum.getName()+"密钥");
+		if(ListTools.isEmptyOrNull(keySystemConfigBeanList)){
+			result.setMessage("应用"+requestBean.getAppCode()+"不允许使用接口版本:"+apiVersionEnum.getName());
 			response.getWriter().write(JsonTools.toJsonString(result));
 			return;
 		}
