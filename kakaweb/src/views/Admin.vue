@@ -57,7 +57,7 @@
 export default {
   data(){
     return {
-      sysName:'卡卡',
+      sysName:'悦盟卡',
       collapsed: false,
       asideWidth: '230px'
     }
