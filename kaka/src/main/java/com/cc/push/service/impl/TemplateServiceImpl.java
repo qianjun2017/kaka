@@ -83,6 +83,7 @@ public class TemplateServiceImpl implements TemplateService {
 		page.setPageSize(pageInfo.getPageSize());
 		page.setTotal(pageInfo.getTotal());
 		page.setData(templateBeanList);
+		page.setSuccess(Boolean.TRUE);
 		return page;
 	}
 
