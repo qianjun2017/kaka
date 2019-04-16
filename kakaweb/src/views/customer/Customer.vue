@@ -36,19 +36,21 @@
 
       <!--列表-->
       <el-table :data="tableData" stripe highlight-current-row v-loading="listLoading" @sort-change="sortChanged" style="width: 100%;" :default-sort = "{prop: 'createTime', order: 'descending'}" :empty-text="message">
-        <el-table-column prop="name" label="会员名称" width="250" show-overflow-tooltip>
+        <el-table-column prop="name" label="会员名称" width="200" show-overflow-tooltip>
           <template slot-scope="scope">
-            <img :src = "scope.row.avatarUrl" width="40" height="40"/>
-            <span style="margin-left: 10px">{{ scope.row.name }}</span>
+            <div class="user">
+              <img :src = "scope.row.avatarUrl" width="40" height="40"/>
+              <span style="margin-left: 10px;">{{ scope.row.name }}</span>
+            </div>
           </template>
         </el-table-column>
-        <el-table-column prop="phone" label="电话" width="100">
+        <el-table-column prop="phone" label="电话" width="120">
         </el-table-column>
-        <el-table-column prop="cardNo" label="会员卡号" width="100">
+        <el-table-column prop="cardNo" label="会员卡号" width="180">
         </el-table-column>
-        <el-table-column prop="carfLevel" label="会员等级" width="100">
+        <el-table-column prop="cardLevel" label="会员等级" width="100">
         </el-table-column>
-        <el-table-column prop="points" label="积分" width="100">
+        <el-table-column prop="points" label="积分" width="80">
         </el-table-column>
         <el-table-column prop="createTime" label="注册日期" width="180" sortable='custom'>
         </el-table-column>
@@ -428,5 +430,9 @@ td{
   clear: both;
   width: 100%;
   text-align: center;
+}
+.user{
+  display: flex;
+  align-items: center;
 }
 </style>
