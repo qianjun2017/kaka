@@ -263,11 +263,11 @@ DROP TABLE IF EXISTS `t_points`;
 CREATE TABLE `t_points` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `customerId` int(11) NOT NULL,
-  `userId` int(11) NOT NULL,
-  `shopId` int(11) NOT NULL,
+  `userId` int(11) DEFAULT NULL,
+  `shopId` int(11) DEFAULT NULL,
   `points` int(11) NOT NULL,
-  `createTime` datetime DEFAULT NULL,
-  `remark` varchar(256) DEFAULT NULL,
+  `createTime` datetime NOT NULL,
+  `remark` varchar(256) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -296,7 +296,7 @@ CREATE TABLE `t_shop` (
   `address` varchar(256) NOT NULL,
   `longitude` varchar(16) NOT NULL,
   `latitude` varchar(16) NOT NULL,
-  `radius` float NOT NULL,
+  `radius` varchar(8) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;

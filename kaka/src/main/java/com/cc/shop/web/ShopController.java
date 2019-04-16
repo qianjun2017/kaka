@@ -141,7 +141,7 @@ public class ShopController {
 			response.setMessage("请输入门店经纬度");
 			return response;
 		}
-		if(shopBean.getRadius()==null){
+		if(StringTools.isNullOrNone(shopBean.getRadius())){
 			response.setMessage("请输入门店位置误差半径，单位米");
 			return response;
 		}
@@ -212,7 +212,7 @@ public class ShopController {
 		}
 		oldShopBean.setLatitude(shopBean.getLatitude());
 		oldShopBean.setLongitude(shopBean.getLongitude());
-		if(shopBean.getRadius()==null){
+		if(StringTools.isNullOrNone(shopBean.getRadius())){
 			response.setMessage("请输入门店位置误差半径，单位米");
 			return response;
 		}

@@ -29,7 +29,7 @@ private Long id;
 	/**
 	 * 误差半径
 	 */
-	private Long radius;
+	private String radius;
 	
 	/**
 	 * 所在区域
@@ -115,14 +115,14 @@ private Long id;
 	/**
 	 * @return the radius
 	 */
-	public Long getRadius() {
+	public String getRadius() {
 		return radius;
 	}
 
 	/**
 	 * @param radius the radius to set
 	 */
-	public void setRadius(Long radius) {
+	public void setRadius(String radius) {
 		this.radius = radius;
 	}
 
