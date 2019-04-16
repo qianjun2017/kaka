@@ -68,12 +68,11 @@ public class WeiXinServiceImpl implements WeiXinService {
 			response.setMessage("http返回值为空");
 			return response;
 		}
-		Map<String, String> map = JsonTools.toObject(httpResponse, Map.class);
-		if(map.containsKey("openid")){
+		response = JsonTools.toObject(httpResponse, OpenidResponse.class);
+		if(response.getErrcode()==null || response.getErrcode()==0){
 			response.setSuccess(Boolean.TRUE);
-			response.setOpenid(map.get("openid"));
 		}else{
-			response.setMessage(map.get("errmsg"));
+			response.setMessage(response.getErrmsg());
 		}
 		return response;
 	}

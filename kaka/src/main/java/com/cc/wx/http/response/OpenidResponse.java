@@ -35,6 +35,17 @@ public class OpenidResponse {
 	 * 用户在开放平台的唯一标识符，在满足 UnionID 下发条件的情况下会返回，详见 UnionID 机制说明。
 	 */
 	private String unionid;
+	
+
+	/**
+	 * 错误码
+	 */
+	private Integer errcode;
+	
+	/**
+	 * 错误信息
+	 */
+	private String errmsg;
 
 	/**
 	 * 
@@ -111,6 +122,34 @@ public class OpenidResponse {
 	 */
 	public void setUnionid(String unionid) {
 		this.unionid = unionid;
+	}
+
+	/**
+	 * @return the errcode
+	 */
+	public Integer getErrcode() {
+		return errcode;
+	}
+
+	/**
+	 * @param errcode the errcode to set
+	 */
+	public void setErrcode(Integer errcode) {
+		this.errcode = errcode;
+	}
+
+	/**
+	 * @return the errmsg
+	 */
+	public String getErrmsg() {
+		return errmsg;
+	}
+
+	/**
+	 * @param errmsg the errmsg to set
+	 */
+	public void setErrmsg(String errmsg) {
+		this.errmsg = errmsg;
 	}
 	
 }

@@ -186,7 +186,7 @@ CREATE TABLE `t_customer` (
   `avatarUrl` varchar(128) DEFAULT NULL,
   `status` varchar(16) NOT NULL,
   `createTime` datetime NOT NULL,
-  `cardNo` varchar(16) DEFAULT NULL,
+  `cardNo` varchar(18) DEFAULT NULL,
   `phone` varchar(16) DEFAULT NULL,
   `points` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
