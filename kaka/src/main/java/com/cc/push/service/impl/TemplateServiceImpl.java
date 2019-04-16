@@ -26,9 +26,11 @@ import com.cc.push.form.TemplateQueryFrom;
 import com.cc.push.result.TemplateLibraryListResult;
 import com.cc.push.result.TemplateLibraryResult;
 import com.cc.push.service.TemplateService;
+import com.cc.wx.http.request.AddTemplateRequest;
 import com.cc.wx.http.request.TemplateLibraryListRequest;
 import com.cc.wx.http.request.TemplateLibraryRequest;
 import com.cc.wx.http.request.TemplateListRequest;
+import com.cc.wx.http.response.AddTemplateResponse;
 import com.cc.wx.http.response.TemplateLibraryListResponse;
 import com.cc.wx.http.response.TemplateLibraryResponse;
 import com.cc.wx.http.response.TemplateListResponse;
@@ -184,8 +186,8 @@ public class TemplateServiceImpl implements TemplateService {
 					}
 					templateKeywordBean.setName(ne[0]);
 					templateKeywordBean.setExample(ne[1]);
-					templateKeywordBean.setKey("keyword"+(index+1));
-					templateKeywordBean.setKeyword(templateKeywordBean.getKey()+".DATA");
+					templateKeywordBean.setKeyword("keyword"+(index+1));
+					templateKeywordBean.setKeydata(templateKeywordBean.getKeyword()+".DATA");
 					row = templateKeywordBean.save();
 					if(row!=1){
 						logger.warn("消息模板:"+templateBean.getTitle()+",关键字名称:"+templateKeywordBean.getName()+",保存失败");
@@ -211,6 +213,20 @@ public class TemplateServiceImpl implements TemplateService {
 		}
 		TemplateLibraryResult templateLibraryResult = JsonTools.covertObject(response, TemplateLibraryResult.class);
 		return templateLibraryResult;
+	}
+
+	@Override
+	@Transactional(rollbackFor = {Exception.class}, propagation = Propagation.REQUIRED)
+	public void addTemplate(String id, List<Long> keywordIdList) {
+		AddTemplateRequest request = new AddTemplateRequest();
+		request.setAccessToken(accessTokenService.queryAccessToken());
+		request.setId(id);
+		request.setKeywordIdList(keywordIdList.toArray(new Long[]{}));
+		AddTemplateResponse response = WeiXinService.addTemplate(request);
+		if(!response.isSuccess()){
+			throw new LogicException("E001", response.getMessage());
+		}
+		syncTemplate();
 	}
 
 }

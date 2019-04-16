@@ -5,11 +5,13 @@ package com.cc.push.web;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.cc.common.exception.LogicException;
 import com.cc.common.tools.JsonTools;
 import com.cc.common.tools.ListTools;
+import com.cc.common.tools.StringTools;
 import com.cc.common.web.Page;
 import com.cc.common.web.Response;
 import com.cc.push.bean.TemplateBean;
@@ -28,6 +31,9 @@ import com.cc.push.result.TemplateLibraryListResult;
 import com.cc.push.result.TemplateLibraryResult;
 import com.cc.push.result.TemplateResult;
 import com.cc.push.service.TemplateService;
+import com.cc.system.log.annotation.OperationLog;
+import com.cc.system.log.enums.ModuleEnum;
+import com.cc.system.log.enums.OperTypeEnum;
 
 /**
  * @author ws_yu
@@ -70,6 +76,7 @@ public class TemplateController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/sync", method = RequestMethod.POST)
+	@OperationLog(module = ModuleEnum.TEMPLATEMANAGEMENT, operType = OperTypeEnum.SYNC, title = "同步个人模板")
 	public Response<String> syncTemplate(){
 		Response<String> response = new Response<String>();
 		templateService.syncTemplate();
@@ -117,6 +124,51 @@ public class TemplateController {
 		try {
 			TemplateLibraryResult templateLibraryResult = templateService.queryTemplateLibrary(id);
 			response.setData(templateLibraryResult);
+			response.setSuccess(Boolean.TRUE);
+		} catch (LogicException e) {
+			response.setMessage(e.getErrContent());
+		} catch (Exception e) {
+			response.setMessage("系统内部错误");
+			e.printStackTrace();
+		}
+		return response;
+	}
+	
+	/**
+	 * 新增个人模板
+	 * @param templateMap
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@OperationLog(module = ModuleEnum.TEMPLATEMANAGEMENT, operType = OperTypeEnum.ADD, title = "新增个人模板")
+	public Response<String> addTemplate(@RequestBody Map<String, Object> templateMap){
+		Response<String> response = new Response<String>();
+		Object id = templateMap.get("id");
+		if (id==null) {
+			response.setMessage("请选择模板");
+			return response;
+		}
+		Object object = templateMap.get("keywordList");
+		if (object==null) {
+			response.setMessage("请选择模板关键字");
+			return response;
+		}
+		List<Integer> keywordList = (List<Integer>) object;
+		if (ListTools.isEmptyOrNull(keywordList)) {
+			response.setMessage("请选择模板关键字");
+			return response;
+		}
+		List<Long> keywordIdList = new ArrayList<Long>();
+		for (Integer keyword : keywordList) {
+			keywordIdList.add(Long.valueOf(StringTools.toString(keyword)));
+		}
+		if(keywordIdList.size()>10){
+			response.setMessage("最多选择10个关键字");
+			return response;
+		}
+		try {
+			templateService.addTemplate(StringTools.toString(id), keywordIdList);
 			response.setSuccess(Boolean.TRUE);
 		} catch (LogicException e) {
 			response.setMessage(e.getErrContent());

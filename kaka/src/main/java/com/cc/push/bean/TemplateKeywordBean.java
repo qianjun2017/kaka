@@ -35,12 +35,12 @@ public class TemplateKeywordBean extends BaseOrm<TemplateKeywordBean> implements
 	/**
 	 * 关键字
 	 */
-	private String key;
+	private String keyword;
 	
 	/**
 	 * 关键字
 	 */
-	private String keyword;
+	private String keydata;
 	
 	/**
 	 * 关键字名称
@@ -81,20 +81,6 @@ public class TemplateKeywordBean extends BaseOrm<TemplateKeywordBean> implements
 	}
 
 	/**
-	 * @return the key
-	 */
-	public String getKey() {
-		return key;
-	}
-
-	/**
-	 * @param key the key to set
-	 */
-	public void setKey(String key) {
-		this.key = key;
-	}
-
-	/**
 	 * @return the keyword
 	 */
 	public String getKeyword() {
@@ -106,6 +92,20 @@ public class TemplateKeywordBean extends BaseOrm<TemplateKeywordBean> implements
 	 */
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
+	}
+
+	/**
+	 * @return the keydata
+	 */
+	public String getKeydata() {
+		return keydata;
+	}
+
+	/**
+	 * @param keydata the keydata to set
+	 */
+	public void setKeydata(String keydata) {
+		this.keydata = keydata;
 	}
 
 	/**

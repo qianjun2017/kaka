@@ -3,6 +3,8 @@
  */
 package com.cc.push.service;
 
+import java.util.List;
+
 import com.cc.common.web.Page;
 import com.cc.push.bean.TemplateBean;
 import com.cc.push.form.TemplateLibraryQueryFrom;
@@ -41,5 +43,12 @@ public interface TemplateService {
 	 * @return
 	 */
 	TemplateLibraryResult queryTemplateLibrary(String id);
+
+	/**
+	 * 添加个人模板
+	 * @param id
+	 * @param keywordIdList
+	 */
+	void addTemplate(String id, List<Long> keywordIdList);
 
 }

@@ -345,8 +345,8 @@ DROP TABLE IF EXISTS `t_template_keyword`;
 CREATE TABLE `t_template_keyword` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `templateId` int(11) NOT NULL,
-  `key` varchar(64) NOT NULL,
   `keyword` varchar(64) NOT NULL,
+  `keydata` varchar(64) NOT NULL,
   `name` varchar(64) NOT NULL,
   `example` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`)

@@ -33,7 +33,9 @@ public enum ModuleEnum {
 	FRANCHISERMANAGEMENT("franchiser", "经销商"),
 	CONSULTANTMANAGEMENT("consultant", "汽车顾问"),
 	POINTSMANAGEMENT("points", "积分管理"),
-	CONFIGMANAGEMENT("config", "系统参数");
+	CONFIGMANAGEMENT("config", "系统参数"),
+	TEMPLATEMANAGEMENT("template", "我的模板"),
+	PUSHMANAGEMENT("push", "消息推送");
 	
 	/**
 	 * 编码
