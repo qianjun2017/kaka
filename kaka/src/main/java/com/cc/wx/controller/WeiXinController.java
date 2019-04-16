@@ -150,9 +150,14 @@ public class WeiXinController {
 				}
 			}
 		}
+		if(StringTools.isNullOrNone(customerBean.getPhone())){
+			response.setMessage("请先获取手机号");
+			return response;
+		}
 		customerBean.setStatus(CustomerStatusEnum.NORMAL.getCode());
 		customerBean.setCreateTime(DateTools.now());
 		customerBean.setCardNo(StringTools.getSeqNo());
+		customerBean.setPoints(0l);
 		try {
 			customerService.saveCustomer(customerBean);
 			Map<String, Object> dataMap = new HashMap<String, Object>();
