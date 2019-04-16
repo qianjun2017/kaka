@@ -34,7 +34,7 @@ html{
   background: #f2f2f2;
   padding: 10px;
   margin: 10px 0px;
-  .el-form-item{
+  .el-form-item, .item{
     margin-bottom: 10px;
   }
   .el-form--inline .el-form-item__content{
