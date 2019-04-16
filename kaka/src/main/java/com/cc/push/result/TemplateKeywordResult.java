@@ -1,6 +1,14 @@
 package com.cc.push.result;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class TemplateKeywordResult {
+	
+	/**
+	 * 关键字
+	 */
+	@JsonProperty(value="keyword_id")
+	private Long id;
 	
 	/**
 	 * 关键字
@@ -21,6 +29,20 @@ public class TemplateKeywordResult {
 	 * 关键字示例
 	 */
 	private String example;
+
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	/**
 	 * @return the key

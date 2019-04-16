@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cc.common.exception.LogicException;
 import com.cc.common.tools.DateTools;
+import com.cc.common.tools.JsonTools;
 import com.cc.common.tools.ListTools;
 import com.cc.common.tools.StringTools;
 import com.cc.common.web.Page;
@@ -22,10 +24,13 @@ import com.cc.push.bean.TemplateKeywordBean;
 import com.cc.push.form.TemplateLibraryQueryFrom;
 import com.cc.push.form.TemplateQueryFrom;
 import com.cc.push.result.TemplateLibraryListResult;
+import com.cc.push.result.TemplateLibraryResult;
 import com.cc.push.service.TemplateService;
 import com.cc.wx.http.request.TemplateLibraryListRequest;
+import com.cc.wx.http.request.TemplateLibraryRequest;
 import com.cc.wx.http.request.TemplateListRequest;
 import com.cc.wx.http.response.TemplateLibraryListResponse;
+import com.cc.wx.http.response.TemplateLibraryResponse;
 import com.cc.wx.http.response.TemplateListResponse;
 import com.cc.wx.http.response.model.Template;
 import com.cc.wx.http.response.model.TemplateLibrary;
@@ -193,6 +198,19 @@ public class TemplateServiceImpl implements TemplateService {
 			}
 			offset += 20;
 		}
+	}
+
+	@Override
+	public TemplateLibraryResult queryTemplateLibrary(String id) {
+		TemplateLibraryRequest request = new TemplateLibraryRequest();
+		request.setAccessToken(accessTokenService.queryAccessToken());
+		request.setId(id);
+		TemplateLibraryResponse response = WeiXinService.queryTemplateLibrary(request);
+		if(!response.isSuccess()){
+			throw new LogicException("E001", response.getMessage());
+		}
+		TemplateLibraryResult templateLibraryResult = JsonTools.covertObject(response, TemplateLibraryResult.class);
+		return templateLibraryResult;
 	}
 
 }

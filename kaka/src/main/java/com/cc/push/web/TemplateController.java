@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cc.common.exception.LogicException;
 import com.cc.common.tools.JsonTools;
 import com.cc.common.tools.ListTools;
 import com.cc.common.web.Page;
@@ -24,6 +25,7 @@ import com.cc.push.form.TemplateLibraryQueryFrom;
 import com.cc.push.form.TemplateQueryFrom;
 import com.cc.push.result.TemplateKeywordResult;
 import com.cc.push.result.TemplateLibraryListResult;
+import com.cc.push.result.TemplateLibraryResult;
 import com.cc.push.result.TemplateResult;
 import com.cc.push.service.TemplateService;
 
@@ -100,6 +102,28 @@ public class TemplateController {
 		}
 		response.setData(templateResult);
 		response.setSuccess(Boolean.TRUE);
+		return response;
+	}
+	
+	/**
+	 * 获取模板库模板详情
+	 * @param id
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/library/get/{id}", method = RequestMethod.GET)
+	public Response<TemplateLibraryResult> queryTemplateLibrary(@PathVariable String id){
+		Response<TemplateLibraryResult> response = new Response<TemplateLibraryResult>();
+		try {
+			TemplateLibraryResult templateLibraryResult = templateService.queryTemplateLibrary(id);
+			response.setData(templateLibraryResult);
+			response.setSuccess(Boolean.TRUE);
+		} catch (LogicException e) {
+			response.setMessage(e.getErrContent());
+		} catch (Exception e) {
+			response.setMessage("系统内部错误");
+			e.printStackTrace();
+		}
 		return response;
 	}
 }

@@ -8,6 +8,7 @@ import com.cc.push.bean.TemplateBean;
 import com.cc.push.form.TemplateLibraryQueryFrom;
 import com.cc.push.form.TemplateQueryFrom;
 import com.cc.push.result.TemplateLibraryListResult;
+import com.cc.push.result.TemplateLibraryResult;
 
 /**
  * @author ws_yu
@@ -33,5 +34,12 @@ public interface TemplateService {
 	 * 同步帐号下已存在的模板列表
 	 */
 	void syncTemplate();
+	
+	/**
+	 * 查询小程序模板详情
+	 * @param id
+	 * @return
+	 */
+	TemplateLibraryResult queryTemplateLibrary(String id);
 
 }

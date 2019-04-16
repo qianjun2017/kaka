@@ -19,6 +19,8 @@ import SysConfig from '@/views/system/Config'
 import Shop from '@/views/shop/Shop'
 import Franchiser from '@/views/franchiser/Franchiser'
 import Consultant from '@/views/consultant/Consultant'
+import Push from '@/views/push/Push'
+import Template from '@/views/push/Template'
 
 Vue.use(Router)
 
@@ -211,6 +213,42 @@ export default new Router({
                     isLeaf: true,
                     isLogin: true,
                     permission: 'bespeak'
+                }
+            }]
+        },
+        {
+            path: '/push',
+            name: 'push',
+            redirect: '/push/index',
+            component: Admin,
+            meta: {
+                title: '消息模板',
+                isMenu: true,
+                isLeaf: false,
+                isLogin: true,
+                permission: 'push|template'
+            },
+            children: [{
+                path: '/push/index',
+                name: 'pushPage',
+                component: Push,
+                meta: {
+                    title: '消息推送',
+                    isMenu: true,
+                    isLeaf: true,
+                    isLogin: true,
+                    permission: 'push'
+                }
+            }, {
+                path: '/template/index',
+                name: 'templatePage',
+                component: Template,
+                meta: {
+                    title: '我的模板',
+                    isMenu: true,
+                    isLeaf: true,
+                    isLogin: true,
+                    permission: 'template'
                 }
             }]
         },
