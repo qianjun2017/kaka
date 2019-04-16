@@ -178,4 +178,26 @@ public class TemplateController {
 		}
 		return response;
 	}
+	
+	/**
+	 * 删除帐号下已存在的模板详情
+	 * @param id
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/delete/{id:\\d+}", method = RequestMethod.POST)
+	@OperationLog(module = ModuleEnum.TEMPLATEMANAGEMENT, operType = OperTypeEnum.DELETE, title = "删除个人模板")
+	public Response<String> deleteTemplate(@PathVariable Long id){
+		Response<String> response = new Response<String>();
+		try {
+			templateService.deleteTemplate(id);
+			response.setSuccess(Boolean.TRUE);
+		} catch (LogicException e) {
+			response.setMessage(e.getErrContent());
+		} catch (Exception e) {
+			response.setMessage("系统内部错误");
+			e.printStackTrace();
+		}
+		return response;
+	}
 }

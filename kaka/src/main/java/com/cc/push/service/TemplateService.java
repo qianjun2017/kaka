@@ -51,4 +51,10 @@ public interface TemplateService {
 	 */
 	void addTemplate(String id, List<Long> keywordIdList);
 
+	/**
+	 * 删除个人模板
+	 * @param id
+	 */
+	void deleteTemplate(Long id);
+
 }

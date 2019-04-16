@@ -27,10 +27,12 @@ import com.cc.push.result.TemplateLibraryListResult;
 import com.cc.push.result.TemplateLibraryResult;
 import com.cc.push.service.TemplateService;
 import com.cc.wx.http.request.AddTemplateRequest;
+import com.cc.wx.http.request.DeleteTemplateRequest;
 import com.cc.wx.http.request.TemplateLibraryListRequest;
 import com.cc.wx.http.request.TemplateLibraryRequest;
 import com.cc.wx.http.request.TemplateListRequest;
 import com.cc.wx.http.response.AddTemplateResponse;
+import com.cc.wx.http.response.DeleteTemplateResponse;
 import com.cc.wx.http.response.TemplateLibraryListResponse;
 import com.cc.wx.http.response.TemplateLibraryResponse;
 import com.cc.wx.http.response.TemplateListResponse;
@@ -228,6 +230,27 @@ public class TemplateServiceImpl implements TemplateService {
 			throw new LogicException("E001", response.getMessage());
 		}
 		syncTemplate();
+	}
+
+	@Override
+	@Transactional(rollbackFor = {Exception.class}, propagation = Propagation.REQUIRED)
+	public void deleteTemplate(Long id) {
+		TemplateBean templateBean = TemplateBean.get(TemplateBean.class, id);
+		if(templateBean==null){
+			throw new LogicException("E001", "消息模板不存在或已删除");
+		}
+		DeleteTemplateRequest request = new DeleteTemplateRequest();
+		request.setAccessToken(accessTokenService.queryAccessToken());
+		request.setTemplateId(templateBean.getTemplateId());
+		DeleteTemplateResponse response = WeiXinService.deleteTemplate(request);
+		if(!response.isSuccess()){
+			throw new LogicException("E002", response.getMessage());
+		}
+		Example example = new Example(TemplateKeywordBean.class);
+		Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("templateId", templateBean.getId());
+		TemplateKeywordBean.deleteByExample(TemplateKeywordBean.class, example);
+		templateBean.delete();
 	}
 
 }
