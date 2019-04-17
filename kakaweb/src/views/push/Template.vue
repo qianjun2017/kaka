@@ -61,14 +61,14 @@
                             <div class="tmplmsg-card-hd">
                                 <div class="hd-cell">
                                     <div class="app-avatar">
-                                        <img src="/static/app.jpg"/>
+                                        <img :src="appIcon"/>
                                     </div>
-                                    <div>悦盟卡</div>
+                                    <div>{{appName}}</div>
                                 </div>
                             </div>
                             <div class="tmplmsg-card-bd">
                                 <div class="tmplmsg-preview-title">{{templateLibrary.title}}</div>
-                                <div class="tmplmsg-preview-desc">2019年04月</div>
+                                <div class="tmplmsg-preview-desc">{{year}}年{{month}}月</div>
                                 <div class="tmplmsg-preview-meta-list">
                                     <template v-for="(templateLibraryKeyword, index) in templateLibraryKeywords">
                                         <div class="tmplmsg-preview-meta-item" :key="index">
@@ -151,7 +151,10 @@ export default {
 
             templateLibrary: {},
             libraryLoading: false,
-            templateLibraryKeywords: []
+            templateLibraryKeywords: [],
+
+            appName: '',
+            appIcon: ''
         }
     },
     methods: {
@@ -231,6 +234,22 @@ export default {
                     this.$message.error(res.message)
                 }
             })
+            if(!this.appName){
+                this.$ajax.get('/system/config/value', {propertyName: 'wx.name'}).then((res)=>{
+                    if(res.success){
+                        this.appName = res.data
+                    }
+                })
+            }
+            if(!this.appIcon){
+                this.$ajax.get('/system/config/value', {propertyName: 'wx.icon'}).then((res)=>{
+                    if(res.success){
+                        this.appIcon = res.data
+                    }else{
+                        this.appIcon = '/static/app.jpg'
+                    }
+                })
+            }
         },
         getTableLibraryData: function(){
             this.libraryListLoading = true
@@ -307,6 +326,20 @@ export default {
             let keyword = this.templateLibraryKeywords[val]
             this.templateLibrary.keyword_list[keyword.checkbox-1].checkbox=-keyword.checkbox-1
             this.templateLibraryKeywords.splice(val, 1)
+        }
+    },
+    computed: {
+        year: function(){
+            let date = new Date()
+            return date.getFullYear()
+        },
+        month: function(){
+            let date = new Date()
+            let month = date.getMonth()+1
+            if (month >= 1 && month <= 9) {
+                month = "0" + month;
+            }
+            return month
         }
     }
 }

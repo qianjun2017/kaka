@@ -57,7 +57,7 @@
 export default {
   data(){
     return {
-      sysName:'悦盟卡',
+      sysName:'',
       collapsed: false,
       asideWidth: '230px'
     }
@@ -93,6 +93,13 @@ export default {
     setting: function(){
       this.$router.push('/system/setting')
     }
+  },
+  mounted(){
+    this.$ajax.get('/system/config/value', {propertyName: 'wx.name'}).then((res)=>{
+      if(res.success){
+        this.sysName = res.data
+      }
+    })
   },
   computed: {
     sysUserName: function(){
