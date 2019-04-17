@@ -35,7 +35,8 @@ public enum ModuleEnum {
 	POINTSMANAGEMENT("points", "积分管理"),
 	CONFIGMANAGEMENT("config", "系统参数"),
 	TEMPLATEMANAGEMENT("template", "我的模板"),
-	PUSHMANAGEMENT("push", "消息推送");
+	PUSHMANAGEMENT("push", "消息推送"),
+	PAGEMANAGEMENT("page", "页面");
 	
 	/**
 	 * 编码

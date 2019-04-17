@@ -21,7 +21,6 @@ import com.cc.common.tools.ListTools;
 import com.cc.common.tools.StringTools;
 import com.cc.common.web.Page;
 import com.cc.common.web.Response;
-import com.cc.customer.bean.CardBean;
 import com.cc.shop.bean.ShopBean;
 import com.cc.shop.form.ShopQueryForm;
 import com.cc.shop.result.ShopResult;
@@ -181,7 +180,7 @@ public class ShopController {
 			response.setMessage("缺少门店主键");
 			return response;
 		}
-		ShopBean oldShopBean = CardBean.get(ShopBean.class, Long.valueOf(StringTools.toString(id)));
+		ShopBean oldShopBean = ShopBean.get(ShopBean.class, Long.valueOf(StringTools.toString(id)));
 		if(oldShopBean==null){
 			response.setMessage("门店不存在或已删除");
 			return response;
