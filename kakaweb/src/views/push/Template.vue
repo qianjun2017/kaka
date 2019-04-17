@@ -63,6 +63,59 @@
             </el-tabs>
         </div>
         <div v-if="view == 'detail'">
+            <div class="detail-box">
+                <div class="tmplmsg-preview detail-preview">
+                    <div class="tmplmsg-card">
+                        <div class="tmplmsg-card-hd">
+                            <div class="hd-cell">
+                                <div class="app-avatar">
+                                    <img :src="appIcon"/>
+                                </div>
+                                <div>{{appName}}</div>
+                            </div>
+                        </div>
+                        <div class="tmplmsg-card-bd">
+                            <div class="tmplmsg-preview-title">{{template.title}}</div>
+                            <div class="tmplmsg-preview-desc">{{year}}年{{month}}月</div>
+                            <div class="tmplmsg-preview-meta-list">
+                                <template v-for="(keyword, index) in template.keywordList">
+                                    <div class="tmplmsg-preview-meta-item" :key="index">
+                                        <label>{{keyword.name}}</label>
+                                        <p>{{keyword.example}}</p>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        <div class="tmplmsg-card-ft">
+                            <div class="ft-cell">
+                                <span>查看详情</span>
+                                <i class="el-icon-arrow-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tmplmsg-detail-info">
+                    <div class="tmplmsg-detail-info-item">
+                        <label>模板ID</label>
+                        <p>{{template.templateId}}</p>
+                    </div>
+                    <div class="tmplmsg-detail-info-item">
+                        <label>标题</label>
+                        <p>{{template.title}}</p>
+                    </div>
+                    <div class="tmplmsg-detail-info-item tmplmsg-detail-info-item-keyword">
+                        <label>关键词</label>
+                        <div class="tmplmsg-detail-info-item-keyword-list">
+                            <template v-for="(keyword, index) in template.keywordList">
+                                <div class="tmplmsg-detail-info-item-keyword-item" :key="index">
+                                    <label>{{keyword.name}}</label>
+                                    <p>{{'{{'+keyword.keydata+'\}\}'}}</p>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="btns">
                 <el-button size="small" @click="back">返回</el-button>
             </div>
@@ -86,6 +139,7 @@
                             <div class="tmplmsg-card-bd">
                                 <div class="tmplmsg-preview-title">{{templateLibrary.title}}</div>
                                 <div class="tmplmsg-preview-desc">{{year}}年{{month}}月</div>
+                                
                                 <div class="tmplmsg-preview-meta-list">
                                     <template v-for="(templateLibraryKeyword, index) in templateLibraryKeywords">
                                         <div class="tmplmsg-preview-meta-item" :key="index">
@@ -133,7 +187,7 @@
                     </div>
                 </div>
             </div>
-            <div class="btns" style="padding-top: 20px;">
+            <div class="btns">
                 <el-button type="primary" size="small" @click="handleSubmit">提交</el-button>
                 <el-button size="small" @click="back">返回</el-button>
             </div>
@@ -211,6 +265,22 @@ export default {
                     this.$message.error(res.message)
                 }
             })
+            if(!this.appName){
+                this.$ajax.get('/system/config/name', {propertyName: 'wx.name'}).then((res)=>{
+                    if(res.success){
+                        this.appName = res.data
+                    }
+                })
+            }
+            if(!this.appIcon){
+                this.$ajax.get('/system/config/name', {propertyName: 'wx.icon'}).then((res)=>{
+                    if(res.success){
+                        this.appIcon = res.data
+                    }else{
+                        this.appIcon = '/static/app.jpg'
+                    }
+                })
+            }
         },
         handleDelete: function(index, row){
             this.$confirm('确认删除'+row.title+'吗?', '提示', {
@@ -385,6 +455,7 @@ export default {
     clear: both;
     width: 100%;
     text-align: center;
+    padding-top: 20px;
 }
 .mod-box{
     padding: 45px 90px 20px;
@@ -393,6 +464,14 @@ export default {
     background-color: #fff;
     border-radius: 4px;
     box-shadow: 0 1px 2px rgba(150,150,150,0.3);
+}
+.detail-box{
+    padding:60px;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(150,150,150,0.3);
+    overflow: hidden;
+    display: flex;
 }
 .page-tips-box{
     padding-bottom: 20px;
@@ -576,6 +655,49 @@ export default {
                 }
             }
         }
+    }
+}
+.detail-preview{
+    margin-right: 60px;
+}
+.tmplmsg-detail-info{
+    display: flex;
+    flex-direction: column;
+    color: #353535;
+    font-size: 14px;
+    .tmplmsg-detail-info-item{
+        padding: 1em 0;
+        display: flex;
+        align-items: center;
+        label{
+            color: #9a9a9a;
+            margin-right: 1em;
+            width: 5em;
+            flex-shrink: 0;
+        }
+        p{
+            overflow: hidden;
+            word-wrap: break-word;
+            word-break: break-all;
+        }
+        .tmplmsg-detail-info-item-keyword-list{
+            display: flex;
+            flex-direction: column;
+            .tmplmsg-detail-info-item-keyword-item{
+                display: flex;
+                align-items: center;
+                p{
+                    margin: 0px;
+                }
+            }
+        }
+    }
+    .tmplmsg-detail-info-item:first-child{
+        margin-top: 0;
+        border-top-width: 0;
+    }
+    .tmplmsg-detail-info-item-keyword label{
+        align-self: flex-start;
     }
 }
 </style>
