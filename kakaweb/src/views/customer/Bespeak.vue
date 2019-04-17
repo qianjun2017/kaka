@@ -55,11 +55,11 @@
       <el-table :data="tableData" stripe highlight-current-row v-loading="listLoading" @sort-change="sortChanged" style="width: 100%;" :default-sort = "{prop: 'bespeakTime', order: 'descending'}" :empty-text="message">
         <el-table-column prop="customerName" label="会员姓名" width="150" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column prop="customerPhone" label="手机号码" width="100" show-overflow-tooltip>
+        <el-table-column prop="customerPhone" label="手机号码" width="120" show-overflow-tooltip>
         </el-table-column>
         <el-table-column prop="consultantName" label="顾问姓名" width="150" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column prop="franchiserName" label="经销商名称" width="200" show-overflow-tooltip>
+        <el-table-column prop="franchiserName" label="经销商名称" width="150" show-overflow-tooltip>
         </el-table-column>
         <el-table-column prop="locationName" label="看车地区">
           <template slot-scope="scope">{{scope.row.locationName.replace(new RegExp("/","gm"),"")}}</template>

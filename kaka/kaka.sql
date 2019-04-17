@@ -306,6 +306,31 @@ LOCK TABLES `t_shop` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `t_page`
+--
+
+DROP TABLE IF EXISTS `t_page`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `t_page` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(128) DEFAULT NULL,
+  `name` varchar(128) DEFAULT NULL,
+  `page` varchar(256) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_page`
+--
+
+LOCK TABLES `t_page` WRITE;
+/*!40000 ALTER TABLE `t_page` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_page` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `t_system_auth`
 --
 

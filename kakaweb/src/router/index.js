@@ -21,6 +21,7 @@ import Franchiser from '@/views/franchiser/Franchiser'
 import Consultant from '@/views/consultant/Consultant'
 import Push from '@/views/push/Push'
 import Template from '@/views/push/Template'
+import Page from '@/views/push/Page'
 
 Vue.use(Router)
 
@@ -226,7 +227,7 @@ export default new Router({
                 isMenu: true,
                 isLeaf: false,
                 isLogin: true,
-                permission: 'push|template'
+                permission: 'push|template|page'
             },
             children: [{
                 path: '/push/index',
@@ -238,6 +239,17 @@ export default new Router({
                     isLeaf: true,
                     isLogin: true,
                     permission: 'push'
+                }
+            }, {
+                path: '/page/index',
+                name: 'pagePage',
+                component: Page,
+                meta: {
+                    title: '页面管理',
+                    isMenu: true,
+                    isLeaf: true,
+                    isLogin: true,
+                    permission: 'page'
                 }
             }, {
                 path: '/template/index',

@@ -50,7 +50,7 @@
         </el-table-column>
         <el-table-column prop="cardLevel" label="会员等级" width="100">
         </el-table-column>
-        <el-table-column prop="points" label="积分" width="80">
+        <el-table-column prop="points" label="积分" width="60">
         </el-table-column>
         <el-table-column prop="createTime" label="注册日期" width="180" sortable='custom'>
         </el-table-column>

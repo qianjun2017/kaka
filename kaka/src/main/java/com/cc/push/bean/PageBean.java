@@ -3,10 +3,12 @@ package com.cc.push.bean;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import com.cc.common.orm.BaseOrm;
 import com.cc.common.orm.entity.BaseEntity;
 
+@Table(name="t_page")
 public class PageBean extends BaseOrm<PageBean> implements BaseEntity {
 
 	/**
