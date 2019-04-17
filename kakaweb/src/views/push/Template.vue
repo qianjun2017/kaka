@@ -4,11 +4,15 @@
             <el-tabs v-model="activeName" @tab-click="handleClick">
                 <el-tab-pane label="我的模板" name="template">
                     <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-                        <div class="item">
-                            个人模板库
-                            <el-button type="primary" size="small" v-on:click="handleAdd" v-hasPermission="'template.add'"  style="float: right;">添加</el-button>
-                            <el-button size="small" v-on:click="handleSync" :loading="syncLoading" v-hasPermission="'template.sync'">同步</el-button>
-                        </div>
+                        <el-form :inline="true">
+                            <el-form-item>
+                                个人模板库
+                            </el-form-item>
+                            <el-form-item style="float: right;"><span class="desc">还可添加{{25-tableData.length}}个</span>
+                                <el-button type="primary" v-on:click="handleAdd" v-hasPermission="'template.add'" v-if="25-tableData.length>0">添加</el-button>
+                                <el-button type="primary"  v-on:click="handleSync" :loading="syncLoading" v-hasPermission="'template.sync'">同步</el-button>
+                            </el-form-item>
+                        </el-form>
                     </el-col>
                     <!--列表-->
                     <el-table :data="tableData" stripe highlight-current-row v-loading="listLoading" @sort-change="sortChanged" style="width: 100%;" :default-sort = "{prop: 'createTime', order: 'descending'}" :empty-text="message">
@@ -29,13 +33,13 @@
                 <el-tab-pane label="模板库" name="library">
                     <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
                         <el-form :inline="true" :model="queryForm">
-                        <el-form-item>
-                            <el-input v-model="queryForm.title" placeholder="请输入搜索关键字"></el-input>
-                        </el-form-item>
-                        <el-form-item>
-                            <el-button type="primary" v-on:click="getTableLibraryData">查询</el-button>
-                            <el-button type="primary" @click="handleSyncLibrary" v-hasPermission="'template.add'" :loading="syncLibraryLoading">同步</el-button>
-                        </el-form-item>
+                            <el-form-item>
+                                <el-input v-model="queryForm.title" placeholder="请输入搜索关键字"></el-input>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button type="primary" v-on:click="getTableLibraryData">查询</el-button>
+                                <el-button type="primary" @click="handleSyncLibrary" v-hasPermission="'template.add'" :loading="syncLibraryLoading">同步</el-button>
+                            </el-form-item>
                         </el-form>
                     </el-col>
                     <el-table :data="tableLibraryData" stripe highlight-current-row v-loading="libraryListLoading" style="width: 100%;" :empty-text="libraryMessage">

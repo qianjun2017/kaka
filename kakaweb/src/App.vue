@@ -43,6 +43,9 @@ html{
       width: 220px;
     }
   }
+  .desc{
+    color: #9a9a9a;
+  }
 }
 .fade-enter-active,
 .fade-leave-active {
