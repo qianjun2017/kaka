@@ -129,11 +129,33 @@ public class SystemConfigController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/all", method = RequestMethod.GET)
 	public Response<Map<String, Object>> queryProperties(){
 		Response<Map<String, Object>> response = new Response<Map<String,Object>>();
 		Map<String, Object> systemConfigMap = new HashMap<String, Object>();
 		List<SystemConfigBean> systemConfigBeanList = systemConfigService.querySystemConfigBeanList();
+		if (ListTools.isEmptyOrNull(systemConfigBeanList)) {
+			response.setMessage("没有设置系统参数");
+			return response;
+		}
+		for (SystemConfigBean systemConfigBean : systemConfigBeanList) {
+			systemConfigMap.put(systemConfigBean.getPropertyName(), systemConfigBean.getPropertyValue());
+		}
+		response.setData(systemConfigMap);
+		response.setSuccess(Boolean.TRUE);
+		return response;
+	}
+	
+	/**
+	 * 获取相同前缀的系统参数
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/prefix", method = RequestMethod.GET)
+	public Response<Map<String, Object>> queryProperties(@ModelAttribute ConfigQueryForm form){
+		Response<Map<String, Object>> response = new Response<Map<String,Object>>();
+		Map<String, Object> systemConfigMap = new HashMap<String, Object>();
+		List<SystemConfigBean> systemConfigBeanList = systemConfigService.querySystemConfigBeanList(form.getPropertyName());
 		if (ListTools.isEmptyOrNull(systemConfigBeanList)) {
 			response.setMessage("没有设置系统参数");
 			return response;
@@ -152,7 +174,7 @@ public class SystemConfigController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/value", method = RequestMethod.GET)
+	@RequestMapping(value = "/name", method = RequestMethod.GET)
 	public Response<String> querySystemConfigBean(@ModelAttribute ConfigQueryForm form){
 		Response<String> response = new Response<String>();
 		List<SystemConfigBean> systemConfigBeanList = SystemConfigBean.findAllByParams(SystemConfigBean.class, "propertyName", form.getPropertyName());
