@@ -24,13 +24,13 @@
         @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="collapsed">
           <template v-for="(item, index) in $router.options.routes">
             <template v-if="item.meta.isMenu">
-              <el-submenu :index="item.path" v-if="!item.meta.isLeaf" :key="index"  v-hasPermission="item.meta.permission">
+              <el-submenu :index="item.path" v-if="!item.meta.isLeaf" :key="'s'+index"  v-hasPermission="item.meta.permission">
                 <template slot="title">{{item.meta.title}}</template>
-                <template v-for="(child, index) in item.children">
-                  <el-menu-item :index="child.path" :key="index" v-if="child.meta.isMenu"  v-hasPermission="child.meta.permission">{{child.meta.title}}</el-menu-item>
+                <template v-for="(child, cIndex) in item.children">
+                  <el-menu-item :index="child.path" :key="'i'+cIndex" v-if="child.meta.isMenu"  v-hasPermission="child.meta.permission">{{child.meta.title}}</el-menu-item>
                 </template>
               </el-submenu>
-              <el-menu-item :index="item.path" :key="index" v-else v-hasPermission="item.meta.permission">{{item.meta.title}}</el-menu-item>
+              <el-menu-item :index="item.path" :key="'s'+index" v-else v-hasPermission="item.meta.permission">{{item.meta.title}}</el-menu-item>
             </template>
           </template>
         </el-menu>
@@ -61,7 +61,7 @@ export default {
       sysName:'',
       sysIcon: '',
       collapsed: false,
-      asideWidth: '230px',
+      asideWidth: '200px',
       sysUserAvatar: ''
     }
   },

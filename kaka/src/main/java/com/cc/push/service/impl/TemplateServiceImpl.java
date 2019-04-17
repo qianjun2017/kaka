@@ -3,7 +3,6 @@
  */
 package com.cc.push.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -21,9 +20,9 @@ import com.cc.common.tools.StringTools;
 import com.cc.common.web.Page;
 import com.cc.push.bean.TemplateBean;
 import com.cc.push.bean.TemplateKeywordBean;
+import com.cc.push.bean.TemplateLibraryBean;
 import com.cc.push.form.TemplateLibraryQueryFrom;
 import com.cc.push.form.TemplateQueryFrom;
-import com.cc.push.result.TemplateLibraryListResult;
 import com.cc.push.result.TemplateLibraryResult;
 import com.cc.push.service.TemplateService;
 import com.cc.wx.http.request.AddTemplateRequest;
@@ -90,33 +89,26 @@ public class TemplateServiceImpl implements TemplateService {
 	}
 
 	@Override
-	public Page<TemplateLibraryListResult> queryTemplateLibraryPage(TemplateLibraryQueryFrom form) {
-		Page<TemplateLibraryListResult> page = new Page<TemplateLibraryListResult>();
-		TemplateLibraryListRequest request = new TemplateLibraryListRequest();
-		request.setOffset((form.getPage()-1)*form.getPageSize());
-		request.setCount(form.getPageSize());
-		request.setAccessToken(accessTokenService.queryAccessToken());
-		TemplateLibraryListResponse response = WeiXinService.queryTemplateLibraryList(request);
-		if(!response.isSuccess()){
-			page.setMessage(response.getMessage());
-			return page;
+	public Page<TemplateLibraryBean> queryTemplateLibraryPage(TemplateLibraryQueryFrom form) {
+		Page<TemplateLibraryBean> page = new Page<TemplateLibraryBean>();
+		Example example = new Example(TemplateLibraryBean.class);
+		Example.Criteria criteria = example.createCriteria();
+		if(!StringTools.isNullOrNone(form.getTitle())){
+			criteria.andLike("title", "%"+form.getTitle()+"%");
 		}
-		List<TemplateLibrary> list = response.getList();
-		if(ListTools.isEmptyOrNull(list)){
+		PageHelper.orderBy(String.format("%s %s", form.getSort(), form.getOrder()));
+		PageHelper.startPage(form.getPage(), form.getPageSize());
+		List<TemplateLibraryBean> templateLibraryBeanList = TemplateLibraryBean.findByExample(TemplateLibraryBean.class, example);
+		PageInfo<TemplateLibraryBean> pageInfo = new PageInfo<TemplateLibraryBean>(templateLibraryBeanList);
+		if(ListTools.isEmptyOrNull(templateLibraryBeanList)){
 			page.setMessage("没有查询到相关模板库数据");
 			return page;
 		}
-		List<TemplateLibraryListResult> templateLibraryList = new ArrayList<TemplateLibraryListResult>();
-		for(TemplateLibrary templateLibrary: list){
-			TemplateLibraryListResult templateLibraryListResult = new TemplateLibraryListResult();
-			templateLibraryListResult.setId(templateLibrary.getId());
-			templateLibraryListResult.setTitle(templateLibrary.getTitle());
-			templateLibraryList.add(templateLibraryListResult);
-		}
-		page.setPage(form.getPage());
-		page.setPageSize(form.getPageSize());
-		page.setTotal(response.getTotal());
-		page.setData(templateLibraryList);
+		page.setPage(pageInfo.getPageNum());
+		page.setPages(pageInfo.getPages());
+		page.setPageSize(pageInfo.getPageSize());
+		page.setTotal(pageInfo.getTotal());
+		page.setData(templateLibraryBeanList);
 		page.setSuccess(Boolean.TRUE);
 		return page;
 	}
@@ -204,12 +196,57 @@ public class TemplateServiceImpl implements TemplateService {
 			offset += 20;
 		}
 	}
+	
+	@Override
+	@Transactional(rollbackFor = {Exception.class}, propagation = Propagation.REQUIRED)
+	public void syncTemplateLibrary() {
+		while(true){
+			int offset = 0;
+			TemplateLibraryListRequest request = new TemplateLibraryListRequest();
+			request.setOffset(offset);
+			request.setCount(20);
+			request.setAccessToken(accessTokenService.queryAccessToken());
+			TemplateLibraryListResponse response = WeiXinService.queryTemplateLibraryList(request);
+			if(!response.isSuccess()){
+				logger.warn("消息模板库获取失败------"+response.getMessage()+"--------");
+				return;
+			}
+			List<TemplateLibrary> templateLibraryList = response.getList();
+			if(ListTools.isEmptyOrNull(templateLibraryList)){
+				return;
+			}
+			for(TemplateLibrary templateLibrary: templateLibraryList){
+				TemplateLibraryBean templateLibraryBean;
+				List<TemplateLibraryBean> templateLibraryBeanList = TemplateLibraryBean.findAllByParams(TemplateLibraryBean.class, "templateId", templateLibrary.getId());
+				if(ListTools.isEmptyOrNull(templateLibraryBeanList)){
+					templateLibraryBean = new TemplateLibraryBean();
+				}else{
+					templateLibraryBean = templateLibraryBeanList.get(0);
+				}
+				templateLibraryBean.setTemplateId(templateLibrary.getId());
+				templateLibraryBean.setTitle(templateLibrary.getTitle());
+				templateLibraryBean.setCreateTime(DateTools.now());
+				int row = templateLibraryBean.save();
+				if(row!=1){
+					logger.warn("消息模板:"+templateLibraryBean.getTitle()+",保存失败");
+				}
+			}
+			if(templateLibraryList.size()<20){
+				return;
+			}
+			offset += 20;
+		}
+	}
 
 	@Override
-	public TemplateLibraryResult queryTemplateLibrary(String id) {
+	public TemplateLibraryResult queryTemplateLibrary(Long id) {
+		TemplateLibraryBean templateLibraryBean = TemplateLibraryBean.get(TemplateLibraryBean.class, id);
+		if(templateLibraryBean==null){
+			throw new LogicException("E001", "消息模板不存在或已删除");
+		}
 		TemplateLibraryRequest request = new TemplateLibraryRequest();
 		request.setAccessToken(accessTokenService.queryAccessToken());
-		request.setId(id);
+		request.setId(templateLibraryBean.getTemplateId());
 		TemplateLibraryResponse response = WeiXinService.queryTemplateLibrary(request);
 		if(!response.isSuccess()){
 			throw new LogicException("E001", response.getMessage());

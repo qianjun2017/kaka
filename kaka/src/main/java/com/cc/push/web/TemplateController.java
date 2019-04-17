@@ -24,10 +24,10 @@ import com.cc.common.web.Page;
 import com.cc.common.web.Response;
 import com.cc.push.bean.TemplateBean;
 import com.cc.push.bean.TemplateKeywordBean;
+import com.cc.push.bean.TemplateLibraryBean;
 import com.cc.push.form.TemplateLibraryQueryFrom;
 import com.cc.push.form.TemplateQueryFrom;
 import com.cc.push.result.TemplateKeywordResult;
-import com.cc.push.result.TemplateLibraryListResult;
 import com.cc.push.result.TemplateLibraryResult;
 import com.cc.push.result.TemplateResult;
 import com.cc.push.service.TemplateService;
@@ -65,8 +65,8 @@ public class TemplateController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/library/page", method = RequestMethod.GET)
-	public Page<TemplateLibraryListResult> queryTemplateLibraryPage(@ModelAttribute TemplateLibraryQueryFrom form){
-		Page<TemplateLibraryListResult> page = templateService.queryTemplateLibraryPage(form);
+	public Page<TemplateLibraryBean> queryTemplateLibraryPage(@ModelAttribute TemplateLibraryQueryFrom form){
+		Page<TemplateLibraryBean> page = templateService.queryTemplateLibraryPage(form);
 		return page;
 	}
 	
@@ -80,6 +80,20 @@ public class TemplateController {
 	public Response<String> syncTemplate(){
 		Response<String> response = new Response<String>();
 		templateService.syncTemplate();
+		response.setSuccess(Boolean.TRUE);
+		return response;
+	}
+	
+	/**
+	 * 同步小程序模板库标题列表
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/library/sync", method = RequestMethod.POST)
+	@OperationLog(module = ModuleEnum.TEMPLATEMANAGEMENT, operType = OperTypeEnum.SYNC, title = "同步模板库")
+	public Response<String> syncTemplateLibrary(){
+		Response<String> response = new Response<String>();
+		templateService.syncTemplateLibrary();
 		response.setSuccess(Boolean.TRUE);
 		return response;
 	}
@@ -118,8 +132,8 @@ public class TemplateController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/library/get/{id}", method = RequestMethod.GET)
-	public Response<TemplateLibraryResult> queryTemplateLibrary(@PathVariable String id){
+	@RequestMapping(value = "/library/get/{id:\\d+}", method = RequestMethod.GET)
+	public Response<TemplateLibraryResult> queryTemplateLibrary(@PathVariable Long id){
 		Response<TemplateLibraryResult> response = new Response<TemplateLibraryResult>();
 		try {
 			TemplateLibraryResult templateLibraryResult = templateService.queryTemplateLibrary(id);
