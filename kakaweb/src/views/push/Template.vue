@@ -244,8 +244,9 @@ export default {
             this.syncLibraryLoading = true
             this.$ajax.post('/template/library/sync').then(res=>{
                 this.syncLibraryLoading = false
+                this.$message.success('模板库正在同步，可能需要1分钟，请稍后再使用')
                 if(res.success){
-                    this.$message.success('模板库正在同步，可能需要1分钟，请稍后再使用')
+                    this.$message.success('同步成功')
                     this.getTableLibraryData()
                 }else{
                     this.$message.error(res.message)
