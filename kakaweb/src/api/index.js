@@ -3,7 +3,7 @@ import Message from 'element-ui/packages/message/index.js';
 import router from '@/router'
 
 axios.defaults.baseURL = process.env.BASE_URL
-axios.defaults.timeout = 60000;
+axios.defaults.timeout = 120000;
 axios.defaults.maxRedirects = 2;
 axios.defaults.withCredentials = true;
 
@@ -63,7 +63,7 @@ export default {
     get: function(url, params) {
         return apiAxios('GET', url, params)
     },
-    post: function(url, params, success, failure) {
+    post: function(url, params) {
         return apiAxios('POST', url, params).then(function(res) {
             if (!res.success) {
                 Message({
