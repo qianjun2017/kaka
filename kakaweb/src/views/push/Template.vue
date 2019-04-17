@@ -174,13 +174,15 @@
                             <div class="editor-inner-item">
                                 <h3>已选中的关键词<p class="desc">拖拽可调整顺序</p></h3>
                                 <div class="tmplmsg-keywords-selected-list">
-                                    <div class="tmplmsg-keywords-selected-item" v-for="(keyword, index) in templateLibraryKeywords" :key="'selected'+keyword.keyword_id">
-                                        <span aria-checked="mixed" class="el-checkbox__input is-checked" @click="handleUnChecked(index)"><span class="el-checkbox__inner"></span></span>
-                                        <div class="move">
-                                            <div class="selected-item-name">{{keyword.name}}</div>
-                                            <i class="el-icon-sort"></i>
+                                    <draggable v-model="templateLibraryKeywords">
+                                        <div class="tmplmsg-keywords-selected-item" v-for="(keyword, index) in templateLibraryKeywords" :key="'selected'+keyword.keyword_id">
+                                            <span aria-checked="mixed" class="el-checkbox__input is-checked" @click="handleUnChecked(index)"><span class="el-checkbox__inner"></span></span>
+                                            <div class="move">
+                                                <div class="selected-item-name">{{keyword.name}}</div>
+                                                <i class="el-icon-sort"></i>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </draggable>
                                 </div>
                             </div>
                         </div>
@@ -196,7 +198,11 @@
 </template>
 
 <script>
+import draggable from 'vuedraggable'
 export default {
+    components: {
+        draggable
+    },
     data(){
         return {
             activeName: 'template',
