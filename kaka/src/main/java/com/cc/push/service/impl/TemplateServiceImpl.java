@@ -116,8 +116,8 @@ public class TemplateServiceImpl implements TemplateService {
 	@Override
 	@Transactional(rollbackFor = {Exception.class}, propagation = Propagation.REQUIRED)
 	public void syncTemplate() {
+		int offset = 0;
 		while(true){
-			int offset = 0;
 			TemplateListRequest request = new TemplateListRequest();
 			request.setOffset(offset);
 			request.setCount(20);
@@ -200,8 +200,8 @@ public class TemplateServiceImpl implements TemplateService {
 	@Override
 	@Transactional(rollbackFor = {Exception.class}, propagation = Propagation.REQUIRED)
 	public void syncTemplateLibrary() {
+		int offset = 0;
 		while(true){
-			int offset = 0;
 			TemplateLibraryListRequest request = new TemplateLibraryListRequest();
 			request.setOffset(offset);
 			request.setCount(20);
