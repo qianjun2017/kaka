@@ -27,10 +27,23 @@
                     </el-table>
                 </el-tab-pane>
                 <el-tab-pane label="模板库" name="library">
+                    <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+                        <el-form :inline="true" :model="queryForm">
+                        <el-form-item>
+                            <el-input v-model="queryForm.title" placeholder="请输入搜索关键字"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" v-on:click="getTableLibraryData">查询</el-button>
+                            <el-button type="primary" @click="handleSyncLibrary" v-hasPermission="'template.add'" :loading="syncLibraryLoading">同步</el-button>
+                        </el-form-item>
+                        </el-form>
+                    </el-col>
                     <el-table :data="tableLibraryData" stripe highlight-current-row v-loading="libraryListLoading" style="width: 100%;" :empty-text="libraryMessage">
-                        <el-table-column prop="id" label="ID" width="300">
+                        <el-table-column prop="templateId" label="ID" width="300">
                         </el-table-column>
                         <el-table-column prop="title" label="标题">
+                        </el-table-column>
+                        <el-table-column prop="createTime" label="同步时间" width="180" sortable='custom'>
                         </el-table-column>
                         <el-table-column label="操作" width="150">
                             <template slot-scope="scope">
@@ -137,6 +150,9 @@ export default {
 
             syncLoading: false,
 
+            queryForm: {
+                title: ''
+            },
             tableLibraryData: [],
             total: 0,
             pages: 0,
@@ -144,6 +160,8 @@ export default {
             pageSize: 8,
             libraryMessage: '',
             libraryListLoading: false,
+
+            syncLibraryLoading: false,
 
             template: {},
 
@@ -222,6 +240,18 @@ export default {
                 }
             })
         },
+        handleSyncLibrary: function(){
+            this.syncLibraryLoading = true
+            this.$ajax.post('/template/library/sync').then(res=>{
+                this.syncLibraryLoading = false
+                if(res.success){
+                    this.$message.success('同步成功')
+                    this.getTableLibraryData()
+                }else{
+                    this.$message.error(res.message)
+                }
+            })
+        },
         handleUse: function(index, row){
             this.templateLibraryKeywords = []
             this.libraryLoading = true
@@ -253,7 +283,7 @@ export default {
         },
         getTableLibraryData: function(){
             this.libraryListLoading = true
-            this.$ajax.get('/template/library/page',{pageSize: this.pageSize, page: this.page}).then((res) => {
+            this.$ajax.get('/template/library/page',{pageSize: this.pageSize, page: this.page, title: this.queryForm.title}).then((res) => {
                 this.libraryListLoading = false
                 if(res.success){
                     this.tableLibraryData = res.data

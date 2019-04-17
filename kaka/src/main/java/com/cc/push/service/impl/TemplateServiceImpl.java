@@ -222,6 +222,9 @@ public class TemplateServiceImpl implements TemplateService {
 					templateLibraryBean = new TemplateLibraryBean();
 				}else{
 					templateLibraryBean = templateLibraryBeanList.get(0);
+					if(templateLibraryBean.getTitle().equals(templateLibrary.getTitle())){
+						continue;
+					}
 				}
 				templateLibraryBean.setTemplateId(templateLibrary.getId());
 				templateLibraryBean.setTitle(templateLibrary.getTitle());
