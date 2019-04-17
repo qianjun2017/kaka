@@ -235,14 +235,14 @@ export default {
                 }
             })
             if(!this.appName){
-                this.$ajax.get('/system/config/value', {propertyName: 'wx.name'}).then((res)=>{
+                this.$ajax.get('/system/config/name', {propertyName: 'wx.name'}).then((res)=>{
                     if(res.success){
                         this.appName = res.data
                     }
                 })
             }
             if(!this.appIcon){
-                this.$ajax.get('/system/config/value', {propertyName: 'wx.icon'}).then((res)=>{
+                this.$ajax.get('/system/config/name', {propertyName: 'wx.icon'}).then((res)=>{
                     if(res.success){
                         this.appIcon = res.data
                     }else{

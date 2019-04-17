@@ -302,7 +302,7 @@
       handleAcode: function(index, row){
         this.showAcode = false
         this.acodeForm = {}
-        this.$ajax.get('/system/config/value', {propertyName: 'wx.acode.page'}).then((res)=>{
+        this.$ajax.get('/system/config/name', {propertyName: 'wx.acode.page'}).then((res)=>{
           if(res.success){
             this.acodeForm.page = res.data
             this.acodeForm.id = row.id

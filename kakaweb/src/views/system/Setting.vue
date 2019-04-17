@@ -264,7 +264,13 @@ export default {
     this.service = this.$imageService
     this.user = this.$store.getters.getUser
     if(this.user.imageUrl == '' || this.user.imageUrl == null || this.user.imageUrl == undefined){
-      this.user.imageUrl = '/static/user.png'
+      this.$ajax.get('/system/config/value', {propertyName: 'sys.user.avatar'}).then((res)=>{
+        if(res.success){
+          this.user.imageUrl = res.data
+        }else{
+          this.user.imageUrl = '/static/user.png'
+        }
+      })
     }
   },
   computed: {

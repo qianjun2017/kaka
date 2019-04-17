@@ -2,6 +2,7 @@
   <el-container class="container">
     <el-header class="header">
       <div class='logo' :class="'logo-width'">
+        <img :src="sysIcon" v-if="sysIcon"/>
         <span>{{sysName}}</span>
       </div>
       <div class="tools">
@@ -9,7 +10,7 @@
       </div>
       <div class="userinfo">
         <el-dropdown>
-          <span class="el-dropdown-link userinfo-inner"><img :src="sysUserAvatar"/>{{sysUserName}}</span>
+          <span class="el-dropdown-link userinfo-inner"><img :src="userAvatar"/>{{userName}}</span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item @click.native="setting" v-hasPermission="'system.setting'">个人设置</el-dropdown-item>
             <el-dropdown-item @click.native="logout" divided>退出登录</el-dropdown-item>
@@ -58,8 +59,10 @@ export default {
   data(){
     return {
       sysName:'',
+      sysIcon: '',
       collapsed: false,
-      asideWidth: '230px'
+      asideWidth: '230px',
+      sysUserAvatar: ''
     }
   },
   methods: {
@@ -95,20 +98,24 @@ export default {
     }
   },
   mounted(){
-    this.$ajax.get('/system/config/value', {propertyName: 'wx.name'}).then((res)=>{
+    this.$ajax.get('/system/config/prefix', {propertyName: 'sys'}).then((res)=>{
       if(res.success){
-        this.sysName = res.data
+        this.sysName = res.data['sys.name']
+        this.sysIcon = res.data['sys.icon']
+        this.sysUserAvatar = res.data['sys.user.avatar']
+      }else{
+        this.sysUserAvatar = '/static/user.png'
       }
     })
   },
   computed: {
-    sysUserName: function(){
+    userName: function(){
       return this.$store.getters.getUser.nickName
     },
-    sysUserAvatar: function(){
+    userAvatar: function(){
       let avatar = this.$store.getters.getUser.imageUrl
       if(avatar==null || avatar=='' || avatar == undefined){
-        avatar = '/static/user.png'
+        avatar = this.sysUserAvatar
       }
       return avatar
     }
@@ -118,7 +125,6 @@ export default {
 
 <style scoped lang="scss">
 	@import '~scss_vars';
-
   .container{
     top: 0px;
 		bottom: 0px;
@@ -134,6 +140,15 @@ export default {
       justify-content: space-between;
       .logo{
         font-size: 22px;
+        display: flex;
+        align-items: center;
+        img{
+          padding-left: 20px;
+          display: block;
+          width: 40px;
+          height: 40px;
+          opacity: .8;
+        }
         span{
           padding-left: 20px;
         }
