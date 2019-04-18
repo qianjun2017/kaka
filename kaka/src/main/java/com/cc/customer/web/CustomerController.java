@@ -62,6 +62,7 @@ public class CustomerController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "customer.detail" })
 	@RequestMapping(value = "/get/{id:\\d+}", method = RequestMethod.GET)
 	public Response<CustomerResult> queryCustomer(@PathVariable Long id){
 		Response<CustomerResult> response = new Response<CustomerResult>();
@@ -143,6 +144,7 @@ public class CustomerController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "customer" })
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public Page<CustomerListResult> queryCustomerPage(@ModelAttribute CustomerQueryForm form){
 		Page<CustomerListResult> page = customerService.queryCustomerPage(form);
@@ -155,6 +157,7 @@ public class CustomerController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "customer.points" })
 	@RequestMapping(value = "/points", method = RequestMethod.POST)
 	@OperationLog(module = ModuleEnum.POINTSMANAGEMENT, operType = OperTypeEnum.UPDATE, title = "调减会员积分")
 	public Response<Object> addCard(@RequestBody Map<String, Object> pointsMap){
@@ -208,6 +211,7 @@ public class CustomerController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "customer.points" })
 	@RequestMapping(value = "/points/page", method = RequestMethod.GET)
 	public Page<PointsListResult> queryCustomerPage(@ModelAttribute PointsQueryForm form){
 		Page<PointsListResult> page = pointsService.queryPointsPage(form);

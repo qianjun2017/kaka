@@ -5,6 +5,7 @@ package com.cc.consultant.web;
 
 import java.util.Map;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -44,6 +45,7 @@ public class ConsultantController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "consultant.delete" })
 	@RequestMapping(value = "/delete/{id:\\d+}", method = RequestMethod.POST)
 	@OperationLog(module = ModuleEnum.CONSULTANTMANAGEMENT, operType = OperTypeEnum.DELETE, title = "删除汽车顾问", paramNames = {"id"})
 	public Response<Object> deleteConsultant(@PathVariable Long id){
@@ -71,6 +73,7 @@ public class ConsultantController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "consultant.add" })
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@OperationLog(module = ModuleEnum.CONSULTANTMANAGEMENT, operType = OperTypeEnum.ADD, title = "新增汽车顾问")
 	public Response<Object> addConsultant(@RequestBody Map<String, Object> consultantMap){
@@ -110,6 +113,7 @@ public class ConsultantController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "consultant.update" })
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@OperationLog(module = ModuleEnum.CONSULTANTMANAGEMENT, operType = OperTypeEnum.UPDATE, title = "修改汽车顾问")
 	public Response<Object> updateConsultant(@RequestBody Map<String, Object> consultantMap){
@@ -162,6 +166,7 @@ public class ConsultantController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "consultant.update" })
 	@RequestMapping(value = "/get/{id:\\d+}", method = RequestMethod.GET)
 	public Response<ConsultantBean> queryConsultant(@PathVariable Long id){
 		Response<ConsultantBean> response = new Response<ConsultantBean>();
@@ -181,6 +186,7 @@ public class ConsultantController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "consultant" })
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public Page<ConsultantBean> queryConsultantPage(@ModelAttribute ConsultantQueryForm form){
 		return consultantService.queryConsultantPage(form);

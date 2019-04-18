@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,6 +45,7 @@ public class CardController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "card", "card.level" }, logical = Logical.OR)
 	@RequestMapping(value = "/levels", method = RequestMethod.GET)
 	public Response<Object> queryCardLevelList(){
 		Response<Object> response = new Response<Object>();
@@ -59,6 +62,7 @@ public class CardController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "card" })
 	@RequestMapping(value = "/info", method = RequestMethod.GET)
 	public Response<Object> queryCardInfo(){
 		Response<Object> response = new Response<Object>();
@@ -83,6 +87,7 @@ public class CardController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "card.add" })
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@OperationLog(module = ModuleEnum.CARDMANAGEMENT, operType = OperTypeEnum.ADD, title = "新增会员卡", excludeParamNames = {"rule"})
 	public Response<Object> addCard(@RequestBody Map<String, Object> cardMap){
@@ -119,6 +124,7 @@ public class CardController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "card.update" })
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@OperationLog(module = ModuleEnum.CARDMANAGEMENT, operType = OperTypeEnum.UPDATE, title = "修改会员卡", excludeParamNames = {"rule"})
 	public Response<Object> updateCard(@RequestBody Map<String, Object> cardMap){
@@ -163,6 +169,7 @@ public class CardController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "card.level.add" })
 	@RequestMapping(value = "/level/add", method = RequestMethod.POST)
 	@OperationLog(module = ModuleEnum.CARDLEVELMANAGEMENT, operType = OperTypeEnum.ADD, title = "新增会员卡级别")
 	public Response<Object> addCardLevel(@RequestBody Map<String, Object> cardLevelMap){
@@ -225,6 +232,7 @@ public class CardController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "card.level.update" })
 	@RequestMapping(value = "/level/update", method = RequestMethod.POST)
 	@OperationLog(module = ModuleEnum.CARDLEVELMANAGEMENT, operType = OperTypeEnum.UPDATE, title = "修改会员卡级别")
 	public Response<Object> updateCardLevel(@RequestBody Map<String, Object> cardLevelMap){
@@ -297,6 +305,7 @@ public class CardController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "card.level.update" })
 	@RequestMapping(value = "/level/get/{id:\\d+}", method = RequestMethod.GET)
 	public Response<Object> queryCardLevel(@PathVariable Long id){
 		Response<Object> response = new Response<Object>();
@@ -316,6 +325,7 @@ public class CardController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "card.level.delete" })
 	@RequestMapping(value = "/level/delete/{id:\\d+}", method = RequestMethod.POST)
 	@OperationLog(module = ModuleEnum.CARDLEVELMANAGEMENT, operType = OperTypeEnum.DELETE, title = "删除会员卡级别", paramNames = {"id"})
 	public Response<Object> deleteCardLevel(@PathVariable Long id){

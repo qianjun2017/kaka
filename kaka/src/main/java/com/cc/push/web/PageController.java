@@ -3,6 +3,7 @@ package com.cc.push.web;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -49,6 +50,7 @@ public class PageController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "page.update" })
 	@RequestMapping(value = "/get/{id:\\d+}", method = RequestMethod.GET)
 	public Response<PageBean> queryPage(@PathVariable Long id){
 		Response<PageBean> response = new Response<PageBean>();
@@ -68,6 +70,7 @@ public class PageController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "page.delete" })
 	@RequestMapping(value = "/delete/{id:\\d+}", method = RequestMethod.POST)
 	@OperationLog(module = ModuleEnum.PAGEMANAGEMENT, operType = OperTypeEnum.DELETE, title = "删除页面", paramNames = {"id"})
 	public Response<Object> deletePage(@PathVariable Long id){
@@ -95,6 +98,7 @@ public class PageController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "page.add" })
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@OperationLog(module = ModuleEnum.PAGEMANAGEMENT, operType = OperTypeEnum.ADD, title = "新增页面")
 	public Response<Object> addPage(@RequestBody Map<String, Object> pageMap){
@@ -135,6 +139,7 @@ public class PageController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "page.update" })
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@OperationLog(module = ModuleEnum.PAGEMANAGEMENT, operType = OperTypeEnum.UPDATE, title = "修改页面")
 	public Response<Object> updatePage(@RequestBody Map<String, Object> pageMap){

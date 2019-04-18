@@ -5,6 +5,8 @@ package com.cc.franchiser.web;
 
 import java.util.Map;
 
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -46,6 +48,7 @@ public class FranchiserController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "franchiser.delete" })
 	@RequestMapping(value = "/delete/{id:\\d+}", method = RequestMethod.POST)
 	@OperationLog(module = ModuleEnum.FRANCHISERMANAGEMENT, operType = OperTypeEnum.DELETE, title = "删除经销商", paramNames = {"id"})
 	public Response<Object> deleteFranchiser(@PathVariable Long id){
@@ -73,6 +76,7 @@ public class FranchiserController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "franchiser.add" })
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@OperationLog(module = ModuleEnum.FRANCHISERMANAGEMENT, operType = OperTypeEnum.ADD, title = "新增经销商")
 	public Response<Object> addFranchiser(@RequestBody Map<String, Object> franchiserMap){
@@ -113,6 +117,7 @@ public class FranchiserController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "franchiser.update" })
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@OperationLog(module = ModuleEnum.FRANCHISERMANAGEMENT, operType = OperTypeEnum.UPDATE, title = "修改经销商")
 	public Response<Object> updateFranchiser(@RequestBody Map<String, Object> franchiserMap){
@@ -166,6 +171,7 @@ public class FranchiserController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "franchiser.update",  "franchiser.detail"}, logical = Logical.OR)
 	@RequestMapping(value = "/get/{id:\\d+}", method = RequestMethod.GET)
 	public Response<FranchiserResult> queryFranchiser(@PathVariable Long id){
 		Response<FranchiserResult> response = new Response<FranchiserResult>();

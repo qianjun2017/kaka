@@ -1,10 +1,10 @@
 <template>
 	<section>
     <div v-show="view=='detail'">
-      <div v-if="!card.id" class="no-card">{{'暂无会员卡'}}<el-button type="text" @click="handleCardAdd">去创建>></el-button></div>
+      <div v-if="!card.id" class="no-card">{{'暂无会员卡'}}<el-button type="text" @click="handleCardAdd" v-hasPermission="'card.add'">去创建>></el-button></div>
       <div v-else>
         <div class="card">
-          <div class="card-name">{{card.name}}<el-button type="text" @click="handleCardAdd">修改>></el-button></div>
+          <div class="card-name">{{card.name}}<el-button type="text" @click="handleCardAdd"  v-hasPermission="'card.update'">修改>></el-button></div>
           <div class="card-rule" v-html="card.rule"></div>
         </div>
         <div class="levels">
@@ -12,23 +12,25 @@
             <div :key="index" class="level">
               <img :src="level.imageUrl"/>
               <div class="name">{{level.name}}</div>
-              <div class="op">
+              <div class="op"  v-hasPermission="'card.level.update|card.level.delete'">
                 <div
                   class="edit"
                   @click="handleCardLevelEdit(index)"
+                   v-hasPermission="'card.level.update'"
                 >
                   <i class="el-icon-edit"></i>
                 </div>
                 <div
                   class="delete"
                   @click="handleCardLevelDelete(index)"
+                   v-hasPermission="'card.level.delete'"
                 >
                   <i class="el-icon-delete"></i>
                 </div>
               </div>
             </div>
           </template>
-          <div class="level add" @click="handleCardLevelAdd">
+          <div class="level add" @click="handleCardLevelAdd" v-hasPermission="'card.level.add'">
             <i class="el-icon-plus"></i>
           </div>
         </div>
@@ -164,7 +166,6 @@
             this.card = res.data
           }else{
             this.card = {}
-            this.view = 'edit'
           }
           if(this.card.rule!=undefined || this.card.rule!=''){
             this.editor.txt.html(this.card.rule)
@@ -187,6 +188,7 @@
               this.$ajax.post('/card/'+(this.card.id?'update':'add'),this.card).then((res) => {
                 if(res.success){
                   this.$message.success('提交成功')
+                  this.getCardData()
                   this.view = 'detail'
                 }else{
                   this.$message.error(res.message)

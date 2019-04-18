@@ -3,6 +3,7 @@
  */
 package com.cc.customer.web;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -46,6 +47,7 @@ public class BespeakController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "bespeak" })
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public Page<BespeakListResult> queryBespeakPage(@ModelAttribute BespeakQueryForm form){
 		Page<BespeakListResult> page = bespeakService.queryBespeakPage(form);
@@ -58,6 +60,7 @@ public class BespeakController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "bespeak.detail" })
 	@RequestMapping(value = "/get/{id:\\d+}", method = RequestMethod.GET)
 	public Response<BespeakResult> queryBespeak(@PathVariable Long id){
 		Response<BespeakResult> response = new Response<BespeakResult>();

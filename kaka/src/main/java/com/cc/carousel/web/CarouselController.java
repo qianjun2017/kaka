@@ -214,6 +214,7 @@ public class CarouselController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "carousel.update" })
 	@RequestMapping(value = "/get/{id:\\d+}", method = RequestMethod.GET)
 	public Response<CarouselResult> queryCarousel(@PathVariable Long id){
 		Response<CarouselResult> response = new Response<CarouselResult>();
@@ -270,6 +271,7 @@ public class CarouselController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "carousel" })
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public Page<Map<String, Object>> queryCarouselPage(@ModelAttribute CarouselQueryForm form){
 		return carouselService.queryCarouselPage(form);

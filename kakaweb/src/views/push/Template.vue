@@ -38,7 +38,7 @@
                             </el-form-item>
                             <el-form-item>
                                 <el-button type="primary" v-on:click="getTableLibraryData">查询</el-button>
-                                <el-button type="primary" @click="handleSyncLibrary" v-hasPermission="'template.add'" :loading="syncLibraryLoading">同步</el-button>
+                                <el-button type="primary" @click="handleSyncLibrary" v-hasPermission="'template.library.sync'" :loading="syncLibraryLoading">同步</el-button>
                             </el-form-item>
                         </el-form>
                     </el-col>

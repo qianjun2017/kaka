@@ -193,6 +193,7 @@ public class SystemConfigController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "system.config" })
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public Page<SystemConfigBean> querySystemConfigBeanPage(@ModelAttribute ConfigQueryForm form){
 		Page<SystemConfigBean> page = systemConfigService.querySystemConfigBeanPage(form);

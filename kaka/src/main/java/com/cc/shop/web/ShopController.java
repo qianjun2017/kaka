@@ -6,6 +6,8 @@ package com.cc.shop.web;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -47,6 +49,7 @@ public class ShopController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "shop" })
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public Page<ShopBean> queryShopPage(@ModelAttribute ShopQueryForm form){
 		return shopService.queryShopPage(form);
@@ -58,6 +61,7 @@ public class ShopController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "shop.update", "shop.detail" }, logical = Logical.OR)
 	@RequestMapping(value = "/get/{id:\\d+}", method = RequestMethod.GET)
 	public Response<ShopResult> queryShop(@PathVariable Long id){
 		Response<ShopResult> response = new Response<ShopResult>();
@@ -91,6 +95,7 @@ public class ShopController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "shop.delete" })
 	@RequestMapping(value = "/delete/{id:\\d+}", method = RequestMethod.POST)
 	@OperationLog(module = ModuleEnum.SHOPMANAGEMENT, operType = OperTypeEnum.DELETE, title = "删除门店", paramNames = {"id"})
 	public Response<Object> deleteShop(@PathVariable Long id){
@@ -118,6 +123,7 @@ public class ShopController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "shop.add" })
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@OperationLog(module = ModuleEnum.SHOPMANAGEMENT, operType = OperTypeEnum.ADD, title = "新增门店")
 	public Response<Object> addShop(@RequestBody Map<String, Object> shopMap){
@@ -171,6 +177,7 @@ public class ShopController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "shop.update" })
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@OperationLog(module = ModuleEnum.SHOPMANAGEMENT, operType = OperTypeEnum.UPDATE, title = "修改门店")
 	public Response<Object> updateShop(@RequestBody Map<String, Object> shopMap){

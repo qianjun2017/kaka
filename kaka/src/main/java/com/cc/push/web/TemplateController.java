@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -75,6 +76,7 @@ public class TemplateController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "template.sync" })
 	@RequestMapping(value = "/sync", method = RequestMethod.POST)
 	@OperationLog(module = ModuleEnum.TEMPLATEMANAGEMENT, operType = OperTypeEnum.SYNC, title = "同步个人模板")
 	public Response<String> syncTemplate(){
@@ -89,6 +91,7 @@ public class TemplateController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "template.library.sync" })
 	@RequestMapping(value = "/library/sync", method = RequestMethod.POST)
 	@OperationLog(module = ModuleEnum.TEMPLATEMANAGEMENT, operType = OperTypeEnum.SYNC, title = "同步模板库")
 	public Response<String> syncTemplateLibrary(){
@@ -104,6 +107,7 @@ public class TemplateController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "template.detail" })
 	@RequestMapping(value = "/get/{id:\\d+}", method = RequestMethod.GET)
 	public Response<TemplateResult> queryTemplate(@PathVariable Long id){
 		Response<TemplateResult> response = new Response<TemplateResult>();
@@ -132,6 +136,7 @@ public class TemplateController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "template.add" })
 	@RequestMapping(value = "/library/get/{id:\\d+}", method = RequestMethod.GET)
 	public Response<TemplateLibraryResult> queryTemplateLibrary(@PathVariable Long id){
 		Response<TemplateLibraryResult> response = new Response<TemplateLibraryResult>();
@@ -154,6 +159,7 @@ public class TemplateController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "template.add" })
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@OperationLog(module = ModuleEnum.TEMPLATEMANAGEMENT, operType = OperTypeEnum.ADD, title = "新增个人模板")
 	public Response<String> addTemplate(@RequestBody Map<String, Object> templateMap){
@@ -199,6 +205,7 @@ public class TemplateController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "template.delete" })
 	@RequestMapping(value = "/delete/{id:\\d+}", method = RequestMethod.POST)
 	@OperationLog(module = ModuleEnum.TEMPLATEMANAGEMENT, operType = OperTypeEnum.DELETE, title = "删除个人模板")
 	public Response<String> deleteTemplate(@PathVariable Long id){
