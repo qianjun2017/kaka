@@ -33,7 +33,27 @@
             </div>
             <div class="push-form">
                 <el-form :model="pushForm" label-width="100px" :rules="pushFormRules" ref="pushForm">
-                    <el-form-item label="发送模板" prop="name">
+                    <el-form-item label="推送类型" prop="type">
+                        <el-select v-model="pushForm.type" placeholder="请选择推送类型" clearable @change="changePushType">
+                            <el-option
+                                v-for="(value,key) in types"
+                                :key="key"
+                                :label="value"
+                                :value="key">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="选择接收人" v-if="pushForm.type=='assign'">
+                        <el-select v-model="pushForm.userList" placeholder="请选择接收人" clearable>
+                            <el-option
+                                v-for="user in userFormList"
+                                :key="user.id"
+                                :label="user.name"
+                                :value="user.id">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="发送模板" prop="templateId">
                         <el-select v-model="pushForm.templateId" placeholder="请选择发送模板" clearable @change="changeTemplate">
                             <el-option
                                 v-for="template in templateData"
@@ -48,7 +68,7 @@
                             <el-input type="textarea" v-model="pushForm.keywords[keyword.keyword]" :placeholder="keyword.example"></el-input>
                         </el-form-item>
                     </template>
-                    <el-form-item label="放大关键字" prop="name" v-if="template.keywordList && template.keywordList.length>0">
+                    <el-form-item label="放大关键字" v-if="template.keywordList && template.keywordList.length>0">
                         <el-select v-model="pushForm.emphasisKeyword" placeholder="请选择放大关键字" clearable>
                             <el-option
                                 v-for="keyword in template.keywordList"
@@ -58,7 +78,7 @@
                             </el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="详情页面" prop="name" v-if="pageData.length>0">
+                    <el-form-item label="详情页面" v-if="pageData.length>0">
                         <el-select v-model="pushForm.pageId" placeholder="请选择跳转详情页" clearable>
                             <el-option
                                 v-for="page in pageData"
@@ -88,10 +108,21 @@ export default {
             templateData: [],
 
             pushForm: {
-                keywords: {}
+                type: 'all',
+                keywords: {},
+                userList: []
             },
-            pushFormRules: {},
-            pageData: []
+            pushFormRules: {
+                type: [
+                    { required: true, message: '请选择推送类型', trigger: 'change' }
+                ],
+                templateId: [
+                    { required: true, message: '请选择发送模板', trigger: 'change' }
+                ]
+            },
+            pageData: [],
+            types: {'all': '所有用户', 'assign': '指定用户'},
+            userFormList: []
         }
     },
     methods: {
@@ -127,8 +158,31 @@ export default {
                 }
             })
         },
+        changePushType: function(type){
+            this.pushForm.userList = []
+            this.userFormList = []
+            if(type=='assign'){
+                this.$ajax.get('/push/customer').then(res=>{
+                    if(res.success){
+                        this.userFormList = res.data
+                    }else{
+                        this.$message.error(res.message)
+                    }
+                })
+            }
+        },
         handleSubmit: function(){
-
+            this.$confirm('确认推送吗?', '提示', {
+                type: 'warning'
+            }).then(()=>{
+                this.$ajax.post('/push/'+this.pushForm.type, this.pushForm).then((res) => {
+                    if(res.success){
+                        this.$message.success('提交成功')
+                    }else{
+                        this.$message.error(res.message)
+                    }
+                })
+            })
         }
     },
     created(){
