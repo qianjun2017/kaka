@@ -49,7 +49,9 @@
                                 v-for="user in userFormList"
                                 :key="user.id"
                                 :label="user.name"
-                                :value="user.id">
+                                :value="user.id"
+                                multiple
+                                collapse-tags>
                             </el-option>
                         </el-select>
                     </el-form-item>
