@@ -190,7 +190,7 @@
                 </div>
             </div>
             <div class="btns">
-                <el-button type="primary" size="small" @click="handleSubmit">提交</el-button>
+                <el-button type="primary" size="small" @click="handleSubmit" :loading="submitLoading">提交</el-button>
                 <el-button size="small" @click="back">返回</el-button>
             </div>
         </div>
@@ -232,7 +232,7 @@ export default {
             view: 'list',
 
             templateLibrary: {},
-            libraryLoading: false,
+            submitLoading: false,
             templateLibraryKeywords: [],
 
             appName: '',
@@ -322,9 +322,9 @@ export default {
         },
         handleSyncLibrary: function(){
             this.syncLibraryLoading = true
+            this.$message.success('模板库正在同步，可能需要1分钟，请稍后再使用')
             this.$ajax.post('/template/library/sync').then(res=>{
                 this.syncLibraryLoading = false
-                this.$message.success('模板库正在同步，可能需要1分钟，请稍后再使用')
                 if(res.success){
                     this.$message.success('同步成功')
                     this.getTableLibraryData()
@@ -335,9 +335,7 @@ export default {
         },
         handleUse: function(index, row){
             this.templateLibraryKeywords = []
-            this.libraryLoading = true
             this.$ajax.get('/template/library/get/'+row.id).then(res=>{
-                this.libraryLoading = false
                 if(res.success){
                     this.templateLibrary = res.data
                     this.view = 'use'
@@ -403,7 +401,9 @@ export default {
             this.$confirm('确认提交吗?', '提示', {
                 type: 'warning'
             }).then(()=>{
+                this.submitLoading = true
                 this.$ajax.post('/template/add', param).then((res) => {
+                    this.submitLoading = false
                     if(res.success){
                         this.$message.success('提交成功')
                         this.getTableData()

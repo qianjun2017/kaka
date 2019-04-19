@@ -44,7 +44,11 @@ Vue.directive('hasPermission', {
             }
         }
         if (noPermission) {
-            el.parentNode.removeChild(el)
+            if (el.parentNode) {
+                el.parentNode.removeChild(el)
+            } else {
+                el.style.display = 'none'
+            }
         }
     }
 })

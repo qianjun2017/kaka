@@ -36,7 +36,7 @@
 
       <!--列表-->
       <el-table :data="tableData" stripe highlight-current-row v-loading="listLoading" @sort-change="sortChanged" style="width: 100%;" :default-sort = "{prop: 'createTime', order: 'descending'}" :empty-text="message">
-        <el-table-column prop="name" label="会员名称" width="200" show-overflow-tooltip>
+        <el-table-column prop="name" label="会员名称" width="150" show-overflow-tooltip>
           <template slot-scope="scope">
             <div class="user">
               <img :src = "scope.row.avatarUrl" width="40" height="40"/>
@@ -44,11 +44,11 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="phone" label="电话" width="120">
+        <el-table-column prop="phone" label="电话" width="110">
         </el-table-column>
-        <el-table-column prop="cardNo" label="会员卡号" width="180">
+        <el-table-column prop="cardNo" label="会员卡号" width="150" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column prop="cardLevel" label="会员等级" width="100">
+        <el-table-column prop="cardLevel" label="会员等级" width="80">
         </el-table-column>
         <el-table-column prop="points" label="积分" width="60">
         </el-table-column>
@@ -136,8 +136,8 @@
 
     <!--调减积分界面-->
 		<el-dialog title="调减积分" :visible.sync="pointsFormVisible" :close-on-click-modal="false">
-			<el-form :model="pointsForm" label-width="80px" :rules="pointsFormRules" ref="pointsForm">
-				<el-form-item label="积分数" prop="points">
+			<el-form :model="pointsForm" label-width="100px" :rules="pointsFormRules" ref="pointsForm">
+				<el-form-item label="调整积分数" prop="points">
 					<el-input v-model="pointsForm.points" auto-complete="off" placeholder="请输入调整积分数"></el-input>
 				</el-form-item>
         <el-form-item label="原因" prop="remark">
@@ -451,5 +451,8 @@ td{
 .user{
   display: flex;
   align-items: center;
+  img{
+    flex-shrink: 0;
+  }
 }
 </style>

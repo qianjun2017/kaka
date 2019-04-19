@@ -44,14 +44,12 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item label="选择接收人" v-if="pushForm.type=='assign'">
-                        <el-select v-model="pushForm.userList" placeholder="请选择接收人" clearable>
+                        <el-select v-model="pushForm.userList" placeholder="请选择接收人" multiple collapse-tags clearable>
                             <el-option
                                 v-for="user in userFormList"
-                                :key="user.id"
-                                :label="user.name"
-                                :value="user.id"
-                                multiple
-                                collapse-tags>
+                                :key="user.userId"
+                                :label="user.userName"
+                                :value="user.userId">
                             </el-option>
                         </el-select>
                     </el-form-item>
@@ -90,11 +88,14 @@
                             </el-option>
                         </el-select>
                     </el-form-item>
+                    <el-form-item label="详情参数" v-if="pushForm.pageId">
+                        <el-input v-model="pushForm.param" placeholder="请输入详情页参数"></el-input>
+                    </el-form-item>
                 </el-form>
             </div>
         </div>
         <div class="btns" v-if="templateData.length>0">
-            <el-button type="primary" size="small" @click="handleSubmit">提交</el-button>
+            <el-button type="primary" size="small" @click="handleSubmit" :loading="submitLoading">提交</el-button>
         </div>
     </section>
 </template>
@@ -124,7 +125,9 @@ export default {
             },
             pageData: [],
             types: {'all': '所有用户', 'assign': '指定用户'},
-            userFormList: []
+            userFormList: [],
+
+            submitLoading: false
         }
     },
     methods: {
@@ -177,7 +180,9 @@ export default {
             this.$confirm('确认推送吗?', '提示', {
                 type: 'warning'
             }).then(()=>{
+                this.submitLoading = true
                 this.$ajax.post('/push/'+this.pushForm.type, this.pushForm).then((res) => {
+                    this.submitLoading = false
                     if(res.success){
                         this.$message.success('提交成功')
                     }else{

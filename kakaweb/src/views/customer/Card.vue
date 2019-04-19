@@ -12,7 +12,7 @@
             <div :key="index" class="level">
               <img :src="level.imageUrl"/>
               <div class="name">{{level.name}}</div>
-              <div class="op" v-hasPermission="'card.level.update|card.level.delete'">
+              <div class="op">
                 <div
                   class="edit"
                   @click="handleCardLevelEdit(index)"
