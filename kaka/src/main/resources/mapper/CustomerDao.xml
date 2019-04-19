@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.cc.customer.dao.CustomerDao">
 
 	<select id="queryCustomerList" resultType="com.cc.customer.result.CustomerListResult" parameterType="com.cc.customer.form.CustomerQueryForm" statementType="PREPARED">
-		select t.id, t.name,t.avatarUrl,t.cardNo,t.status,t.createTime,cl.name as cardLevel,t.phone,t.points
+		select t.id, t.name,t.avatarUrl,t.cardNo,t.status,t.createTime,cl.name as cardLevel,t.phone,t.points, cl.color as cardColor
 		from
 		(select c.id, c.name,c.avatarUrl,c.cardNo,c.status,c.createTime,(select tcl.level from t_card_level tcl where tcl.points <![CDATA[<=]]> c.points order by tcl.points limit 1) as level,c.phone,c.points
 		from t_customer c

@@ -156,7 +156,7 @@ public class WeiXinController {
 		}
 		customerBean.setStatus(CustomerStatusEnum.NORMAL.getCode());
 		customerBean.setCreateTime(DateTools.now());
-		customerBean.setCardNo(StringTools.getSeqNo());
+		customerBean.setCardNo(StringTools.getSys36SeqNo());
 		customerBean.setPoints(0l);
 		try {
 			customerService.saveCustomer(customerBean);

@@ -51,6 +51,11 @@ public class CardLevelBean extends BaseOrm<CardLevelBean> implements BaseEntity 
 	 * 会员级别最低积分
 	 */
 	private Long points;
+	
+	/**
+	 * 字体颜色
+	 */
+	private String color;
 
 	/**
 	 * @return the id
@@ -134,5 +139,19 @@ public class CardLevelBean extends BaseOrm<CardLevelBean> implements BaseEntity 
 	 */
 	public void setPoints(Long points) {
 		this.points = points;
+	}
+
+	/**
+	 * @return the color
+	 */
+	public String getColor() {
+		return color;
+	}
+
+	/**
+	 * @param color the color to set
+	 */
+	public void setColor(String color) {
+		this.color = color;
 	}
 }

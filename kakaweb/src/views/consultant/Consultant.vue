@@ -55,7 +55,7 @@
                 :file-list="fileList"
                 :on-success="handleSuccess"
                 :on-remove="handleRemove"
-                :data="{type: 'image', size: '480x480'}"
+                :data="{type: 'image'}"
                 :limit="1">
               <i class="el-icon-plus"></i>
               </el-upload>

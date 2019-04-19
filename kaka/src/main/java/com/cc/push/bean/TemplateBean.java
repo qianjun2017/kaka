@@ -47,6 +47,11 @@ public class TemplateBean extends BaseOrm<TemplateBean> implements BaseEntity {
 	private String title;
 	
 	/**
+	 * 同步状态
+	 */
+	private Boolean sync;
+	
+	/**
 	 * @return the id
 	 */
 	public Long getId() {
@@ -100,5 +105,19 @@ public class TemplateBean extends BaseOrm<TemplateBean> implements BaseEntity {
 	 */
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	/**
+	 * @return the sync
+	 */
+	public Boolean getSync() {
+		return sync;
+	}
+
+	/**
+	 * @param sync the sync to set
+	 */
+	public void setSync(Boolean sync) {
+		this.sync = sync;
 	}
 }

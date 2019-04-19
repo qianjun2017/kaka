@@ -53,6 +53,7 @@ public class ApiCustomerController {
 		if(cardLevelBean!=null){
 			customerResult.setCardLevel(cardLevelBean.getName());
 			customerResult.setCardImage(cardLevelBean.getImageUrl());
+			customerResult.setCardColor(cardLevelBean.getColor());
 		}
 		response.setData(customerResult);
 		response.setSuccess(Boolean.TRUE);

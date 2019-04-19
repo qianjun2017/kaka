@@ -46,6 +46,11 @@ public class TemplateLibraryBean extends BaseOrm<TemplateLibraryBean> implements
 	 */
 	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createTime;
+	
+	/**
+	 * 同步状态
+	 */
+	private Boolean sync;
 
 	/**
 	 * @return the id
@@ -101,5 +106,19 @@ public class TemplateLibraryBean extends BaseOrm<TemplateLibraryBean> implements
 	 */
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+
+	/**
+	 * @return the sync
+	 */
+	public Boolean getSync() {
+		return sync;
+	}
+
+	/**
+	 * @param sync the sync to set
+	 */
+	public void setSync(Boolean sync) {
+		this.sync = sync;
 	}
 }

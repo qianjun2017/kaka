@@ -30,7 +30,7 @@
                         </el-table-column>
                     </el-table>
                 </el-tab-pane>
-                <el-tab-pane label="模板库" name="library">
+                <el-tab-pane label="模板库" name="library" v-hasPermission="'template.add'">
                     <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
                         <el-form :inline="true" :model="queryForm">
                             <el-form-item>

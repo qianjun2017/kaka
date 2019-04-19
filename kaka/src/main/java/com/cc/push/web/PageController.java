@@ -39,6 +39,7 @@ public class PageController {
 	 * @return
 	 */
 	@ResponseBody
+	@RequiresPermissions(value = { "page" })
 	@RequestMapping(value = "/page", method = RequestMethod.GET)
 	public Page<PageBean> queryPagePage(@ModelAttribute PageQueryForm form){
 		return pageService.queryPagePage(form);
@@ -188,6 +189,24 @@ public class PageController {
 			response.setMessage("系统内部错误");
 			e.printStackTrace();
 		}
+		return response;
+	}
+	
+	/**
+	 * 查询全部页面
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/all", method = RequestMethod.GET)
+	public Response<Object> queryAllPages(){
+		Response<Object> response = new Response<Object>();
+		List<PageBean> pageBeanList = PageBean.findAllByParams(PageBean.class);
+		if(ListTools.isEmptyOrNull(pageBeanList)){
+			response.setMessage("没有查询到任何页面");
+			return response;
+		}
+		response.setData(pageBeanList);
+		response.setSuccess(Boolean.TRUE);
 		return response;
 	}
 }

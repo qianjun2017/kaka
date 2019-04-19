@@ -60,6 +60,11 @@ public class CustomerResult {
 	 * 积分
 	 */
 	private Long points;
+	
+	/**
+	 * 卡片字体颜色
+	 */
+	private String cardColor;
 
 	/**
 	 * @return the id
@@ -199,5 +204,19 @@ public class CustomerResult {
 	 */
 	public void setPoints(Long points) {
 		this.points = points;
+	}
+
+	/**
+	 * @return the cardColor
+	 */
+	public String getCardColor() {
+		return cardColor;
+	}
+
+	/**
+	 * @param cardColor the cardColor to set
+	 */
+	public void setCardColor(String cardColor) {
+		this.cardColor = cardColor;
 	}
 }

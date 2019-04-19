@@ -80,6 +80,7 @@ CREATE TABLE `t_card_level` (
   `name` varchar(64) DEFAULT NULL,
   `imageUrl` varchar(128) NOT NULL,
   `points` int(11) NOT NULL,
+  `color` varchar(7) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -179,7 +180,7 @@ CREATE TABLE `t_customer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) DEFAULT NULL,
   `openid` varchar(32) NOT NULL,
-  `avatarUrl` varchar(128) DEFAULT NULL,
+  `avatarUrl` varchar(256) DEFAULT NULL,
   `status` varchar(16) NOT NULL,
   `createTime` datetime NOT NULL,
   `cardNo` varchar(18) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
@@ -402,7 +403,7 @@ CREATE TABLE `t_system_location` (
   `level` smallint(6) NOT NULL,
   `createTime` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -435,7 +436,7 @@ CREATE TABLE `t_system_log` (
   `title` varchar(128) DEFAULT NULL,
   `operateTime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=199 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -567,6 +568,7 @@ CREATE TABLE `t_template` (
   `templateId` varchar(128) NOT NULL,
   `title` varchar(128) NOT NULL,
   `createTime` datetime DEFAULT NULL,
+  `sync` bit(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -621,6 +623,7 @@ CREATE TABLE `t_template_library` (
   `templateId` varchar(64) NOT NULL,
   `title` varchar(128) NOT NULL,
   `createTime` datetime DEFAULT NULL,
+  `sync` bit(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2791 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;

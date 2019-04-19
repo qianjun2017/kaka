@@ -4,7 +4,7 @@
       <div v-if="!card.id" class="no-card">{{'暂无会员卡'}}<el-button type="text" @click="handleCardAdd" v-hasPermission="'card.add'">去创建>></el-button></div>
       <div v-else>
         <div class="card">
-          <div class="card-name">{{card.name}}<el-button type="text" @click="handleCardAdd"  v-hasPermission="'card.update'">修改>></el-button></div>
+          <div class="card-name">{{card.name}}<el-button type="text" @click="handleCardAdd" v-hasPermission="'card.update'">修改>></el-button></div>
           <div class="card-rule" v-html="card.rule"></div>
         </div>
         <div class="levels">
@@ -12,18 +12,18 @@
             <div :key="index" class="level">
               <img :src="level.imageUrl"/>
               <div class="name">{{level.name}}</div>
-              <div class="op"  v-hasPermission="'card.level.update|card.level.delete'">
+              <div class="op" v-hasPermission="'card.level.update|card.level.delete'">
                 <div
                   class="edit"
                   @click="handleCardLevelEdit(index)"
-                   v-hasPermission="'card.level.update'"
+                  v-hasPermission="'card.level.update'"
                 >
                   <i class="el-icon-edit"></i>
                 </div>
                 <div
                   class="delete"
                   @click="handleCardLevelDelete(index)"
-                   v-hasPermission="'card.level.delete'"
+                  v-hasPermission="'card.level.delete'"
                 >
                   <i class="el-icon-delete"></i>
                 </div>
@@ -66,10 +66,13 @@
                 :file-list="fileList"
                 :on-success="handleSuccess"
                 :on-remove="handleRemove"
-                :data="{type: 'image', size: '700x300'}"
+                :data="{type: 'image'}"
                 :limit="1">
               <i class="el-icon-plus"></i>
               </el-upload>
+            </el-form-item>
+            <el-form-item label="字体颜色" prop="color">
+              <el-input v-model="cardLevelForm.color" auto-complete="off"></el-input>
             </el-form-item>
             <el-form-item label="级别编码" prop="level">
               <el-input v-model="cardLevelForm.level" auto-complete="off"></el-input>
@@ -122,6 +125,9 @@
           ],
           points: [
 						{ required: true, message: '请输入会员卡级别最低积分', trigger: 'blur' }
+          ],
+          color: [
+						{ required: true, message: '请输入会员卡级别图片中字体颜色', trigger: 'blur' }
           ]
         },
         fileList: [],

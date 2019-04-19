@@ -56,4 +56,10 @@ html{
 .fade-leave-active {
 	opacity: 0;
 }
+.btns{
+    clear: both;
+    width: 100%;
+    text-align: center;
+    padding-top: 20px;
+}
 </style>

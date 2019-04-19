@@ -4,6 +4,7 @@
 package com.cc.push.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ import com.cc.common.tools.JsonTools;
 import com.cc.common.tools.ListTools;
 import com.cc.common.tools.StringTools;
 import com.cc.common.web.Page;
+import com.cc.push.bean.PushBean;
 import com.cc.push.bean.TemplateBean;
 import com.cc.push.bean.TemplateKeywordBean;
 import com.cc.push.bean.TemplateLibraryBean;
@@ -116,6 +118,9 @@ public class TemplateServiceImpl implements TemplateService {
 	@Override
 	@Transactional(rollbackFor = {Exception.class}, propagation = Propagation.REQUIRED)
 	public void syncTemplate() {
+		TemplateBean unSyncTemplateBean = new TemplateBean();
+		unSyncTemplateBean.setSync(Boolean.FALSE);
+		unSyncTemplateBean.updateByExample(new Example(TemplateBean.class));
 		int offset = 0;
 		while(true){
 			TemplateListRequest request = new TemplateListRequest();
@@ -136,12 +141,13 @@ public class TemplateServiceImpl implements TemplateService {
 				List<TemplateBean> templateBeanList = TemplateBean.findAllByParams(TemplateBean.class, "templateId", template.getId());
 				if(ListTools.isEmptyOrNull(templateBeanList)){
 					templateBean = new TemplateBean();
+					templateBean.setTemplateId(template.getId());
+					templateBean.setCreateTime(DateTools.now());
 				}else{
 					templateBean = templateBeanList.get(0);
 				}
-				templateBean.setTemplateId(template.getId());
+				templateBean.setSync(Boolean.TRUE);
 				templateBean.setTitle(template.getTitle());
-				templateBean.setCreateTime(DateTools.now());
 				int row = templateBean.save();
 				if(row!=1){
 					logger.warn("消息模板:"+templateBean.getTitle()+",保存失败");
@@ -191,6 +197,18 @@ public class TemplateServiceImpl implements TemplateService {
 				}
 			}
 			if(templateList.size()<20){
+				List<TemplateBean> unSyncTemplateBeanList = TemplateBean.findAllByParams(TemplateBean.class, "sync", Boolean.FALSE);
+				if(!ListTools.isEmptyOrNull(unSyncTemplateBeanList)){
+					List<Long> unSyncTemplateIdList = unSyncTemplateBeanList.stream().map(templateBean->templateBean.getId()).collect(Collectors.toList());
+					Example templateKeywordExample = new Example(TemplateKeywordBean.class);
+					Criteria templateKeywordCriteria = templateKeywordExample.createCriteria();
+					templateKeywordCriteria.andIn("templateId", unSyncTemplateIdList);
+					TemplateKeywordBean.deleteByExample(TemplateKeywordBean.class, templateKeywordExample);
+					Example templateExample = new Example(TemplateBean.class);
+					Criteria templateCriteria = templateExample.createCriteria();
+					templateCriteria.andIn("id", unSyncTemplateIdList);
+					TemplateBean.deleteByExample(TemplateBean.class, templateExample);
+				}
 				return;
 			}
 			offset += 20;
@@ -200,6 +218,9 @@ public class TemplateServiceImpl implements TemplateService {
 	@Override
 	@Transactional(rollbackFor = {Exception.class}, propagation = Propagation.REQUIRED)
 	public void syncTemplateLibrary() {
+		TemplateLibraryBean unSyncTemplateLibraryBean = new TemplateLibraryBean();
+		unSyncTemplateLibraryBean.setSync(Boolean.FALSE);
+		unSyncTemplateLibraryBean.updateByExample(new Example(TemplateLibraryBean.class));
 		int offset = 0;
 		while(true){
 			TemplateLibraryListRequest request = new TemplateLibraryListRequest();
@@ -220,21 +241,28 @@ public class TemplateServiceImpl implements TemplateService {
 				List<TemplateLibraryBean> templateLibraryBeanList = TemplateLibraryBean.findAllByParams(TemplateLibraryBean.class, "templateId", templateLibrary.getId());
 				if(ListTools.isEmptyOrNull(templateLibraryBeanList)){
 					templateLibraryBean = new TemplateLibraryBean();
+					templateLibraryBean.setCreateTime(DateTools.now());
 				}else{
 					templateLibraryBean = templateLibraryBeanList.get(0);
-					if(templateLibraryBean.getTitle().equals(templateLibrary.getTitle())){
-						continue;
-					}
 				}
+				templateLibraryBean.setSync(Boolean.TRUE);
 				templateLibraryBean.setTemplateId(templateLibrary.getId());
 				templateLibraryBean.setTitle(templateLibrary.getTitle());
-				templateLibraryBean.setCreateTime(DateTools.now());
+				
 				int row = templateLibraryBean.save();
 				if(row!=1){
 					logger.warn("消息模板:"+templateLibraryBean.getTitle()+",保存失败");
 				}
 			}
 			if(templateLibraryList.size()<20){
+				List<TemplateLibraryBean> unSyncTemplateLibraryBeanList = TemplateLibraryBean.findAllByParams(TemplateLibraryBean.class, "sync", Boolean.FALSE);
+				if(!ListTools.isEmptyOrNull(unSyncTemplateLibraryBeanList)){
+					List<Long> unSyncTemplateLibraryIdList = unSyncTemplateLibraryBeanList.stream().map(templateLibraryBean->templateLibraryBean.getId()).collect(Collectors.toList());
+					Example templateLibraryExample = new Example(TemplateLibraryBean.class);
+					Criteria templateLibraryCriteria = templateLibraryExample.createCriteria();
+					templateLibraryCriteria.andIn("id", unSyncTemplateLibraryIdList);
+					TemplateLibraryBean.deleteByExample(TemplateLibraryBean.class, templateLibraryExample);
+				}
 				return;
 			}
 			offset += 20;
@@ -291,6 +319,11 @@ public class TemplateServiceImpl implements TemplateService {
 		criteria.andEqualTo("templateId", templateBean.getId());
 		TemplateKeywordBean.deleteByExample(TemplateKeywordBean.class, example);
 		templateBean.delete();
+	}
+
+	@Override
+	public void pushTemplateMessage(PushBean pushBean) {
+		
 	}
 
 }

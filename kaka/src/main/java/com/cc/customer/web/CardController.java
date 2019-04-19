@@ -208,12 +208,22 @@ public class CardController {
 			response.setMessage("会员卡不存在或已删除，请重新选择会员卡");
 			return response;
 		}
+		Object color = cardLevelMap.get("color");
+		if(color==null){
+			response.setMessage("请输入会员卡级别图片中字体颜色");
+			return response;
+		}
+		if(!StringTools.matches(StringTools.toString(color), "^#[0-9A-F]{6}$")){
+			response.setMessage("会员卡级别图片中字体颜色使用十六进制表示，如#FFFFFF，请重新输入");
+			return response;
+		}
 		CardLevelBean cardLevelBean = new CardLevelBean();
 		cardLevelBean.setLevel(StringTools.toString(level));
 		cardLevelBean.setName(StringTools.toString(name));
 		cardLevelBean.setImageUrl(StringTools.toString(imageUrl));
 		cardLevelBean.setPoints(Long.valueOf(StringTools.toString(points)));
 		cardLevelBean.setCardId(cardBean.getId());
+		cardLevelBean.setColor(StringTools.toString(color));
 		try {
 			cardService.saveCardLevel(cardLevelBean);
 			response.setSuccess(Boolean.TRUE);
@@ -281,11 +291,21 @@ public class CardController {
 			response.setMessage("会员卡不存在或已删除，请重新选择会员卡");
 			return response;
 		}
+		Object color = cardLevelMap.get("color");
+		if(color==null){
+			response.setMessage("请输入会员卡级别图片中字体颜色");
+			return response;
+		}
+		if(!StringTools.matches(StringTools.toString(color), "^#[0-9A-F]{6}$")){
+			response.setMessage("会员卡级别图片中字体颜色使用十六进制表示，如#FFFFFF，请重新输入");
+			return response;
+		}
 		cardLevelBean.setLevel(StringTools.toString(level));
 		cardLevelBean.setName(StringTools.toString(name));
 		cardLevelBean.setImageUrl(StringTools.toString(imageUrl));
 		cardLevelBean.setPoints(Long.valueOf(StringTools.toString(points)));
 		cardLevelBean.setCardId(cardBean.getId());
+		cardLevelBean.setColor(StringTools.toString(color));
 		try {
 			cardService.saveCardLevel(cardLevelBean);
 			response.setSuccess(Boolean.TRUE);

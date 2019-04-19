@@ -6,6 +6,7 @@ package com.cc.push.service;
 import java.util.List;
 
 import com.cc.common.web.Page;
+import com.cc.push.bean.PushBean;
 import com.cc.push.bean.TemplateBean;
 import com.cc.push.bean.TemplateLibraryBean;
 import com.cc.push.form.TemplateLibraryQueryFrom;
@@ -61,5 +62,11 @@ public interface TemplateService {
 	 * @param id
 	 */
 	void deleteTemplate(Long id);
+	
+	/**
+	 * 推送模板消息
+	 * @param pushBean
+	 */
+	void pushTemplateMessage(PushBean pushBean);
 
 }
