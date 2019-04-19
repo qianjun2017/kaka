@@ -17,8 +17,10 @@ import com.cc.common.tools.JsonTools;
 import com.cc.common.tools.ListTools;
 import com.cc.common.tools.StringTools;
 import com.cc.common.web.Response;
+import com.cc.customer.bean.CustomerBean;
 import com.cc.push.bean.PageBean;
 import com.cc.push.bean.PushBean;
+import com.cc.push.bean.PushUserBean;
 import com.cc.push.bean.TemplateBean;
 import com.cc.push.enums.PushStatusEnum;
 import com.cc.push.enums.PushTypeEnum;
@@ -129,6 +131,17 @@ public class PushController {
 				pushBean.setContent(JsonTools.toJsonString(form.getKeywords()).getBytes("utf-8"));
 			}
 			pushService.savePush(pushBean);
+			for(Long userId: form.getUserList()){
+				CustomerBean customerBean = CustomerBean.get(CustomerBean.class, userId);
+				if(customerBean!=null){
+					PushUserBean pushUserBean = new PushUserBean();
+					pushUserBean.setName(customerBean.getName());
+					pushUserBean.setOpenid(customerBean.getOpenid());
+					pushUserBean.setUserId(customerBean.getId());
+					pushUserBean.setPushId(pushBean.getId());
+					pushService.savePushUser(pushUserBean);
+				}
+			}
 			new TemplatePushThread(pushBean.getId()).start();
 		} catch (LogicException e) {
 			response.setMessage(e.getErrContent());
