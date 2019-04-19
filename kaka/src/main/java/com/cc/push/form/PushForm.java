@@ -1,5 +1,6 @@
 package com.cc.push.form;
 
+import java.util.List;
 import java.util.Map;
 
 public class PushForm {
@@ -28,6 +29,11 @@ public class PushForm {
 	 * 详情页面参数
 	 */
 	private String param;
+	
+	/**
+	 * 接收用户
+	 */
+	private List<Long> userList;
 
 	/**
 	 * @return the templateId
@@ -97,5 +103,19 @@ public class PushForm {
 	 */
 	public void setParam(String param) {
 		this.param = param;
+	}
+
+	/**
+	 * @return the userList
+	 */
+	public List<Long> getUserList() {
+		return userList;
+	}
+
+	/**
+	 * @param userList the userList to set
+	 */
+	public void setUserList(List<Long> userList) {
+		this.userList = userList;
 	}
 }

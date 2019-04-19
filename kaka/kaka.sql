@@ -54,7 +54,7 @@ CREATE TABLE `t_card` (
   `name` varchar(64) DEFAULT NULL,
   `rule` blob,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -82,7 +82,7 @@ CREATE TABLE `t_card_level` (
   `points` int(11) NOT NULL,
   `color` varchar(7) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -178,7 +178,7 @@ DROP TABLE IF EXISTS `t_customer`;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `t_customer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(32) DEFAULT NULL,
+  `name` varchar(128) DEFAULT NULL,
   `openid` varchar(32) NOT NULL,
   `avatarUrl` varchar(256) DEFAULT NULL,
   `status` varchar(16) NOT NULL,
@@ -222,6 +222,65 @@ CREATE TABLE `t_form` (
 LOCK TABLES `t_form` WRITE;
 /*!40000 ALTER TABLE `t_form` DISABLE KEYS */;
 /*!40000 ALTER TABLE `t_form` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_push`
+--
+
+DROP TABLE IF EXISTS `t_push`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `t_push` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `templateId` varchar(128) NOT NULL,
+  `title` varchar(128) NOT NULL,
+  `status` varchar(16) NOT NULL,
+  `type` varchar(16) NOT NULL,
+  `createTime` datetime NOT NULL,
+  `emphasisKeyword` varchar(32) DEFAULT NULL,
+  `page` varchar(128) DEFAULT NULL,
+  `content` blob,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_push`
+--
+
+LOCK TABLES `t_push` WRITE;
+/*!40000 ALTER TABLE `t_push` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_push` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+--
+-- Table structure for table `t_push_user`
+--
+
+DROP TABLE IF EXISTS `t_push_user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `t_push_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pushId` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
+  `name` varchar(128) DEFAULT NULL,
+  `openid` varchar(32) NOT NULL,
+  `success` bit(1) DEFAULT NULL,
+  `message` varchar(128) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_push_user`
+--
+
+LOCK TABLES `t_push_user` WRITE;
+/*!40000 ALTER TABLE `t_push_user` DISABLE KEYS */;
+/*!40000 ALTER TABLE `t_push_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
