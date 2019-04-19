@@ -15,6 +15,13 @@ public class Value {
 	private String value;
 
 	/**
+	 * @param value
+	 */
+	public Value(String value) {
+		this.value = value;
+	}
+
+	/**
 	 * @return the value
 	 */
 	public String getValue() {

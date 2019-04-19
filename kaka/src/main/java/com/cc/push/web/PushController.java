@@ -23,6 +23,7 @@ import com.cc.push.enums.PushStatusEnum;
 import com.cc.push.enums.PushTypeEnum;
 import com.cc.push.form.PushForm;
 import com.cc.push.service.PushService;
+import com.cc.push.thread.TemplatePushThread;
 
 /**
  * @author ws_yu
@@ -74,6 +75,7 @@ public class PushController {
 				pushBean.setContent(JsonTools.toJsonString(form.getKeywords()).getBytes("utf-8"));
 			}
 			pushService.savePush(pushBean);
+			new TemplatePushThread(pushBean.getId()).start();
 		} catch (LogicException e) {
 			response.setMessage(e.getErrContent());
 		} catch (Exception e) {

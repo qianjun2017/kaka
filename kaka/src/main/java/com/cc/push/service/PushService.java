@@ -5,6 +5,7 @@ package com.cc.push.service;
 
 import java.util.List;
 
+import com.cc.push.bean.FormBean;
 import com.cc.push.bean.PushBean;
 import com.cc.push.bean.PushUserBean;
 import com.cc.push.result.FormResult;
@@ -32,5 +33,12 @@ public interface PushService {
 	 * @param pushUserBean
 	 */
 	void savePushUser(PushUserBean pushUserBean);
+	
+	/**
+	 * 查询用户最近到期的一条数据
+	 * @param userId
+	 * @return
+	 */
+	FormBean queryUserForm(Long userId);
 	
 }
