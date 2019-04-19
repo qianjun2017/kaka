@@ -3,6 +3,8 @@
  */
 package com.cc.push.web;
 
+import java.util.List;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,7 @@ import com.cc.push.bean.TemplateBean;
 import com.cc.push.enums.PushStatusEnum;
 import com.cc.push.enums.PushTypeEnum;
 import com.cc.push.form.PushForm;
+import com.cc.push.result.FormResult;
 import com.cc.push.service.PushService;
 import com.cc.push.thread.TemplatePushThread;
 
@@ -38,6 +41,24 @@ public class PushController {
 	
 	@Autowired
 	private PushService pushService;
+	
+	@ResponseBody
+	@RequiresPermissions(value = { "push" })
+	@RequestMapping(value = "/customer", method = RequestMethod.GET)
+	public Response<Object> queryPushCustomer(){
+		Response<Object> response = new Response<Object>();
+		try {
+			List<FormResult> userFormList = pushService.queryAllUserFormList();
+			response.setData(userFormList);
+			response.setSuccess(Boolean.TRUE);
+		} catch (LogicException e) {
+			response.setMessage(e.getErrContent());
+		} catch (Exception e) {
+			response.setMessage("系统内部错误");
+			e.printStackTrace();
+		}
+		return response;
+	}
 
 	/**
 	 * 全部会员推送
@@ -79,6 +100,7 @@ public class PushController {
 			}
 			pushService.savePush(pushBean);
 			new TemplatePushThread(pushBean.getId()).start();
+			response.setSuccess(Boolean.TRUE);
 		} catch (LogicException e) {
 			response.setMessage(e.getErrContent());
 		} catch (Exception e) {
@@ -143,6 +165,7 @@ public class PushController {
 				}
 			}
 			new TemplatePushThread(pushBean.getId()).start();
+			response.setSuccess(Boolean.TRUE);
 		} catch (LogicException e) {
 			response.setMessage(e.getErrContent());
 		} catch (Exception e) {
