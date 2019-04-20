@@ -11,15 +11,21 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cc.common.exception.LogicException;
 import com.cc.common.tools.ListTools;
 import com.cc.common.tools.StringTools;
+import com.cc.common.web.Page;
 import com.cc.push.bean.FormBean;
 import com.cc.push.bean.PushBean;
 import com.cc.push.bean.PushUserBean;
 import com.cc.push.dao.FormDao;
+import com.cc.push.dao.PushDao;
 import com.cc.push.form.FormQueryForm;
+import com.cc.push.form.PushQueryForm;
 import com.cc.push.result.FormResult;
+import com.cc.push.result.PushListResult;
 import com.cc.push.service.PushService;
 import com.cc.system.config.bean.SystemConfigBean;
 import com.cc.system.config.service.SystemConfigService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.entity.Example.Criteria;
@@ -32,6 +38,9 @@ public class PushServiceImpl implements PushService {
 	
 	@Autowired
     private SystemConfigService systemConfigService;
+	
+	@Autowired
+	private PushDao pushDao;
 
 	@Override
 	public List<FormResult> queryAllUserFormList() {
@@ -82,6 +91,26 @@ public class PushServiceImpl implements PushService {
 			return formBeanList.get(0);
 		}
 		return null;
+	}
+
+	@Override
+	public Page<PushListResult> queryPushPage(PushQueryForm form) {
+		Page<PushListResult> page = new Page<PushListResult>();
+		PageHelper.orderBy(String.format("%s %s", form.getSort(), form.getOrder()));
+		PageHelper.startPage(form.getPage(), form.getPageSize());
+		List<PushListResult> pushList = pushDao.queryPushList(form);
+		PageInfo<PushListResult> pageInfo = new PageInfo<PushListResult>(pushList);
+		if (ListTools.isEmptyOrNull(pushList)) {
+			page.setMessage("没有查询到相关推送历史数据");
+			return page;
+		}
+		page.setPage(pageInfo.getPageNum());
+		page.setPages(pageInfo.getPages());
+		page.setPageSize(pageInfo.getPageSize());
+		page.setTotal(pageInfo.getTotal());
+		page.setData(pushList);
+		page.setSuccess(Boolean.TRUE);
+		return page;
 	}
 
 }

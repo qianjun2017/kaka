@@ -8,6 +8,8 @@ import java.util.List;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +20,7 @@ import com.cc.common.tools.DateTools;
 import com.cc.common.tools.JsonTools;
 import com.cc.common.tools.ListTools;
 import com.cc.common.tools.StringTools;
+import com.cc.common.web.Page;
 import com.cc.common.web.Response;
 import com.cc.customer.bean.CustomerBean;
 import com.cc.push.bean.PageBean;
@@ -27,7 +30,9 @@ import com.cc.push.bean.TemplateBean;
 import com.cc.push.enums.PushStatusEnum;
 import com.cc.push.enums.PushTypeEnum;
 import com.cc.push.form.PushForm;
+import com.cc.push.form.PushQueryForm;
 import com.cc.push.result.FormResult;
+import com.cc.push.result.PushListResult;
 import com.cc.push.service.PushService;
 import com.cc.push.thread.TemplatePushThread;
 
@@ -172,6 +177,37 @@ public class PushController {
 			response.setMessage("系统内部错误");
 			e.printStackTrace();
 		}
+		return response;
+	}
+	
+	/**
+	 * 分页查询推送历史
+	 * @param form
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/history/page", method = RequestMethod.GET)
+	public Page<PushListResult> queryTemplatePage(@ModelAttribute PushQueryForm form){
+		Page<PushListResult> page = pushService.queryPushPage(form);
+		return page;
+	}
+	
+	/**
+	 * 查询历史推送人员
+	 * @param id
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/history/get/{id:\\d+}", method = RequestMethod.GET)
+	public Response<Object> queryPushUser(@PathVariable Long id){
+		Response<Object> response = new Response<Object>();
+		List<PushUserBean> pushUserList = PushUserBean.findAllByParams(PushUserBean.class, "pushId", id);
+		if(ListTools.isEmptyOrNull(pushUserList)){
+			response.setMessage("没有推送给任何人员");
+			return response;
+		}
+		response.setData(pushUserList);
+		response.setSuccess(Boolean.TRUE);
 		return response;
 	}
 }

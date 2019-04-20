@@ -5,10 +5,13 @@ package com.cc.push.service;
 
 import java.util.List;
 
+import com.cc.common.web.Page;
 import com.cc.push.bean.FormBean;
 import com.cc.push.bean.PushBean;
 import com.cc.push.bean.PushUserBean;
+import com.cc.push.form.PushQueryForm;
 import com.cc.push.result.FormResult;
+import com.cc.push.result.PushListResult;
 
 /**
  * @author Administrator
@@ -40,5 +43,12 @@ public interface PushService {
 	 * @return
 	 */
 	FormBean queryUserForm(Long userId);
+
+	/**
+	 * 分页查询推送历史
+	 * @param form
+	 * @return
+	 */
+	Page<PushListResult> queryPushPage(PushQueryForm form);
 	
 }
