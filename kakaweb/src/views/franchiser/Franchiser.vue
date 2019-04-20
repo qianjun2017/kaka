@@ -38,7 +38,6 @@
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button size="small" @click="handleDetail(scope.$index, scope.row)" v-hasPermission="'franchiser.detail'">详情</el-button>
             <el-button size="small" type="warning" @click="handleUpdate(scope.$index, scope.row)" v-hasPermission="'franchiser.update'">编辑</el-button>
             <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)" v-hasPermission="'franchiser.delete'">删除</el-button>
           </template>

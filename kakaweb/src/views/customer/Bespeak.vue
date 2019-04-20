@@ -57,11 +57,11 @@
         </el-table-column>
         <el-table-column prop="customerPhone" label="手机号码" width="120" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column prop="consultantName" label="顾问姓名" width="150" show-overflow-tooltip>
+        <el-table-column prop="consultantName" label="顾问姓名" width="120" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column prop="franchiserName" label="经销商名称" width="150" show-overflow-tooltip>
+        <el-table-column prop="franchiserName" label="经销商名称" width="180" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column prop="locationName" label="看车地区">
+        <el-table-column prop="locationName" label="看车地区" width="180" show-overflow-tooltip>
           <template slot-scope="scope">{{scope.row.locationName.replace(new RegExp("/","gm"),"")}}</template>
         </el-table-column>
         <el-table-column prop="bespeakTime" label="看车时间" width="180" sortable='custom'>
@@ -81,6 +81,46 @@
     </div>
 
     <div v-if="view =='detail'">
+      <div class="bespeak-box">
+        <div class="bespeak-list">
+          <div class="bespeak-item">
+            <label>预约人</label>
+            <p>{{bespeak.customerName}}</p>
+          </div>
+          <div class="bespeak-item">
+            <label>预约人手机号码</label>
+            <p>{{bespeak.customerPhone}}</p>
+          </div>
+          <div class="bespeak-item">
+            <label>预约人积分数</label>
+            <p>{{bespeak.points}}</p>
+          </div>
+          <div class="bespeak-item">
+            <label>预约人会员卡等级</label>
+            <p>{{bespeak.level}}</p>
+          </div>
+          <div class="bespeak-item">
+            <label>预约看车时间</label>
+            <p>{{bespeak.bespeakTime}}</p>
+          </div>
+          <div class="bespeak-item">
+            <label>预约看车地点</label>
+            <p>{{bespeak.address}}</p>
+          </div>
+          <div class="bespeak-item">
+            <label>预约汽车顾问</label>
+            <p>{{bespeak.consultantName}}</p>
+          </div>
+          <div class="bespeak-item">
+            <label>预约汽车顾问手机号码</label>
+            <p>{{bespeak.consultantPhone}}</p>
+          </div>
+          <div class="bespeak-item">
+            <label>预约经销商</label>
+            <p>{{bespeak.franchiserName}}</p>
+          </div>
+        </div>
+      </div>
       <div class="btns">
         <el-button size="small" @click="back">返回</el-button>
       </div>
@@ -208,9 +248,24 @@
 </script>
 
 <style scoped lang="scss">
-.btns{
-  clear: both;
-  width: 100%;
-  text-align: center;
+.bespeak-box{
+  padding:60px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(150,150,150,0.3);
+  overflow: hidden;
+  .bespeak-list{
+    .bespeak-item{
+      display: flex;
+      align-items: center;
+      label{
+        color: #9a9a9a;
+        margin-right: 2em;
+        min-width: 10em;
+        flex-shrink: 0;
+        text-align: right;
+      }
+    }
+  }
 }
 </style>

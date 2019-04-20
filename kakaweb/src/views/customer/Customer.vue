@@ -73,7 +73,7 @@
     </div>
 
     <div v-if="view =='detail'">
-      <div>
+      <div class="customer-box">
         <table>
           <tr>
             <td>
@@ -404,6 +404,13 @@
 </script>
 
 <style scoped lang="scss">
+.customer-box{
+  padding:60px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(150,150,150,0.3);
+  overflow: hidden
+}
 td{
   vertical-align: middle
 }
@@ -436,17 +443,10 @@ td{
   }
   .user_profile{
     margin-top: 10px;
-    line-height: 0.8em;
-    color: #333
   }
   .text_gray{
-    color: Gray;
+    color: #9a9a9a;
   }
-}
-.btns{
-  clear: both;
-  width: 100%;
-  text-align: center;
 }
 .user{
   display: flex;
