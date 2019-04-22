@@ -67,17 +67,19 @@ public class CardController {
 	public Response<Object> queryCardInfo(){
 		Response<Object> response = new Response<Object>();
 		List<CardBean> cardBeanList = CardBean.findAllByParams(CardBean.class);
-		if(!ListTools.isEmptyOrNull(cardBeanList)){
-			Map<String, Object> data = new HashMap<String, Object>();
-			CardBean cardBean = cardBeanList.get(0);
-			data.put("id", cardBean.getId());
-			data.put("name", cardBean.getName());
-			if(cardBean.getRule()!=null && cardBean.getRule().length>0){
-				data.put("rule", new String(cardBean.getRule()));
-			}
-			response.setData(data);
-			response.setSuccess(Boolean.TRUE);
+		if(ListTools.isEmptyOrNull(cardBeanList)){
+			response.setMessage("没有查询到会员卡信息");
+			return response;
 		}
+		Map<String, Object> data = new HashMap<String, Object>();
+		CardBean cardBean = cardBeanList.get(0);
+		data.put("id", cardBean.getId());
+		data.put("name", cardBean.getName());
+		if(cardBean.getRule()!=null && cardBean.getRule().length>0){
+			data.put("rule", new String(cardBean.getRule()));
+		}
+		response.setData(data);
+		response.setSuccess(Boolean.TRUE);
 		return response;
 	}
 	
