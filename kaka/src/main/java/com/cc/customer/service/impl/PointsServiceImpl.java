@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cc.common.exception.LogicException;
 import com.cc.common.tools.ListTools;
 import com.cc.common.web.Page;
+import com.cc.customer.bean.CustomerBean;
 import com.cc.customer.bean.PointsBean;
 import com.cc.customer.dao.PointsDao;
 import com.cc.customer.form.PointsQueryForm;
@@ -34,13 +35,17 @@ public class PointsServiceImpl implements PointsService {
 	@Override
 	@Transactional(rollbackFor = {Exception.class}, propagation = Propagation.REQUIRED)
 	public void savePoints(PointsBean pointsBean) {
+		CustomerBean customerBean = CustomerBean.get(CustomerBean.class, pointsBean.getCustomerId());
+		if(customerBean.getPoints()+pointsBean.getPoints()<0){
+			throw new LogicException("E001", "积分不足");
+		}
 		int row = pointsDao.updateCustomerPoints(pointsBean);
 		if(row!=1){
-			throw new LogicException("E001", "变更会员积分失败");
+			throw new LogicException("E002", "变更会员积分失败");
 		}
 		row = pointsBean.save();
 		if(row!=1){
-			throw new LogicException("E002", "保存积分变更失败");
+			throw new LogicException("E003", "保存积分变更失败");
 		}
 	}
 
