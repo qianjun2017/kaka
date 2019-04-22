@@ -100,7 +100,7 @@ public class ApiPointsController {
 		Double distance = DistanceTools.getDistanceBetween(form.getLongitude(), form.getLatitude(), Double.valueOf(shopBean.getLongitude()), Double.valueOf(shopBean.getLatitude()));
 		if(distance.compareTo(Double.valueOf(shopBean.getRadius()))>0){
 			response.setMessage("请在"+shopBean.getName()+"附近"+shopBean.getRadius()+"米范围内扫码");
-			logger.warn("用户在距离"+shopBean.getName()+"米处扫描积分码");
+			logger.warn("用户在距离"+shopBean.getName()+distance+"米处扫描积分码");
 			return response;
 		}
 		PointsBean pointsBean = new PointsBean();
