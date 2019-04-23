@@ -250,7 +250,7 @@ public class AuthController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequiresPermissions(value = { "system.auth" })
+	@RequiresPermissions(value = { "system.auth", "system.role.authorize" }, logical = Logical.OR)
 	@RequestMapping(value = "/tree", method = RequestMethod.GET)
 	public Tree<Map<String, Object>> queryAuthTree(){
 		UserBean userBean = SecurityContextUtil.getCurrentUser();
