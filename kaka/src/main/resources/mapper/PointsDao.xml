@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.cc.customer.dao.PointsDao">
 
 	<update id="updateCustomerPoints" parameterType="com.cc.customer.bean.PointsBean" statementType="PREPARED">
-		update t_customer set points = points + #{points} where id = #{customerId} and points &gt;= #{points}
+		update t_customer set points = points + #{points} where id = #{customerId} and points  + #{points} &gt;= 0
 	</update>
 	
 	<select id="queryPointsList" parameterType="com.cc.customer.form.PointsQueryForm" resultType="com.cc.customer.result.PointsListResult" statementType="PREPARED">
