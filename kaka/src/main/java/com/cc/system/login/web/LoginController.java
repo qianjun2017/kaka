@@ -120,7 +120,7 @@ public class LoginController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="/unauth", method = RequestMethod.GET)
+	@RequestMapping(value="/unAuth", method = RequestMethod.GET)
 	public Response<String> unauth(){
 		Response<String> response = new Response<String>();
 		response.setMessage("没有权限");
@@ -132,7 +132,7 @@ public class LoginController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="/", method = RequestMethod.GET)
+	@RequestMapping(value="/unLogin", method = RequestMethod.GET)
 	public Response<String> unlogin(){
 		Response<String> response = new Response<String>();
 		response.setMessage("没有登陆或session已过期");
