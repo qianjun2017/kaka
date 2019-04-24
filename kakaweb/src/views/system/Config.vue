@@ -143,6 +143,7 @@ export default {
           propertyName: this.queryForm.propertyName,
           page: this.page,
           pageSize: this.pageSize,
+					sort: 'id'
 				};
         this.listLoading = true;
 				this.$ajax.get('/system/config/page',para).then(res => {
