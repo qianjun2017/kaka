@@ -95,6 +95,7 @@ public class ApiFilter implements Filter {
 		}
 		if(StringTools.isNullOrNone(requestBean.getToken())){
 			result.setMessage("请求参数访问令牌为空");
+			result.setData(400);
 			response.getWriter().write(JsonTools.toJsonString(result));
 			return;
 		}
